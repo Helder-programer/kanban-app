@@ -60,6 +60,8 @@ export default function Register() {
                             className="mt-4"
                             autoComplete="off"
                             required
+                            $animationDuration="1s"
+                            $animationDelay="0s"
                         />
                         <CustomInput
                             label="E-mail*"
@@ -71,6 +73,8 @@ export default function Register() {
                             className="mt-4"
                             autoComplete="off"
                             required
+                            $animationDuration="1s"
+                            $animationDelay="0.1s"
                         />
                         <CustomInput
                             label="Password*"
@@ -82,6 +86,8 @@ export default function Register() {
                             className="mt-4"
                             autoComplete="off"
                             required
+                            $animationDuration="1s"
+                            $animationDelay="0.2s"
                         />
                         <CustomInput
                             label="Confirm Your Password*"
@@ -93,13 +99,15 @@ export default function Register() {
                             className="mt-4"
                             autoComplete="off"
                             required
+                            $animationDuration="1s"
+                            $animationDelay="0.3s"
                         />
                         <div className="buttons w-100 d-flex flex-column align-items-center">
                             {error && <p style={{ fontSize: '0.9rem' }} className="text-danger align-self-start mt-3 mb-0">{error}</p>}
                             <Button className="btn-custom-black-light w-100 mt-3" type="submit">
                                 {isLoading ? <Spinner variant="secondary" animation="border" /> : 'Create your account'}
                             </Button>
-                            <Link href="/" className="mt-3 text-white text-decoration-none">You have account? Make your login</Link>
+                            <Link href="/login" className="mt-3 text-white text-decoration-none">You have account? Make your login</Link>
                         </div>
                     </Form>
                 </Card.Body>

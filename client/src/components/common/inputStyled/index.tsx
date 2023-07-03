@@ -1,11 +1,14 @@
 import { InputHTMLAttributes } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
     id: string;
     $withoutValueColor?: string;
     $withValueColor?: string;
+    //Animation delay in milliseconds
+    $animationDelay?: string;
+    $animationDuration?: string;
 }
 
 function CustomInput({ value, onChange, type, label, id, autoComplete, className, required, name }: IProps) {
@@ -18,18 +21,29 @@ function CustomInput({ value, onChange, type, label, id, autoComplete, className
                 autoComplete={autoComplete}
                 placeholder="."
                 className="input-form"
-                required
+                required={required}
                 value={value}
                 onChange={onChange}
-                required={required}
             />
             <label htmlFor={id}>{label}</label>
         </div>
     );
 }
 
+const inputAnimation  = keyframes`
+    from {
+        width: 0%
+    }
+    to {
+        width: 100%;
+    }
+`
+
 const StyledCustomInput = styled(CustomInput)`   
     position: relative;
+    width: 0%;
+    animation: ${inputAnimation} ${props => props.$animationDuration} 1 ${props => props.$animationDelay} forwards;
+    overflow: hidden;
 
     label {
         position: absolute;

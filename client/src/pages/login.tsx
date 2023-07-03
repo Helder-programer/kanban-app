@@ -3,6 +3,7 @@ import CustomInput from "@/components/common/inputStyled";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useAuth } from "@/contexts/auth";
 import Link from "next/link";
+import Router from "next/router";
 
 
 export default function Login() {
@@ -55,6 +56,8 @@ export default function Login() {
                             $withoutValueColor="#6e6e6e"
                             className="mt-3"
                             autoComplete="off"
+                            $animationDuration="1s"
+                            $animationDelay="0s"
                         />
                         <CustomInput
                             label="Password"
@@ -65,6 +68,8 @@ export default function Login() {
                             $withoutValueColor="#6e6e6e"
                             className="mt-4"
                             autoComplete="off"
+                            $animationDuration="1s"
+                            $animationDelay="0.1s"
                         />
                         <div className="buttons w-100 d-flex flex-column align-items-center">
                             {error && <p style={{ fontSize: '0.9rem' }} className="text-danger align-self-start mt-3 mb-0">{error}</p>}

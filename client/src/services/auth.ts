@@ -21,8 +21,8 @@ const authService = {
     },
 
     recoverUserInformations: async function () {
-        const response = await api.get<IUser>('/users/recoverUserInformations');
-        return response.data
+        const response = await api.get<{ user: IUser }>('/users/recoverUserInformations');
+        return response.data;
     },
 
     register: async function (data: IRegisterParams) {

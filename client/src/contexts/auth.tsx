@@ -25,8 +25,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const { 'kanban-token': token } = parseCookies();
 
         if (token) {
-            authService.recoverUserInformations().then(user => {
-                setUser(user);
+            authService.recoverUserInformations().then(response => {
+                setUser(response.user);
             });
         }
     }, []);
@@ -40,10 +40,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
 
         setUser(user);
+        Router.push('/');
     }
 
     const logout = () => {
-
+        setUser(null);
+        destroyCookie(undefined, 'kanban-token');
+        Router.push('/login');
     }
 
     return (
