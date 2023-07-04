@@ -21,13 +21,12 @@ const authService = {
     },
 
     recoverUserInformations: async function () {
-        const response = await api.get<{ user: IUser }>('/users/recoverUserInformations');
+        const response = await api.get<IUser>('/users/recoverUserInformations');
         return response.data;
     },
 
     register: async function (data: IRegisterParams) {
-        const response = await api.post('/users', data);
-        return response.data;
+        await api.post('/users', data);
     }
 
 }

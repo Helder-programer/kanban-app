@@ -1,6 +1,5 @@
-
-import { BoardsContextProvider } from '@/contexts/boards';
 import { ReactNode } from 'react';
+
 import styled from 'styled-components';
 import Sidebar from '../common/sidebar';
 
@@ -12,12 +11,10 @@ interface IProps {
 
 function AppLayout({ className, children }: IProps) {
     return (
-        <BoardsContextProvider>
-            <div className={`${className} bg-custom-black`}>
-                <Sidebar />
-                {children}
-            </div>
-        </BoardsContextProvider>
+        <div className={`${className} bg-custom-black`}>
+            <Sidebar />
+            {children}
+        </div>
     );
 }
 

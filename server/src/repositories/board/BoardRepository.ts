@@ -7,7 +7,7 @@ export class BoardRepository implements IBoardRepostiory {
         const boardsQuantity = await this.countBoards(userId);
         const position = boardsQuantity > 0 ? boardsQuantity : 0;
 
-        const board = await Board.create({ user: userId, position });
+        const board = new Board({ user: userId, position });
         await board.save();
         return board;
     }

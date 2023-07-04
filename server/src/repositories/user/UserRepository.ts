@@ -12,7 +12,7 @@ export class UserRepository implements IUserRepository {
         const userToValidate = await User.findOne({ email });
         if (userToValidate) throw new BadRequestError('Email already exists!');
 
-        const user = await User.create({ name, email, password });
+        const user = new User({ name, email, password });
         await user.save();
     }
 

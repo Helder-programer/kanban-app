@@ -8,16 +8,14 @@ interface IBoardsContext {
 }
 
 
-const BoardsContext = createContext({} as IBoardsContext);
+export const BoardsContext = createContext({} as IBoardsContext);
 
 
 export function BoardsContextProvider({ children }: { children: ReactNode }) {
     const [boards, setBoards] = useState<IBoard[]>([]);
-
-    console.log(boards);
     
     return (
-        <BoardsContext.Provider value={{ boards: boards, setBoards: setBoards }}>
+        <BoardsContext.Provider value={{ boards, setBoards }}>
             {children}
         </BoardsContext.Provider>
     );

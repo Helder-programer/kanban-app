@@ -5,6 +5,7 @@ import AppLayout from "@/components/layouts/appLayout";
 import { boardService } from "@/services/board";
 import { useBoards } from "@/contexts/boards";
 import Router from "next/router";
+import { useEffect } from "react";
 
 
 function Home() {
@@ -12,14 +13,23 @@ function Home() {
 
     const createBoard = async () => {
         try {
-            // const newBoard = await boardService.create();
-            console.log(boardsContext);
-            // boardsContext.setBoards(state => [...state, newBoard]);
-            // Router.push(`/boards/${newBoard._id}`); 
+            const newBoard = await boardService.create();
+            boardsContext.setBoards(state => [...state, newBoard]);
+            Router.push(`/boards/${newBoard._id}`);
         } catch (err: any) {
             console.log(err);
         }
     };
+
+    useEffect(() => {
+
+        boardService.getBoards().then(boards => {
+            if (boards.length > 0) {
+                Router.push(`/boards/${boards[0]._id}`);
+            }
+        });
+
+    }, []);
 
 
     return (

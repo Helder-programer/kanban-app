@@ -25,8 +25,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const { 'kanban-token': token } = parseCookies();
 
         if (token) {
-            authService.recoverUserInformations().then(response => {
-                setUser(response.user);
+            authService.recoverUserInformations().then(user => {
+                setUser(user);
             });
         }
     }, []);

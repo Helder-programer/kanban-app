@@ -12,13 +12,13 @@ export class BoardController {
     public async create(req: Request, res: Response) {
         const userId = req.user?._id;
         const newBoard = await this.repository.create(userId!);
-        return res.status(200).json({ newBoard });
+        return res.status(200).json(newBoard);
     }
 
     public async getAll(req: Request, res: Response) {
         const userId = req.user?._id;
         const boards = await this.repository.findAll(userId!);
-        return res.status(200).json({ boards });
+        return res.status(200).json(boards);
     }
 
 
