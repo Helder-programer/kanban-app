@@ -13,7 +13,7 @@ export class UserRepository implements IUserRepository {
         if (userToValidate) throw new BadRequestError('Email already exists!');
 
         const user = await User.create({ name, email, password });
-        user.save();
+        await user.save();
     }
 
     public async findByEmail(email: string): Promise<IUserDocument> {

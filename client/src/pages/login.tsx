@@ -52,10 +52,11 @@ export default function Login() {
                             type="text"
                             id="email"
                             name="email"
-                            $withValueColor="white"
-                            $withoutValueColor="#6e6e6e"
+                            required
                             className="mt-3"
                             autoComplete="off"
+                            $withValueColor="white"
+                            $withoutValueColor="#6e6e6e"
                             $animationDuration="1s"
                             $animationDelay="0s"
                         />
@@ -64,10 +65,11 @@ export default function Login() {
                             type="password"
                             id="password"
                             name="password"
-                            $withValueColor="white"
-                            $withoutValueColor="#6e6e6e"
+                            required
                             className="mt-4"
                             autoComplete="off"
+                            $withValueColor="white"
+                            $withoutValueColor="#6e6e6e"
                             $animationDuration="1s"
                             $animationDelay="0.1s"
                         />

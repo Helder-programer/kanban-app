@@ -5,9 +5,10 @@ import cors from 'cors';
 dotenv.config();
 
 import { errorMiddleware } from './middlewares/error';
-import usersRouter from './routes/users';
-import './database';
 import { IUserDocument } from './models/types/IUserDocument';
+import usersRouter from './routes/users';
+import boardsRouter from './routes/boards';
+import './database';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/users', usersRouter);
+app.use('/boards', boardsRouter);
 
 
 app.use(errorMiddleware);
