@@ -22,18 +22,24 @@ function Home() {
     };
 
     useEffect(() => {
+        try {
 
-        boardService.getBoards().then(boards => {
-            if (boards.length > 0) {
-                Router.push(`/boards/${boards[0]._id}`);
-            }
-        });
+            boardService.getBoards().then(boards => {
+                if (boards.length > 0) {
+                    Router.push(`/boards/${boards[0]._id}`);
+                }
+            });
+
+        } catch (err: any) {
+            console.log(err);
+        }
 
     }, []);
 
 
     return (
         <AppLayout>
+            <Sidebar/>
             <main className="d-flex w-100 h-100 justify-content-center align-items-center">
                 <Button variant="none" className="btn btn-outline-custom-green" onClick={() => createBoard()}>
                     CLICK HERE TO CREATE YOUR FIRST BOARD

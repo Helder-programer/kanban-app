@@ -24,6 +24,8 @@ $custom-colors: (
 
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
+$list-group-active-bg: #6d6d6d;
+
 
 a:hover {
     color: $custom-black-light;

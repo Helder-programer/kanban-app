@@ -1,5 +1,6 @@
 import Board from "../../models/Board";
 import { IBoardRepostiory } from "../types/IBoardRepository";
+import { IUpdateBoardPositionDTO } from "./dtos/IUpdateBoardPositionDTO";
 
 export class BoardRepository implements IBoardRepostiory {
 
@@ -20,5 +21,12 @@ export class BoardRepository implements IBoardRepostiory {
     private async countBoards(userId: string) {
         const boardsQuantity = await Board.find({ user: userId, }).count();
         return boardsQuantity;
+    }
+
+    public async updateBoardPosition({ boardId, position, userId }: IUpdateBoardPositionDTO) {
+        const board = await Board.findById(boardId);
+        board?.set('position', position);
+        await board?.save();
+        return this.findAll(userId);
     }
 }
