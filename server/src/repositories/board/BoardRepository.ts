@@ -1,6 +1,10 @@
 import Board from "../../models/Board";
+import Section from "../../models/Section";
+import { NotFoundError } from "../../helpers/apiErrors";
 import { IBoardDocument } from "../../models/types/IBoardDocument";
 import { IBoardRepostiory } from "../types/IBoardRepository";
+import { IFindOneDTO } from "./dtos/IFindOneDTO";
+import { Types } from "mongoose";
 
 export class BoardRepository implements IBoardRepostiory {
 
@@ -21,6 +25,15 @@ export class BoardRepository implements IBoardRepostiory {
     private async countBoards(userId: string) {
         const boardsQuantity = await Board.find({ user: userId, }).count();
         return boardsQuantity;
+    }
+
+    public async findOne({ boardId, userId }: IFindOneDTO) {
+        const searchedBoard = await Board.findById(boardId).findOne({ user: userId });
+        console.log(searchedBoard);
+        if (!searchedBoard) throw new NotFoundError('Board not found!');
+        const sections = await Section.find({ board: boardId });
+        searchedBoard.sections = sections;
+        return searchedBoard;
     }
 
     public async updateBoardsPositions(boards: IBoardDocument[]) {

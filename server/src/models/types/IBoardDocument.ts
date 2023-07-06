@@ -1,4 +1,5 @@
 import { Types, Document } from "mongoose";
+import { ISectionDocument } from "./ISectionDocument";
 
 export interface IBoardDocument extends Document {
     _id: Types.ObjectId;
@@ -9,6 +10,7 @@ export interface IBoardDocument extends Document {
     favorite: boolean;
     favoritePosition: number;
     user: Types.ObjectId;
+    sections: ISectionDocument[];
     createdAt: Date;
     updatedAt: Date;
 }

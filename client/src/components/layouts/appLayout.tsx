@@ -12,6 +12,7 @@ interface IProps {
 function AppLayout({ className, children }: IProps) {
     return (
         <div className={`${className} bg-custom-black`}>
+            <Sidebar />
             {children}
         </div>
     );

@@ -29,7 +29,12 @@ export class BoardController {
     }
 
     public async getOne(req: Request, res: Response) {
-        
+        const boardId = String(req.params['boardId']);
+        console.log(boardId);
+        const userId = req.user!._id;
+
+        const board = await this.repository.findOne({ userId, boardId });
+        res.status(200).json(board);
     }
 
 

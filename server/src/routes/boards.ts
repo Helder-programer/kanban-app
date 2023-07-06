@@ -12,6 +12,7 @@ const boardController = new BoardController(boardRepository);
 router.post('/', authMiddleware, (req, res) => boardController.create(req, res));
 router.get('/', authMiddleware, (req, res) => boardController.getAll(req, res));
 router.put('/', authMiddleware, (req, res) => boardController.updateBoardPosition(req, res));
+router.get('/:boardId', authMiddleware, (req, res) => boardController.getOne(req, res));
 
 
 

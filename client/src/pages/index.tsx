@@ -23,7 +23,7 @@ function Home() {
 
     useEffect(() => {
         try {
-
+            
             boardService.getBoards().then(boards => {
                 if (boards.length > 0) {
                     Router.push(`/boards/${boards[0]._id}`);
