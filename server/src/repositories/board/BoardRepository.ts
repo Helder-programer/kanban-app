@@ -1,6 +1,6 @@
 import Board from "../../models/Board";
+import { IBoardDocument } from "../../models/types/IBoardDocument";
 import { IBoardRepostiory } from "../types/IBoardRepository";
-import { IUpdateBoardPositionDTO } from "./dtos/IUpdateBoardPositionDTO";
 
 export class BoardRepository implements IBoardRepostiory {
 
@@ -14,7 +14,7 @@ export class BoardRepository implements IBoardRepostiory {
     }
 
     public async findAll(userId: string) {
-        const boards = await Board.find({ user: userId }).sort('-position');
+        const boards = await Board.find({ user: userId }).sort('position');
         return boards;
     }
 
@@ -23,10 +23,12 @@ export class BoardRepository implements IBoardRepostiory {
         return boardsQuantity;
     }
 
-    public async updateBoardPosition({ boardId, position, userId }: IUpdateBoardPositionDTO) {
-        const board = await Board.findById(boardId);
-        board?.set('position', position);
-        await board?.save();
-        return this.findAll(userId);
+    public async updateBoardsPositions(boards: IBoardDocument[]) {
+        for (let index in boards) {
+            let board = boards[index];
+            await Board.findByIdAndUpdate(board._id, { $set: { position: index } });
+        }
     }
+
+
 }

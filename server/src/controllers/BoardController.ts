@@ -22,6 +22,15 @@ export class BoardController {
     }
 
 
+    public async updateBoardPosition(req: Request, res: Response) {
+        const { boards } = req.body;
+        this.repository.updateBoardsPositions(boards);
+        res.status(200).json({ message: 'updated' });
+    }
+
+    public async getOne(req: Request, res: Response) {
+        
+    }
 
 
 }

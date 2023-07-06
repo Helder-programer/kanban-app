@@ -4,33 +4,13 @@ import { BiLogOut } from 'react-icons/bi';
 import { AiFillFolderAdd } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
-
-const DragDropContext = dynamic(
-    () =>
-        import('react-beautiful-dnd').then(mod => {
-            return mod.DragDropContext;
-        }),
-    { ssr: false },
-);
-const Droppable = dynamic(
-    () =>
-        import('react-beautiful-dnd').then(mod => {
-            return mod.Droppable;
-        }),
-    { ssr: false },
-);
-const Draggable = dynamic(
-    () =>
-        import('react-beautiful-dnd').then(mod => {
-            return mod.Draggable;
-        }),
-    { ssr: false },
-);
+import { DropResult } from 'react-beautiful-dnd';
 
 import { useAuth } from "@/contexts/auth";
 import { boardService } from '@/services/board';
 import { useBoards } from '@/contexts/boards';
+import BoardsList from './boardsList';
+
 
 
 interface IProps {
@@ -73,7 +53,22 @@ function Sidebar({ className }: IProps) {
         boardsContext.setBoards(newBoards);
     }
 
-    const onDragEnd = async () => {
+    const onDragEnd = async ({ source, destination }: DropResult) => {
+        const newBoards = [...boardsContext.boards];
+        const [removed] = newBoards.splice(source.index, 1);
+
+        if (!destination) return;
+
+        newBoards.splice(destination.index, 0, removed);
+        boardsContext.setBoards(newBoards);
+        const index = boardsContext.boards.findIndex(currentBoard => currentBoard._id === boardId);
+        setActiveBoardIndex(index);
+
+        try {
+            await boardService.updateBoardPosition({ boards: newBoards });
+        } catch (err: any) {
+            console.log(err);
+        }
 
     }
 
@@ -82,7 +77,8 @@ function Sidebar({ className }: IProps) {
         <nav className={`${className} bg-custom-black-light`}>
             <ListGroup className="w-100" as="ul">
                 <ListGroup.Item
-                    className="border-0 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center w-100"
+                    as='li'
+                    className="border-0 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
                     action
                     style={{ cursor: 'default' }}
                 >
@@ -94,14 +90,16 @@ function Sidebar({ className }: IProps) {
                     />
                 </ListGroup.Item>
                 <ListGroup.Item
-                    className="border-0 mt-3 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center w-100"
+                    as='li'
+                    className="border-0 mt-3 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
                     action
                     style={{ cursor: 'default' }}
                 >
                     <span>Favorites</span>
                 </ListGroup.Item>
                 <ListGroup.Item
-                    className="border-0 mt-3 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center w-100"
+                    as='li'
+                    className="border-0 mt-3 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
                     action
                     style={{ cursor: 'default' }}
                 >
@@ -114,44 +112,25 @@ function Sidebar({ className }: IProps) {
                     />
                 </ListGroup.Item>
 
-                <DragDropContext onDragEnd={() => { }}>
-                    <Droppable droppableId="boards-list" key="boards-list">
-                        {
-                            (provided) => (
-                                <ListGroup as='ul' {...provided.droppableProps} ref={provided.innerRef}>
-                                    {provided.placeholder}
+                <ListGroup.Item
+                    as="li"
+                    className="border-0 mt-3 p-0 text-white bg-custom-black-light rounded-0"
+                >
 
-                                    {boardsContext.boards.map((board, index) =>
-                                        <Draggable key={board._id} draggableId={board._id} index={index}>
-                                            {(provided, snapshot) => (
-                                                <ListGroup.Item
-                                                    className={`${index === activeBoardIndex ? 'active' : 'bg-custom-black-light'} border-0 px-3 text-white rounded-0 d-flex justify-content-between align-items-center w-auto`}
-                                                    key={index}
-                                                    ref={provided.innerRef}
-                                                    style={{ cursor: snapshot.isDragging ? 'grab' : 'pointer !important' }}
-                                                    id="board-id"
-                                                    {...provided.dragHandleProps}
-                                                    {...provided.draggableProps}
-                                                    onClick={() => router.push(`/boards/${board._id}`)}
-                                                >
-
-                                                    <span>{board.icon} {board.title}</span>
-                                                </ListGroup.Item>
-                                            )}
-                                        </Draggable>
-                                    )}
-                                </ListGroup>
-                            )
-                        }
-                    </Droppable>
-                </DragDropContext>
+                    <BoardsList 
+                        boards={boardsContext.boards}
+                        onDragEnd={onDragEnd}
+                        activeBoardIndex={activeBoardIndex}
+                    />
+                    
+                </ListGroup.Item>
             </ListGroup>
         </nav>
     );
 }
 
 const StyledSidebar = styled(Sidebar)`
-    width: 250px;
+    min-width: 250px;
     height: 100vh;
     display: flex;
 
@@ -159,15 +138,6 @@ const StyledSidebar = styled(Sidebar)`
         transition: all 0.3s ease-in-out;
         &:hover {
             color:#4d4d52;
-        }
-    }
-
-    #board-id {
-        width: 100%;
-        text-overflow: ellipsis;
-        font-size: 14px;
-        &:hover {
-            background-color: #6d6d6d !important;
         }
     }
 `;
