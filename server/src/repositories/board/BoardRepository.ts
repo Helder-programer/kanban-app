@@ -8,6 +8,7 @@ import { ICreateBoardDTO } from "./dtos/ICreateBoardDTO";
 import { ICountBoardsDTO } from "./dtos/ICountBoardsDTO";
 import { IUpdateBoardsPositionsDTO } from "./dtos/IUpdateBoardsPositionsDTO";
 import { IFindAllDTO } from "./dtos/IFindAllDTO";
+import { IDeleteBoardDTO } from "./dtos/IDeleteBoardDTO";
 
 export class BoardRepository implements IBoardRepostiory {
 
@@ -50,6 +51,10 @@ export class BoardRepository implements IBoardRepostiory {
             let board = boards[index];
             await Board.findByIdAndUpdate(board._id, { $set: { position: index } });
         }
+    }
+
+    public async deleteBoard({ userId, boardId }: IDeleteBoardDTO) {
+        await Board.findOneAndDelete({ _id: boardId, user: userId });
     }
 
 

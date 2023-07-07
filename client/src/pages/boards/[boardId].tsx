@@ -26,13 +26,19 @@ function Board() {
         }
     }, [boardId]);
 
-
     return (
         <AppLayout>
             <main className="px-2 py-3 d-flex flex-column w-100 h-100">
                 <section id="icons-for-actions" className="d-flex w-100 justify-content-between pb-3 px-2">
-                    <i className="text-custom-white">{currentBoardInformations?.favorite ? <AiFillStar className="fs-4" /> : <AiOutlineStar className="fs-4" />}</i>
-                    <i><FaTrash className="fs-5 text-custom-red" /></i>
+                    <i
+                        className="text-custom-yellow"
+                        style={{ cursor: 'pointer' }}>
+                        {currentBoardInformations?.favorite ? <AiFillStar className="fs-4" /> : <AiOutlineStar className="fs-4" />}
+                    </i>
+                    <i
+                        style={{ cursor: 'pointer' }}>
+                        <FaTrash className="fs-5 text-custom-red" />
+                    </i>
                 </section>
 
                 <section id="text-informations" className="px-5">

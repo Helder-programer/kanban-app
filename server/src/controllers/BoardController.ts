@@ -40,5 +40,13 @@ export class BoardController {
         res.status(200).json(board);
     }
 
+    public async deleteBoard(req: Request, res: Response) {
+        const { boardId } = req.params;
+        const userId = req.user!._id;
+
+        await this.repository.deleteBoard({ boardId, userId });
+        res.status(200).json({ message: 'Board sucessfully deleted' });
+    }
+
 
 }
