@@ -1,6 +1,5 @@
 import { Types } from "mongoose";
 
-export interface IFindOneDTO {
+export interface ICountBoardsDTO {
     userId: Types.ObjectId | string;
-    boardId: string;
 }

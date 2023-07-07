@@ -1,9 +1,9 @@
-import { Types, Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export interface ISectionDocument extends Document {
-    _id: Types.ObjectId;
+    _id: Types.ObjectId | string;
     title: string;
-    board: Types.ObjectId;
+    board: string;
     createdAt: Date;
     updatedAt: Date;
 }

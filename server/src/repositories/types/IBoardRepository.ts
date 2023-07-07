@@ -1,9 +1,12 @@
 import { IBoardDocument } from "../../models/types/IBoardDocument";
+import { ICreateBoardDTO } from "../board/dtos/ICreateBoardDTO";
+import { IFindAllDTO } from "../board/dtos/IFindAllDTO";
 import { IFindOneDTO } from "../board/dtos/IFindOneDTO";
+import { IUpdateBoardsPositionsDTO } from "../board/dtos/IUpdateBoardsPositionsDTO";
 
 export interface IBoardRepostiory {
-    create: (userId: string) => Promise<IBoardDocument>;
-    findAll: (userId: string) => Promise<IBoardDocument[]>;
-    updateBoardsPositions: (boards: IBoardDocument[]) => Promise<void>;
+    create: (data: ICreateBoardDTO) => Promise<IBoardDocument>;
+    findAll: (data: IFindAllDTO) => Promise<IBoardDocument[]>;
+    updateBoardsPositions: (data: IUpdateBoardsPositionsDTO) => Promise<void>;
     findOne: (data: IFindOneDTO) => Promise<IBoardDocument>;
 }

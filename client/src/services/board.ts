@@ -27,7 +27,7 @@ export const boardService = {
 
     getOneBoard: async function ({ boardId }: IGetOneBoardParams) {
         const response = await api.get<IBoard>(`/boards/${boardId}`);
-        console.log(response.data);
+        return response.data;
     }
 
 }

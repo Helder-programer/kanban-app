@@ -1,15 +1,18 @@
 import Board from "../../models/Board";
 import Section from "../../models/Section";
+import Task from "../../models/Task";
 import { NotFoundError } from "../../helpers/apiErrors";
-import { IBoardDocument } from "../../models/types/IBoardDocument";
 import { IBoardRepostiory } from "../types/IBoardRepository";
 import { IFindOneDTO } from "./dtos/IFindOneDTO";
-import { Types } from "mongoose";
+import { ICreateBoardDTO } from "./dtos/ICreateBoardDTO";
+import { ICountBoardsDTO } from "./dtos/ICountBoardsDTO";
+import { IUpdateBoardsPositionsDTO } from "./dtos/IUpdateBoardsPositionsDTO";
+import { IFindAllDTO } from "./dtos/IFindAllDTO";
 
 export class BoardRepository implements IBoardRepostiory {
 
-    public async create(userId: string) {
-        const boardsQuantity = await this.countBoards(userId);
+    public async create({ userId }: ICreateBoardDTO) {
+        const boardsQuantity = await this.countBoards({ userId });
         const position = boardsQuantity > 0 ? boardsQuantity : 0;
 
         const board = new Board({ user: userId, position });
@@ -17,26 +20,32 @@ export class BoardRepository implements IBoardRepostiory {
         return board;
     }
 
-    public async findAll(userId: string) {
+    public async findAll({ userId }: IFindAllDTO) {
         const boards = await Board.find({ user: userId }).sort('position');
         return boards;
     }
 
-    private async countBoards(userId: string) {
+    private async countBoards({ userId }: ICountBoardsDTO) {
         const boardsQuantity = await Board.find({ user: userId, }).count();
         return boardsQuantity;
     }
 
     public async findOne({ boardId, userId }: IFindOneDTO) {
-        const searchedBoard = await Board.findById(boardId).findOne({ user: userId });
-        console.log(searchedBoard);
+        const searchedBoard: any = await Board.findOne({ _id: boardId, user: userId });
         if (!searchedBoard) throw new NotFoundError('Board not found!');
-        const sections = await Section.find({ board: boardId });
-        searchedBoard.sections = sections;
+
+        const sections: any = await Section.find({ board: boardId });
+
+        for (let section of sections) {
+            let tasks = await Task.find({ section: section._id }).populate('section').sort('position');
+            section._doc.tasks = tasks;
+        }
+
+        searchedBoard._doc.sections = sections;
         return searchedBoard;
     }
 
-    public async updateBoardsPositions(boards: IBoardDocument[]) {
+    public async updateBoardsPositions({ boards }: IUpdateBoardsPositionsDTO) {
         for (let index in boards) {
             let board = boards[index];
             await Board.findByIdAndUpdate(board._id, { $set: { position: index } });

@@ -39,7 +39,6 @@ function Home() {
 
     return (
         <AppLayout>
-            <Sidebar/>
             <main className="d-flex w-100 h-100 justify-content-center align-items-center">
                 <Button variant="none" className="btn btn-outline-custom-green" onClick={() => createBoard()}>
                     CLICK HERE TO CREATE YOUR FIRST BOARD

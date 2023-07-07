@@ -35,8 +35,8 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.methods.isCorrectPassword = async function isCorrectPassword (this: IUserDocument, password: string) {
-    const isEqualPassword = await bcrypt.compare(this.password, password);
-    return isCorrectPassword;
+    const isEqualPassword = await bcrypt.compare(password, this.password);
+    return isEqualPassword;
 }
 
 
