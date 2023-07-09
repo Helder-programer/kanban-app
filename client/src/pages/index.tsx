@@ -13,7 +13,7 @@ function Home() {
 
     const createBoard = async () => {
         try {
-            const newBoard = await boardService.create();
+            const newBoard = await boardService.createBoard();
             boardsContext.setBoards(state => [...state, newBoard]);
             Router.push(`/boards/${newBoard._id}`);
         } catch (err: any) {
@@ -29,6 +29,7 @@ function Home() {
                     Router.push(`/boards/${boards[0]._id}`);
                 }
             });
+            
 
         } catch (err: any) {
             console.log(err);

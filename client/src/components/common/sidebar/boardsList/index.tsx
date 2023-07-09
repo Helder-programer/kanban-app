@@ -60,14 +60,15 @@ function BoardsList({ boards, activeBoardIndex, onDragEnd, className }: IProps) 
                                             className={`${index === activeBoardIndex ? 'active' : 'bg-custom-black-light'} border-0 px-3 text-white rounded-0 d-flex justify-content-between align-items-center`}
                                             key={index}
                                             ref={provided.innerRef}
-                                            style={{ cursor: snapshot.isDragging ? 'grab' : 'pointer !important', width: '250px' }}
-                                            id="board-id"
+                                            style={{ cursor: snapshot.isDragging ? 'grab' : 'pointer !important' }}
+                                            id="board"
                                             {...provided.dragHandleProps}
                                             {...provided.draggableProps}
                                             onClick={() => router.push(`/boards/${board._id}`)}
                                         >
-
-                                            {board.icon} {board.title}
+                                            <span>
+                                                {board.icon} {board.title}
+                                            </span>
                                         </ListGroup.Item>
                                     )}
                                 </Draggable>
@@ -82,11 +83,18 @@ function BoardsList({ boards, activeBoardIndex, onDragEnd, className }: IProps) 
 }
 
 const StyledBoardsList = styled(BoardsList)`
-    #board-id {
-        text-overflow: ellipsis;
+    #board {
         font-size: 14px;
+        width: 250px;
+        
         &:hover {
             background-color: #6d6d6d !important;
+        }
+
+        >span {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
     }
 

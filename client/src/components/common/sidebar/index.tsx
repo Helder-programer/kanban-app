@@ -48,7 +48,7 @@ function Sidebar({ className }: IProps) {
     }, [boardsContext.boards, boardId]);
 
     const createBoard = async () => {
-        const newBoard = await boardService.create();
+        const newBoard = await boardService.createBoard();
         const newBoards = [...boardsContext.boards, newBoard];
         boardsContext.setBoards(newBoards);
     }
@@ -60,12 +60,13 @@ function Sidebar({ className }: IProps) {
         if (!destination) return;
 
         newBoards.splice(destination.index, 0, removed);
-        boardsContext.setBoards(newBoards);
-        const index = boardsContext.boards.findIndex(currentBoard => currentBoard._id === boardId);
+        const index = newBoards.findIndex(currentBoard => currentBoard._id === boardId);
         setActiveBoardIndex(index);
+        boardsContext.setBoards(newBoards);
 
+        
         try {
-            await boardService.updateBoardPosition({ boards: newBoards });
+            await boardService.updateBoardsPositions({ boards: newBoards });
         } catch (err: any) {
             console.log(err);
         }
@@ -131,6 +132,7 @@ function Sidebar({ className }: IProps) {
 
 const StyledSidebar = styled(Sidebar)`
     min-width: 250px;
+    width: 250px;
     height: 100vh;
     display: flex;
 

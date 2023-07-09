@@ -24,9 +24,9 @@ export class BoardController {
     }
 
 
-    public async updateBoardPosition(req: Request, res: Response) {
+    public async updateBoardsPositions(req: Request, res: Response) {
         const { boards } = req.body;
-        await this.repository.updateBoardsPositions(boards);
+        await this.repository.updateBoardsPositions({ boards });
         res.status(200).json({ message: 'updated' });
     }
 
@@ -46,6 +46,18 @@ export class BoardController {
 
         await this.repository.deleteBoard({ boardId, userId });
         res.status(200).json({ message: 'Board sucessfully deleted' });
+    }
+
+    public async update(req: Request, res: Response) {
+        const { title, description, favorite, icon } = req.body;
+        const { boardId } = req.params;
+        const userId = req.user!._id;
+
+        const updatedBoard = await this.repository.update({ title, description, favorite, icon, boardId, userId });
+
+
+        res.status(200).json(updatedBoard);
+
     }
 
 

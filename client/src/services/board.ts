@@ -1,7 +1,7 @@
 import { IBoard } from "@/types/IBoard";
 import { api } from "./api";
 
-interface IUpdateBoardPositionParams {
+interface IUpdateBoardsPositionsParams {
     boards: IBoard[];
 }
 
@@ -9,9 +9,21 @@ interface IGetOneBoardParams {
     boardId: string;
 }
 
+interface IDeleteBoardParams {
+    boardId: string;
+}
+
+interface IUpdateBoardParams {
+    title?: string;
+    description?: string;
+    favorite?: boolean;
+    icon?: string;
+    boardId: string;
+}
+
 
 export const boardService = {
-    create: async function () {
+    createBoard: async function () {
         const response = await api.post<IBoard>('/boards');
         return response.data;
     },
@@ -21,12 +33,22 @@ export const boardService = {
         return response.data;
     },
 
-    updateBoardPosition: async function (data: IUpdateBoardPositionParams) {
-        await api.put('/boards', data);
+    updateBoardsPositions: async function (data: IUpdateBoardsPositionsParams) {
+        const response = await api.put('/boards', data);
+        return response.data;
     },
 
     getOneBoard: async function ({ boardId }: IGetOneBoardParams) {
         const response = await api.get<IBoard>(`/boards/${boardId}`);
+        return response.data;
+    },
+
+    deleteBoard: async function ({ boardId }: IDeleteBoardParams) {
+        const response = await api.delete(`/boards/${boardId}`);
+        return response.data;
+    },
+    updateBoard: async function ({ title, description, favorite, boardId, icon }: IUpdateBoardParams) {
+        const response = await api.put<IBoard>(`/boards/${boardId}`, { title, description, favorite, icon });
         return response.data;
     }
 

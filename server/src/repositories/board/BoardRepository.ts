@@ -5,15 +5,17 @@ import { NotFoundError } from "../../helpers/apiErrors";
 import { IBoardRepostiory } from "../types/IBoardRepository";
 import { IFindOneDTO } from "./dtos/IFindOneDTO";
 import { ICreateBoardDTO } from "./dtos/ICreateBoardDTO";
-import { ICountBoardsDTO } from "./dtos/ICountBoardsDTO";
 import { IUpdateBoardsPositionsDTO } from "./dtos/IUpdateBoardsPositionsDTO";
 import { IFindAllDTO } from "./dtos/IFindAllDTO";
 import { IDeleteBoardDTO } from "./dtos/IDeleteBoardDTO";
+import { IUpdateBoardDTO } from "./dtos/IUpdateBoardDTO";
+import { IBoardDocument } from "../../models/types/IBoardDocument";
+import { Types } from "mongoose";
 
 export class BoardRepository implements IBoardRepostiory {
 
     public async create({ userId }: ICreateBoardDTO) {
-        const boardsQuantity = await this.countBoards({ userId });
+        const boardsQuantity = await this.countBoards(userId);
         const position = boardsQuantity > 0 ? boardsQuantity : 0;
 
         const board = new Board({ user: userId, position });
@@ -26,7 +28,7 @@ export class BoardRepository implements IBoardRepostiory {
         return boards;
     }
 
-    private async countBoards({ userId }: ICountBoardsDTO) {
+    private async countBoards(userId: Types.ObjectId | string) {
         const boardsQuantity = await Board.find({ user: userId, }).count();
         return boardsQuantity;
     }
@@ -49,7 +51,7 @@ export class BoardRepository implements IBoardRepostiory {
     public async updateBoardsPositions({ boards }: IUpdateBoardsPositionsDTO) {
         for (let index in boards) {
             let board = boards[index];
-            await Board.findByIdAndUpdate(board._id, { $set: { position: index } });
+            await Board.findByIdAndUpdate(board._id, { position: index });
         }
     }
 
@@ -57,5 +59,41 @@ export class BoardRepository implements IBoardRepostiory {
         await Board.findOneAndDelete({ _id: boardId, user: userId });
     }
 
+    public async update({ title, description, favorite, boardId, userId, icon }: IUpdateBoardDTO): Promise<IBoardDocument> {
+        const boardToUpdate = await Board.findOne({ user: userId, _id: boardId });
+        let favoritePosition = 0;
+
+        if (!title) title = 'Untilted';
+        if (!description) description = 'Add description here...';
+
+        if (!boardToUpdate) throw new NotFoundError('Board not found!');
+
+        if (favorite != boardToUpdate.favorite) {
+            const favoritesBoards = await this.findFavorites(userId, boardId);
+
+            if (favorite) {
+                favoritePosition = favoritesBoards.length > 0 ? favoritesBoards.length : 0;
+            } else {
+                await this.updateFavoritesPositions(favoritesBoards);
+            }
+        }
+
+        boardToUpdate.set({ title, description, favorite, favoritePosition, icon });
+        boardToUpdate.save();
+        return boardToUpdate;
+
+
+    }
+
+    private async findFavorites(userId: Types.ObjectId | string, boardId: Types.ObjectId | string) {
+        const favoritesBoards = await Board.find({ user: userId, favorite: true, _id: { $ne: boardId ?? '' } });
+        return favoritesBoards;
+    }
+
+    private async updateFavoritesPositions(boards: IBoardDocument[]) {
+        for (let index in boards) {
+            await boards[index].updateOne({ favoritePosition: index });
+        }
+    }
 
 }
