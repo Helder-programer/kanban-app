@@ -11,37 +11,45 @@ import { getApiClient } from '@/services/apiUtils';
 import AppLayout from "@/components/layouts/appLayout";
 import { Button } from 'react-bootstrap';
 import EmojiPicker from '@/components/common/emojiPicker';
-
-interface IProps {
-    board: IBoard;
-}
+import { ISection } from '@/types/ISection';
+import { parseCookies } from 'nookies';
 
 type CurrentBoardInformations = {
     icon: string;
     title: string;
     description: string;
     favorite: boolean;
+    sections: ISection[];
 }
 
 
-function Board({ board }: IProps) {
-    const [currentBoardInformations, setCurrentBoardInformations] = useState<CurrentBoardInformations>({ title: '', description: '', icon: '', favorite: false });
+function Board() {
+    const [currentBoardInformations, setCurrentBoardInformations] = useState<CurrentBoardInformations>({ title: '', description: '', icon: '', favorite: false, sections: [] });
     const boardsContext = useBoards();
     const router = useRouter();
-    const boardId = board._id;
+    const boardId = String(router.query['boardId']);
 
     const deleteBoard = async () => {
+        await boardService.deleteBoard({ boardId });
+
+        const newBoards = [...boardsContext.boards];
+        const index = newBoards.findIndex(board => board._id === boardId);
+        newBoards.splice(index, 1);
+
+        const newFavoritesBoards = [...boardsContext.favoritesBoards];
+        const favoriteIndex = newFavoritesBoards.findIndex(board => board._id === boardId);
+        newFavoritesBoards.splice(favoriteIndex, 1);
+
+        boardsContext.setBoards(newBoards);
+        boardsContext.setFavoritesBoards(newFavoritesBoards);
+
+        if (newBoards.length > 0)
+            return router.push(`/boards/${newBoards[0]._id}`);
+
+
         try {
-            await boardService.deleteBoard({ boardId });
-
-            const newBoards = [...boardsContext.boards];
-            const index = newBoards.findIndex(board => board._id === boardId);
-            newBoards.splice(index, 1);
-
-
-            boardsContext.setBoards(newBoards);
             await boardService.updateBoardsPositions({ boards: newBoards });
-
+            await boardService.updateFavoritesBoardsPosition({ boards: newFavoritesBoards });
         } catch (err: any) {
             console.log(err);
         }
@@ -51,8 +59,16 @@ function Board({ board }: IProps) {
         let newBoards = [...boardsContext.boards];
         const index = newBoards.findIndex(board => board._id === boardId);
         newBoards[index] = { ...newBoards[index], icon: newIcon };
-        setCurrentBoardInformations({ ...currentBoardInformations, icon: newIcon });
         boardsContext.setBoards(newBoards);
+
+
+        if (currentBoardInformations.favorite) {
+            let newFavoritesBoards = [...boardsContext.favoritesBoards];
+            const index = newFavoritesBoards.findIndex(board => board._id === boardId);
+            newFavoritesBoards[index] = { ...newFavoritesBoards[index], icon: newIcon };
+            boardsContext.setFavoritesBoards(newFavoritesBoards);
+        }
+
         try {
             await boardService.updateBoard({ boardId, icon: newIcon });
         } catch (err: any) {
@@ -68,10 +84,23 @@ function Board({ board }: IProps) {
 
         let newTitle = event.target.value;
         setCurrentBoardInformations({ ...currentBoardInformations, title: newTitle });
+
         let newBoards = [...boardsContext.boards];
         const index = newBoards.findIndex(board => board._id === boardId);
         newBoards[index] = { ...newBoards[index], title: newTitle };
+
         boardsContext.setBoards(newBoards);
+
+        if (currentBoardInformations.favorite) {
+            let newFavoritesBoards = [...boardsContext.favoritesBoards];
+            const index = newFavoritesBoards.findIndex(board => board._id === boardId);
+            newFavoritesBoards[index] = { ...newFavoritesBoards[index], title: newTitle };
+            boardsContext.setFavoritesBoards(newFavoritesBoards);
+        }
+
+
+
+
 
         try {
             timer = setTimeout(async () => {
@@ -90,10 +119,6 @@ function Board({ board }: IProps) {
 
         let newDescription = event.target.value;
         setCurrentBoardInformations({ ...currentBoardInformations, description: newDescription });
-        let newBoards = [...boardsContext.boards];
-        const index = newBoards.findIndex(board => board._id === boardId);
-        newBoards[index] = { ...newBoards[index], description: newDescription };
-        boardsContext.setBoards(newBoards);
 
         try {
             timer = setTimeout(async () => {
@@ -121,8 +146,6 @@ function Board({ board }: IProps) {
         }
 
         boardsContext.setFavoritesBoards(newFavoritesBoards);
-        console.log(isFavorite);
-
 
         try {
             await boardService.updateBoard({ boardId, favorite: isFavorite });
@@ -132,13 +155,22 @@ function Board({ board }: IProps) {
     }
 
     useEffect(() => {
-        setCurrentBoardInformations({
-            title: board.title,
-            description: board.description,
-            icon: board.icon,
-            favorite: board.favorite
-        });
-    }, [board._id]);
+        const getOne = async () => {
+            const board = await boardService.getOneBoard({ boardId });
+
+            setCurrentBoardInformations({
+                title: board.title,
+                description: board.description,
+                icon: board.icon,
+                favorite: board.favorite,
+                sections: board.sections
+            });
+        }
+
+        if (!router.isReady) return;
+
+        getOne();
+    }, [boardId]);
 
     useEffect(() => {
         if (boardsContext.boards.length === 0) router.push('/');
@@ -155,19 +187,20 @@ function Board({ board }: IProps) {
                         className="text-custom-yellow"
                         style={{ cursor: 'pointer' }}
                         onClick={updateFavorite}
+                        title='Favorite this board'
                     >
                         {currentBoardInformations?.favorite ? <AiFillStar className="fs-4" /> : <AiOutlineStar className="fs-4" />}
                     </i>
                     <i
                         style={{ cursor: 'pointer' }}
-                        onClick={deleteBoard}
+                        onClick={() => deleteBoard()}
+                        title="Delete this board"
                     >
                         <FaTrash className="fs-5 text-custom-red" />
                     </i>
                 </section>
 
                 <section className="px-5" id="board-informations">
-
 
                     <section id="text">
                         <div className="d-flex align-items-center gap-2">
@@ -179,18 +212,18 @@ function Board({ board }: IProps) {
                                 style={{ outline: 'none' }}
                                 placeholder="Untitled"
                                 type="text"
-                                onChange={updateTitle}
+                                onChange={event => updateTitle(event)}
 
                             />
                         </div>
                         <textarea
                             value={currentBoardInformations.description}
-                            className="w-100 mt-3 bg-custom-black border-0 text-custom-white p-0 outline-none ps-3"
+                            className="w-100 mt-3 bg-custom-black border-0 text-custom-white p-0 outline-none ps-5"
                             style={{ outline: 'none', resize: 'none' }}
                             placeholder="Add description here..."
                             cols={30}
                             rows={3}
-                            onChange={updateDescription}
+                            onChange={event => updateDescription(event)}
                         ></textarea>
 
                     </section>
@@ -201,7 +234,7 @@ function Board({ board }: IProps) {
                         </Button>
 
                         <span className="text-custom-white pe-4">
-                            {board.sections.length}  Sections
+                            {currentBoardInformations.sections.length}  Sections
                         </span>
 
                     </div>
@@ -214,16 +247,19 @@ function Board({ board }: IProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const api = getApiClient(ctx);
-    const { boardId } = ctx.query;
-    const response = await api.get<IBoard>(`/boards/${boardId}`);
-    const board = JSON.parse(JSON.stringify(response.data));
+    const { 'kanban-token': token } = parseCookies(ctx);
+
+    if (!token)
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false
+            }
+        }
+
 
     return {
-
-        props: {
-            board
-        }
+        props: {}
     }
 }
 

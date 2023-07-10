@@ -12,6 +12,7 @@ import { IUpdateBoardDTO } from "./dtos/IUpdateBoardDTO";
 import { IBoardDocument } from "../../models/types/IBoardDocument";
 import { Types } from "mongoose";
 import { IFindFavoritesDTO } from "./dtos/IFindFavoritesDTO";
+import { IUpdateFavoritesPositionDTO } from "./dtos/IUpdateFavoritesPositionDTO";
 
 export class BoardRepository implements IBoardRepostiory {
 
@@ -51,8 +52,7 @@ export class BoardRepository implements IBoardRepostiory {
 
     public async updateBoardsPositions({ boards }: IUpdateBoardsPositionsDTO) {
         for (let index in boards) {
-            let board = boards[index];
-            await Board.findByIdAndUpdate(board._id, { position: index });
+            await Board.findByIdAndUpdate(boards[index]._id, { position: index });
         }
     }
 
@@ -72,7 +72,7 @@ export class BoardRepository implements IBoardRepostiory {
             if (favorite) {
                 favoritePosition = favoritesBoards.length > 0 ? favoritesBoards.length : 0;
             } else {
-                await this.updateFavoritesPositions(favoritesBoards);
+                await this.updateFavoritesBoardsPositions({boards: favoritesBoards});
             }
         }
 
@@ -95,18 +95,18 @@ export class BoardRepository implements IBoardRepostiory {
 
     public async findFavorites({ boardId, userId }: IFindFavoritesDTO) {
         if (boardId) {
-            const favoritesBoards = await Board.find({ user: userId, favorite: true, _id: { $ne: boardId } });
+            const favoritesBoards = await Board.find({ user: userId, favorite: true, _id: { $ne: boardId } }).sort('position');
             return favoritesBoards;
         }
 
-        const favoritesBoards = await Board.find({ user: userId, favorite: true });
+        const favoritesBoards = await Board.find({ user: userId, favorite: true }).sort('position');
         return favoritesBoards;
 
     }
 
-    private async updateFavoritesPositions(boards: IBoardDocument[]) {
+    public async updateFavoritesBoardsPositions({boards}: IUpdateFavoritesPositionDTO) {
         for (let index in boards) {
-            await boards[index].updateOne({ favoritePosition: index });
+            await Board.findByIdAndUpdate(boards[index]._id, {favoritePosition: index});
         }
     }
 

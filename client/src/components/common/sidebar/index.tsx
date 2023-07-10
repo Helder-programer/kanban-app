@@ -20,9 +20,6 @@ interface IProps {
 
 
 function Sidebar({ className }: IProps) {
-    const [activeBoardIndex, setActiveBoardIndex] = useState<number>();
-    const router = useRouter();
-    const { boardId } = router.query;
     const auth = useAuth();
     const boardsContext = useBoards();
     let username = auth.user?.name;
@@ -30,48 +27,10 @@ function Sidebar({ className }: IProps) {
     if (username)
         username = username![0].toUpperCase() + username?.substring(1);
 
-    useEffect(() => {
-        const getBoards = async () => {
-            try {
-                const boards = await boardService.getBoards();
-                boardsContext.setBoards(boards);
-            } catch (err: any) {
-                console.log(err);
-            }
-        }
-        getBoards();
-    }, []);
-
-
-    useEffect(() => {
-        const index = boardsContext.boards.findIndex(currentBoard => currentBoard._id === boardId);
-        setActiveBoardIndex(index);
-    }, [boardsContext.boards, boardId]);
-
     const createBoard = async () => {
         const newBoard = await boardService.createBoard();
         const newBoards = [...boardsContext.boards, newBoard];
         boardsContext.setBoards(newBoards);
-    }
-
-    const onDragEnd = async ({ source, destination }: DropResult) => {
-        const newBoards = [...boardsContext.boards];
-        const [removed] = newBoards.splice(source.index, 1);
-
-        if (!destination) return;
-
-        newBoards.splice(destination.index, 0, removed);
-        const index = newBoards.findIndex(currentBoard => currentBoard._id === boardId);
-        setActiveBoardIndex(index);
-        boardsContext.setBoards(newBoards);
-
-
-        try {
-            await boardService.updateBoardsPositions({ boards: newBoards });
-        } catch (err: any) {
-            console.log(err);
-        }
-
     }
 
 
@@ -80,7 +39,7 @@ function Sidebar({ className }: IProps) {
             <ListGroup className="w-100" as="ul">
                 <ListGroup.Item
                     as='li'
-                    className="border-0 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
+                    className="border-0 px-3 py-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
                     action
                     style={{ cursor: 'default' }}
                 >
@@ -91,6 +50,7 @@ function Sidebar({ className }: IProps) {
                         onClick={() => auth.logout()}
                     />
                 </ListGroup.Item>
+
                 <ListGroup.Item
                     as='li'
                     className="border-0 mt-3 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
@@ -105,9 +65,10 @@ function Sidebar({ className }: IProps) {
                     className="border-0 mt-3 p-0 text-white bg-custom-black-light rounded-0"
                 >
 
-                    <FavoritesBoardsList/>
+                    <FavoritesBoardsList />
 
                 </ListGroup.Item>
+
                 <ListGroup.Item
                     as='li'
                     className="border-0 mt-3 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
@@ -128,13 +89,10 @@ function Sidebar({ className }: IProps) {
                     className="border-0 mt-3 p-0 text-white bg-custom-black-light rounded-0"
                 >
 
-                    <BoardsList
-                        boards={boardsContext.boards}
-                        onDragEnd={onDragEnd}
-                        activeBoardIndex={activeBoardIndex}
-                    />
+                    <BoardsList />
 
                 </ListGroup.Item>
+                
             </ListGroup>
         </nav>
     );

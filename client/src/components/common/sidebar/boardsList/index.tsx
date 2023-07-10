@@ -2,9 +2,11 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { ListGroup } from 'react-bootstrap';
 import { DropResult } from 'react-beautiful-dnd';
-
-import { IBoard } from '@/types/IBoard';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+
+import { useBoards } from '@/contexts/boards';
+import { boardService } from '@/services/board';
 
 const DragDropContext = dynamic(
     () =>
@@ -29,15 +31,54 @@ const Draggable = dynamic(
 );
 
 interface IProps {
-    boards: IBoard[];
-    activeBoardIndex: number | undefined;
-    onDragEnd: (result: DropResult) => Promise<void>;
     className?: string
 }
 
 
-function BoardsList({ boards, activeBoardIndex, onDragEnd, className }: IProps) {
+function BoardsList({ className }: IProps) {
     const router = useRouter();
+    const { boardId } = router.query;
+    const [activeBoardIndex, setActiveBoardIndex] = useState(0);
+    const boardsContext = useBoards();
+
+    useEffect(() => {
+        const getBoards = async () => {
+            try {
+                const boards = await boardService.getBoards();
+                boardsContext.setBoards(boards);
+            } catch (err: any) {
+                console.log(err);
+            }
+        }
+        getBoards();
+        
+    }, []);
+
+
+    useEffect(() => {
+        const index = boardsContext.boards.findIndex(currentBoard => currentBoard._id === boardId);
+        setActiveBoardIndex(index);
+    }, [boardsContext.boards, boardId]);
+
+    const onDragEnd = async ({ source, destination }: DropResult) => {
+        const newBoards = [...boardsContext.boards];
+        const [removed] = newBoards.splice(source.index, 1);
+
+        if (!destination) return;
+
+        newBoards.splice(destination.index, 0, removed);
+        const index = newBoards.findIndex(currentBoard => currentBoard._id === boardId);
+        setActiveBoardIndex(index);
+        boardsContext.setBoards(newBoards);
+
+
+        try {
+            await boardService.updateBoardsPositions({ boards: newBoards });
+        } catch (err: any) {
+            console.log(err);
+        }
+
+    }
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
@@ -51,7 +92,7 @@ function BoardsList({ boards, activeBoardIndex, onDragEnd, className }: IProps) 
                             className={className}
                         >
 
-                            {boards.map((board, index) =>
+                            {boardsContext.boards.map((board, index) =>
                                 <Draggable key={board._id} draggableId={board._id} index={index}>
                                     {(provided, snapshot) => (
                                         <ListGroup.Item

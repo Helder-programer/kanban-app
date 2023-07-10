@@ -1,3 +1,5 @@
+import { ISection } from "./ISection";
+
 export interface IBoard {
     _id: string;
     icon: string;
@@ -7,7 +9,7 @@ export interface IBoard {
     favorite: boolean;
     favoritePosition: number;
     user: string;
-    sections: []
+    sections: ISection[];
     createdAt: Date;
     updatedAt: Date;
 }

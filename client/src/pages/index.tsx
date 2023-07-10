@@ -1,41 +1,44 @@
 import { Button, Container } from "react-bootstrap";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { parseCookies } from "nookies";
 
-import Sidebar from "@/components/common/sidebar";
 import AppLayout from "@/components/layouts/appLayout";
 import { boardService } from "@/services/board";
 import { useBoards } from "@/contexts/boards";
-import Router from "next/router";
-import { useEffect } from "react";
+import { getApiClient } from "@/services/apiUtils";
+import { IBoard } from "@/types/IBoard";
 
 
 function Home() {
     const boardsContext = useBoards();
+    const router = useRouter();
 
     const createBoard = async () => {
         try {
             const newBoard = await boardService.createBoard();
             boardsContext.setBoards(state => [...state, newBoard]);
-            Router.push(`/boards/${newBoard._id}`);
+            router.push(`/boards/${newBoard._id}`);
         } catch (err: any) {
             console.log(err);
         }
     };
 
-    useEffect(() => {
-        try {
-            
-            boardService.getBoards().then(boards => {
-                if (boards.length > 0) {
-                    Router.push(`/boards/${boards[0]._id}`);
-                }
-            });
-            
+    // useEffect(() => {
+    //     try {
 
-        } catch (err: any) {
-            console.log(err);
-        }
+    //         boardService.getBoards().then(boards => {
+    //             if (boards.length > 0) {
+    //                 router.push(`/boards/${boards[0]._id}`);
+    //             }
+    //         });
 
-    }, []);
+    //     } catch (err: any) {
+    //         console.log(err);
+    //     }
+
+    // }, []);
 
 
     return (
@@ -47,6 +50,46 @@ function Home() {
             </main>
         </AppLayout>
     );
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    try {
+
+        const { 'kanban-token': token } = parseCookies(ctx);
+        const response = await getApiClient(ctx).get<IBoard[]>('/boards');
+        const boards = response.data;
+
+        console.log(boards);
+
+
+
+        if (!token)
+            return {
+                redirect: {
+                    destination: '/login',
+                    permanent: false
+                }
+            }
+
+
+
+        if (boards.length > 0)
+            return {
+                redirect: {
+                    destination: `/boards/${boards[0]._id}`,
+                    permanent: false
+                }
+            }
+
+
+
+    } catch (err: any) {
+        console.log(err);
+    }
+
+    return {
+        props: {}
+    }
 }
 
 export default Home;

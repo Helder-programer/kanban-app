@@ -49,9 +49,7 @@ function FavoritesBooardsList({ className }: IProps) {
             const favoritesBoards = await boardService.getFavorites();
             boardsContext.setFavoritesBoards(favoritesBoards);
         }
-
         getFavoritesBoards();
-
     }, []);
 
     useEffect(() => {
@@ -60,17 +58,26 @@ function FavoritesBooardsList({ className }: IProps) {
     }, [boardsContext.favoritesBoards, boardId]);
 
 
-    const onDragEnd = ({ source, destination }: DropResult) => {
+    const onDragEnd = async ({ source, destination }: DropResult) => {
         const newFavoritesBoards = [...boardsContext.favoritesBoards];
         const [removed] = newFavoritesBoards.splice(source.index, 1);
 
         if (!destination) return;
         newFavoritesBoards.splice(destination.index, 0, removed);
+        const index = newFavoritesBoards.findIndex(board => board._id === boardId);
+        setActiveBoardIndex(index);
+        boardsContext.setFavoritesBoards(newFavoritesBoards);
+
+        try {
+            await boardService.updateFavoritesBoardsPosition({ boards: newFavoritesBoards });
+        } catch (err: any) {
+            console.log(err);
+        }
     }
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="boards-list" key="boards-list">
+            <Droppable droppableId="favorites-boards-list" key="favorites-boards-list">
                 {
                     (provided) => (
                         <ListGroup

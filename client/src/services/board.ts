@@ -4,6 +4,9 @@ import { api } from "./api";
 interface IUpdateBoardsPositionsParams {
     boards: IBoard[];
 }
+interface IUpdateFavoritesBoardsPositionsParams {
+    boards: IBoard[];
+}
 
 interface IGetOneBoardParams {
     boardId: string;
@@ -52,8 +55,11 @@ export const boardService = {
         return response.data;
     },
     getFavorites: async function () {
-        const response = await api.get<IBoard[]>('/boards/favoritesBoards');
+        const response = await api.get<IBoard[]>('/boards/favorites');
+        return response.data;
+    },
+    updateFavoritesBoardsPosition: async function ({ boards }: IUpdateFavoritesBoardsPositionsParams) {
+        const response = await api.put('/boards/favorites');
         return response.data;
     }
-
 }

@@ -27,7 +27,7 @@ export class BoardController {
     public async updateBoardsPositions(req: Request, res: Response) {
         const { boards } = req.body;
         await this.repository.updateBoardsPositions({ boards });
-        res.status(200).json({ message: 'updated' });
+        res.status(200).json({ message: 'Updated!' });
     }
 
     public async getOne(req: Request, res: Response) {
@@ -64,6 +64,12 @@ export class BoardController {
         const userId = req.user!._id;
         const favoritesBoards = await this.repository.findFavorites({ userId });
         res.status(200).json(favoritesBoards);
+    }
+
+    public async updateFavoritesBoardsPositions(req: Request, res: Response) {
+        const { boards } = req.body;
+        await this.repository.updateBoardsPositions({ boards });
+        res.status(200).json({ message: 'Updated!' });
     }
 
 
