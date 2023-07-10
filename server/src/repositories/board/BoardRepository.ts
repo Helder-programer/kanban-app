@@ -11,6 +11,7 @@ import { IDeleteBoardDTO } from "./dtos/IDeleteBoardDTO";
 import { IUpdateBoardDTO } from "./dtos/IUpdateBoardDTO";
 import { IBoardDocument } from "../../models/types/IBoardDocument";
 import { Types } from "mongoose";
+import { IFindFavoritesDTO } from "./dtos/IFindFavoritesDTO";
 
 export class BoardRepository implements IBoardRepostiory {
 
@@ -63,13 +64,10 @@ export class BoardRepository implements IBoardRepostiory {
         const boardToUpdate = await Board.findOne({ user: userId, _id: boardId });
         let favoritePosition = 0;
 
-        if (!title) title = 'Untilted';
-        if (!description) description = 'Add description here...';
-
         if (!boardToUpdate) throw new NotFoundError('Board not found!');
 
         if (favorite != boardToUpdate.favorite) {
-            const favoritesBoards = await this.findFavorites(userId, boardId);
+            const favoritesBoards = await this.findFavorites({ userId, boardId });
 
             if (favorite) {
                 favoritePosition = favoritesBoards.length > 0 ? favoritesBoards.length : 0;
@@ -78,16 +76,32 @@ export class BoardRepository implements IBoardRepostiory {
             }
         }
 
-        boardToUpdate.set({ title, description, favorite, favoritePosition, icon });
+        let objectToUpdate: any = {}
+        if (title) objectToUpdate.title = title;
+        if (description) objectToUpdate.description = description;
+        if (icon) objectToUpdate.icon = icon;
+
+        if (favorite !== undefined)
+            objectToUpdate.favorite = favorite;
+
+
+        console.log(objectToUpdate.favorite);
+        boardToUpdate.set({ ...objectToUpdate, favoritePosition });
         boardToUpdate.save();
         return boardToUpdate;
 
 
     }
 
-    private async findFavorites(userId: Types.ObjectId | string, boardId: Types.ObjectId | string) {
-        const favoritesBoards = await Board.find({ user: userId, favorite: true, _id: { $ne: boardId ?? '' } });
+    public async findFavorites({ boardId, userId }: IFindFavoritesDTO) {
+        if (boardId) {
+            const favoritesBoards = await Board.find({ user: userId, favorite: true, _id: { $ne: boardId } });
+            return favoritesBoards;
+        }
+
+        const favoritesBoards = await Board.find({ user: userId, favorite: true });
         return favoritesBoards;
+
     }
 
     private async updateFavoritesPositions(boards: IBoardDocument[]) {

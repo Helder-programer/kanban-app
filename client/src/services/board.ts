@@ -50,6 +50,10 @@ export const boardService = {
     updateBoard: async function ({ title, description, favorite, boardId, icon }: IUpdateBoardParams) {
         const response = await api.put<IBoard>(`/boards/${boardId}`, { title, description, favorite, icon });
         return response.data;
+    },
+    getFavorites: async function () {
+        const response = await api.get<IBoard[]>('/boards/favoritesBoards');
+        return response.data;
     }
 
 }

@@ -2,9 +2,11 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { ListGroup } from 'react-bootstrap';
 import { DropResult } from 'react-beautiful-dnd';
-
-import { IBoard } from '@/types/IBoard';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+import { useBoards } from '@/contexts/boards';
+import { boardService } from '@/services/board';
 
 const DragDropContext = dynamic(
     () =>
@@ -29,15 +31,42 @@ const Draggable = dynamic(
 );
 
 interface IProps {
-    boards: IBoard[];
-    activeBoardIndex: number | undefined;
-    onDragEnd: (result: DropResult) => Promise<void>;
     className?: string
 }
 
 
-function BoardsList({ boards, activeBoardIndex, onDragEnd, className }: IProps) {
+
+
+function FavoritesBooardsList({ className }: IProps) {
     const router = useRouter();
+    const boardsContext = useBoards();
+    const [activeBoardIndex, setActiveBoardIndex] = useState(0);
+    const { boardId } = router.query;
+
+
+    useEffect(() => {
+        const getFavoritesBoards = async () => {
+            const favoritesBoards = await boardService.getFavorites();
+            boardsContext.setFavoritesBoards(favoritesBoards);
+        }
+
+        getFavoritesBoards();
+
+    }, []);
+
+    useEffect(() => {
+        const index = boardsContext.favoritesBoards.findIndex(board => board._id === boardId);
+        setActiveBoardIndex(index);
+    }, [boardsContext.favoritesBoards, boardId]);
+
+
+    const onDragEnd = ({ source, destination }: DropResult) => {
+        const newFavoritesBoards = [...boardsContext.favoritesBoards];
+        const [removed] = newFavoritesBoards.splice(source.index, 1);
+
+        if (!destination) return;
+        newFavoritesBoards.splice(destination.index, 0, removed);
+    }
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
@@ -51,7 +80,7 @@ function BoardsList({ boards, activeBoardIndex, onDragEnd, className }: IProps) 
                             className={className}
                         >
 
-                            {boards.map((board, index) =>
+                            {boardsContext.favoritesBoards.map((board, index) =>
                                 <Draggable key={board._id} draggableId={board._id} index={index}>
                                     {(provided, snapshot) => (
                                         <ListGroup.Item
@@ -81,7 +110,7 @@ function BoardsList({ boards, activeBoardIndex, onDragEnd, className }: IProps) 
     );
 }
 
-const StyledBoardsList = styled(BoardsList)`
+const StyledFavoritesBooardsList = styled(FavoritesBooardsList)`
     #board {
         font-size: 14px;
         width: 250px;
@@ -99,4 +128,4 @@ const StyledBoardsList = styled(BoardsList)`
 
 `;
 
-export default StyledBoardsList;
+export default StyledFavoritesBooardsList;

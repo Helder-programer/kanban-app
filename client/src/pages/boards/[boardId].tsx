@@ -105,9 +105,30 @@ function Board({ board }: IProps) {
 
     }
 
-    const updateFavorite = () => {
+    const updateFavorite = async () => {
         const isFavorite = !currentBoardInformations.favorite;
         setCurrentBoardInformations({ ...currentBoardInformations, favorite: isFavorite });
+
+        let newFavoritesBoards = [...boardsContext.favoritesBoards];
+        const board = await boardService.getOneBoard({ boardId });
+
+
+        if (isFavorite)
+            newFavoritesBoards = [...newFavoritesBoards, board];
+        else {
+            const index = newFavoritesBoards.findIndex(board => board._id === boardId);
+            newFavoritesBoards.splice(index, 1);
+        }
+
+        boardsContext.setFavoritesBoards(newFavoritesBoards);
+        console.log(isFavorite);
+
+
+        try {
+            await boardService.updateBoard({ boardId, favorite: isFavorite });
+        } catch (err: any) {
+            console.log(err);
+        }
     }
 
     useEffect(() => {

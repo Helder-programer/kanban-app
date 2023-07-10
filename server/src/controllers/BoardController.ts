@@ -60,5 +60,11 @@ export class BoardController {
 
     }
 
+    public async getFavorites(req: Request, res: Response) {
+        const userId = req.user!._id;
+        const favoritesBoards = await this.repository.findFavorites({ userId });
+        res.status(200).json(favoritesBoards);
+    }
+
 
 }

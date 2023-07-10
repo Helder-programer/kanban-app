@@ -10,6 +10,7 @@ import { useAuth } from "@/contexts/auth";
 import { boardService } from '@/services/board';
 import { useBoards } from '@/contexts/boards';
 import BoardsList from './boardsList';
+import FavoritesBoardsList from './favoritesBoardsList';
 
 
 
@@ -64,7 +65,7 @@ function Sidebar({ className }: IProps) {
         setActiveBoardIndex(index);
         boardsContext.setBoards(newBoards);
 
-        
+
         try {
             await boardService.updateBoardsPositions({ boards: newBoards });
         } catch (err: any) {
@@ -98,6 +99,15 @@ function Sidebar({ className }: IProps) {
                 >
                     <span>Favorites</span>
                 </ListGroup.Item>
+
+                <ListGroup.Item
+                    as="li"
+                    className="border-0 mt-3 p-0 text-white bg-custom-black-light rounded-0"
+                >
+
+                    <FavoritesBoardsList/>
+
+                </ListGroup.Item>
                 <ListGroup.Item
                     as='li'
                     className="border-0 mt-3 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
@@ -118,12 +128,12 @@ function Sidebar({ className }: IProps) {
                     className="border-0 mt-3 p-0 text-white bg-custom-black-light rounded-0"
                 >
 
-                    <BoardsList 
+                    <BoardsList
                         boards={boardsContext.boards}
                         onDragEnd={onDragEnd}
                         activeBoardIndex={activeBoardIndex}
                     />
-                    
+
                 </ListGroup.Item>
             </ListGroup>
         </nav>
