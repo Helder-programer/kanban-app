@@ -16,17 +16,17 @@ import { IUpdateFavoritesPositionDTO } from "./dtos/IUpdateFavoritesPositionDTO"
 
 export class BoardRepository implements IBoardRepostiory {
 
-    public async create({ userId }: ICreateBoardDTO) {
-        const boardsQuantity = await this.countBoards(userId);
+    public async create(data: ICreateBoardDTO) {
+        const boardsQuantity = await this.countBoards(data.userId);
         const position = boardsQuantity > 0 ? boardsQuantity : 0;
 
-        const board = new Board({ user: userId, position });
+        const board = new Board({ user: data.userId, position });
         await board.save();
         return board;
     }
 
-    public async findAll({ userId }: IFindAllDTO) {
-        const boards = await Board.find({ user: userId }).sort('position');
+    public async findAll(data: IFindAllDTO) {
+        const boards = await Board.find({ user: data.userId }).sort('position');
         return boards;
     }
 
@@ -35,11 +35,11 @@ export class BoardRepository implements IBoardRepostiory {
         return boardsQuantity;
     }
 
-    public async findOne({ boardId, userId }: IFindOneDTO) {
-        const searchedBoard: any = await Board.findOne({ _id: boardId, user: userId });
+    public async findOne(data: IFindOneDTO) {
+        const searchedBoard: any = await Board.findOne({ _id: data.boardId, user: data.userId });
         if (!searchedBoard) throw new NotFoundError('Board not found!');
 
-        const sections: any = await Section.find({ board: boardId });
+        const sections: any = await Section.find({ board: data.boardId });
 
         for (let section of sections) {
             let tasks = await Task.find({ section: section._id }).populate('section').sort('position');
@@ -50,26 +50,26 @@ export class BoardRepository implements IBoardRepostiory {
         return searchedBoard;
     }
 
-    public async updateBoardsPositions({ boards }: IUpdateBoardsPositionsDTO) {
-        for (let index in boards) {
-            await Board.findByIdAndUpdate(boards[index]._id, { position: index });
+    public async updateBoardsPositions(data: IUpdateBoardsPositionsDTO) {
+        for (let index in data.boards) {
+            await Board.findByIdAndUpdate(data.boards[index]._id, { position: index });
         }
     }
 
-    public async deleteBoard({ userId, boardId }: IDeleteBoardDTO) {
-        await Board.findOneAndDelete({ _id: boardId, user: userId });
+    public async deleteBoard(data: IDeleteBoardDTO) {
+        await Board.findOneAndDelete({ _id: data.boardId, user: data.userId });
     }
 
-    public async update({ title, description, favorite, boardId, userId, icon }: IUpdateBoardDTO): Promise<IBoardDocument> {
-        const boardToUpdate = await Board.findOne({ user: userId, _id: boardId });
+    public async update(data: IUpdateBoardDTO): Promise<IBoardDocument> {
+        const boardToUpdate = await Board.findOne({ user: data.userId, _id: data.boardId });
         let favoritePosition = 0;
 
         if (!boardToUpdate) throw new NotFoundError('Board not found!');
 
-        if (favorite != boardToUpdate.favorite) {
-            const favoritesBoards = await this.findFavorites({ userId, boardId });
+        if (data.favorite != boardToUpdate.favorite) {
+            const favoritesBoards = await this.findFavorites({ userId: data.userId, boardId: data.boardId });
 
-            if (favorite) {
+            if (data.favorite) {
                 favoritePosition = favoritesBoards.length > 0 ? favoritesBoards.length : 0;
             } else {
                 await this.updateFavoritesBoardsPositions({boards: favoritesBoards});
@@ -77,15 +77,13 @@ export class BoardRepository implements IBoardRepostiory {
         }
 
         let objectToUpdate: any = {}
-        if (title) objectToUpdate.title = title;
-        if (description) objectToUpdate.description = description;
-        if (icon) objectToUpdate.icon = icon;
+        if (data.title) objectToUpdate.title = data.title;
+        if (data.description) objectToUpdate.description = data.description;
+        if (data.icon) objectToUpdate.icon = data.icon;
 
-        if (favorite !== undefined)
-            objectToUpdate.favorite = favorite;
+        if (data.favorite !== undefined)
+            objectToUpdate.favorite = data.favorite;
 
-
-        console.log(objectToUpdate.favorite);
         boardToUpdate.set({ ...objectToUpdate, favoritePosition });
         boardToUpdate.save();
         return boardToUpdate;
@@ -93,13 +91,13 @@ export class BoardRepository implements IBoardRepostiory {
 
     }
 
-    public async findFavorites({ boardId, userId }: IFindFavoritesDTO) {
-        if (boardId) {
-            const favoritesBoards = await Board.find({ user: userId, favorite: true, _id: { $ne: boardId } }).sort('position');
+    public async findFavorites(data: IFindFavoritesDTO) {
+        if (data.boardId) {
+            const favoritesBoards = await Board.find({ user: data.userId, favorite: true, _id: { $ne: data.boardId } }).sort('position');
             return favoritesBoards;
         }
 
-        const favoritesBoards = await Board.find({ user: userId, favorite: true }).sort('position');
+        const favoritesBoards = await Board.find({ user: data.userId, favorite: true }).sort('position');
         return favoritesBoards;
 
     }

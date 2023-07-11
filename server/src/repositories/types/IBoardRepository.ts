@@ -9,12 +9,12 @@ import { IUpdateBoardsPositionsDTO } from "../board/dtos/IUpdateBoardsPositionsD
 import { IUpdateFavoritesPositionDTO } from "../board/dtos/IUpdateFavoritesPositionDTO";
 
 export interface IBoardRepostiory {
-    create: (data: ICreateBoardDTO) => Promise<IBoardDocument>;
-    update: (data: IUpdateBoardDTO) => Promise<IBoardDocument>;
-    findAll: (data: IFindAllDTO) => Promise<IBoardDocument[]>;
-    updateBoardsPositions: (data: IUpdateBoardsPositionsDTO) => Promise<void>;
-    findOne: (data: IFindOneDTO) => Promise<IBoardDocument>;
-    deleteBoard:(data: IDeleteBoardDTO) => Promise<void>;
-    findFavorites: (data: IFindFavoritesDTO) => Promise<IBoardDocument[]>;
-    updateFavoritesBoardsPositions: (data: IUpdateFavoritesPositionDTO) => Promise<void>;
+    create(data: ICreateBoardDTO): Promise<IBoardDocument>;
+    update(data: IUpdateBoardDTO): Promise<IBoardDocument>;
+    findAll(data: IFindAllDTO): Promise<IBoardDocument[]>;
+    updateBoardsPositions (data: IUpdateBoardsPositionsDTO): Promise<void>;
+    findOne(data: IFindOneDTO): Promise<IBoardDocument>;
+    deleteBoard(data: IDeleteBoardDTO): Promise<void>;
+    findFavorites(data: IFindFavoritesDTO): Promise<IBoardDocument[]>;
+    updateFavoritesBoardsPositions(data: IUpdateFavoritesPositionDTO): Promise<void>;
 }

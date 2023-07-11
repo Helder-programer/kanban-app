@@ -59,7 +59,7 @@ export const boardService = {
         return response.data;
     },
     updateFavoritesBoardsPosition: async function ({ boards }: IUpdateFavoritesBoardsPositionsParams) {
-        const response = await api.put('/boards/favorites');
+        const response = await api.put('/boards/favorites', { boards });
         return response.data;
     }
 }

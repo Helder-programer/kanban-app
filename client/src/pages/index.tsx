@@ -25,26 +25,11 @@ function Home() {
         }
     };
 
-    // useEffect(() => {
-    //     try {
-
-    //         boardService.getBoards().then(boards => {
-    //             if (boards.length > 0) {
-    //                 router.push(`/boards/${boards[0]._id}`);
-    //             }
-    //         });
-
-    //     } catch (err: any) {
-    //         console.log(err);
-    //     }
-
-    // }, []);
-
 
     return (
         <AppLayout>
             <main className="d-flex w-100 h-100 justify-content-center align-items-center">
-                <Button variant="none" className="btn btn-outline-custom-green" onClick={() => createBoard()}>
+                <Button variant="none" className="btn btn-outline-custom-green fw-bold" onClick={() => createBoard()}>
                     CLICK HERE TO CREATE YOUR FIRST BOARD
                 </Button>
             </main>
@@ -58,8 +43,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         const { 'kanban-token': token } = parseCookies(ctx);
         const response = await getApiClient(ctx).get<IBoard[]>('/boards');
         const boards = response.data;
-
-        console.log(boards);
 
 
 

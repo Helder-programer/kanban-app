@@ -1,9 +1,12 @@
 import { Card, Container, Form, Button, Spinner } from "react-bootstrap";
-import CustomInput from "@/components/common/inputStyled";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { authService } from "@/services/auth";
 import Router from "next/router";
 import Link from "next/link";
+import { GetServerSideProps } from "next";
+
+import CustomInput from "@/components/common/inputStyled";
+import { authService } from "@/services/auth";
+import { parseCookies } from "nookies";
 
 
 export default function Register() {
@@ -107,11 +110,27 @@ export default function Register() {
                             <Button className="btn-custom-black-light w-100 mt-3" type="submit">
                                 {isLoading ? <Spinner variant="secondary" animation="border" /> : 'Create your account'}
                             </Button>
-                            <Link href="/login" className="mt-3 text-white text-decoration-none">You have account? Make your login</Link>
+                            <Link href="/login" className="mt-3 text-custom-white text-center text-decoration-none">You have account? Make your login</Link>
                         </div>
                     </Form>
                 </Card.Body>
             </Card>
         </Container>
-    )
+    );
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const { 'kanban-token': token } = parseCookies(ctx);
+    
+    if (token)
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+
+    return {
+        props: {}
+    }
 }

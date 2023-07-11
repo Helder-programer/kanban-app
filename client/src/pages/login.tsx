@@ -4,6 +4,8 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useAuth } from "@/contexts/auth";
 import Link from "next/link";
 import Router from "next/router";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
 
 
 export default function Login() {
@@ -16,8 +18,6 @@ export default function Login() {
             event.preventDefault();
             const form = event.target as HTMLFormElement;
             setIsLoading(true);
-
-
 
             const data = new FormData(form);
             const email = String(data.get('email')).trim();
@@ -79,11 +79,28 @@ export default function Login() {
                             <Button className="btn-custom-black-light w-100 mt-3" type="submit">
                                 {isLoading ? <Spinner variant="secondary" animation="border" /> : 'Login'}
                             </Button>
-                            <Link href="/register" className="mt-3 text-white text-decoration-none">Don't have account? Create your account</Link>
+                            <Link href="/register" className="mt-3 text-custom-white text-center text-decoration-none">Don't have account? Create your account</Link>
                         </div>
                     </Form>
                 </Card.Body>
             </Card>
         </Container>
-    )
+    );
+}
+
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const { 'kanban-token': token } = parseCookies(ctx);
+    
+    if (token)
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+
+    return {
+        props: {}
+    }
 }
