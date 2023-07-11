@@ -9,6 +9,12 @@ interface IProps {
 }
 
 function Kanban({ sections, setSections }: IProps) {
+
+    const createSection = async () => {
+        
+    }
+
+
     return (
         <>
             <div className="d-flex w-100 mt-3 justify-content-between align-items-center">

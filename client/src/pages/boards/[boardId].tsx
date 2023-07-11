@@ -224,8 +224,8 @@ function Board() {
 
                     </section>
 
-            
-                        <Kanban />
+
+                    <Kanban sections={sections} setSections={setSections} />
                 </section>
 
             </main>
