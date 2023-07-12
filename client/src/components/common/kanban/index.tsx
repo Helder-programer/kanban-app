@@ -85,10 +85,10 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
             <hr className="text-white mt-1" />
 
             <DragDropContext onDragEnd={onDragEnd}>
-                <section id="kanban" className={`${className}`}>
+                <section id="kanban" className={className}>
                     {
                         sections.map(section => (
-                            <div key={section._id} style={{ width: '300px' }}>
+                            <div key={section._id} id="section">
                                 <Droppable key={section._id} droppableId={section._id}>
                                     {(provided) => (
                                         <div
@@ -97,11 +97,11 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
                                             {...provided.droppableProps}
                                         >
                                             <div className="d-flex w-100 justify-content-between align-items-center mb-3">
-                                                <input type="text"
-                                                    className="outline-none bg-transparent border-0 text-custom-white"
+                                                <input 
+                                                    type="text"
+                                                    className="outline-0 bg-transparent w-100 border-0 text-custom-white"
                                                     value={section.title}
                                                     placeholder="Untitled"
-                                                    style={{ flexGrow: 1 }}
                                                     onChange={event => updateSection(event, section._id)}
                                                 />
                                                 <i
@@ -138,6 +138,11 @@ const StyledKanban = styled(Kanban)`
     overflow: auto;
     display: flex;
     gap: 2rem;
+
+    #section {
+        width: 25%;
+        min-width: 200px;
+    }
 
 
     #add-task-icon:hover {
