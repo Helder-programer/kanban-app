@@ -15,21 +15,21 @@ export class SectionRepository implements ISectionRepository {
     }
 
     public async update(data: IUpdateSectionDTO) {
-        const boardToValidate = await Board.findOne({ user: data.userId });
-        const sectionToUpdate: any = await Section.findOne({ board: boardToValidate?._id });
+        const boardToValidate = await Board.findOne({ _id: data.boardId, user: data.userId });
+        const sectionToUpdate: any = await Section.findOne({ _id: data.sectionId, board: boardToValidate?.id });
 
         if (!sectionToUpdate) throw new NotFoundError('Section not found!');
 
         sectionToUpdate.set({ title: data.title });
         await sectionToUpdate.save();
-        
+
         sectionToUpdate._doc.tasks = [];
         return sectionToUpdate;
     }
 
     public async deleteSection(data: IDeleteSectionDTO) {
-        const boardToValidate = await Board.findOne({ user: data.userId });
-        const sectionToDelete = await Section.findOne({ _id: data.sectionId, board: boardToValidate?._id });
+        const boardToValidate = await Board.findOne({ _id: data.boardId, user: data.userId });
+        const sectionToDelete = await Section.findOne({ _id: data.sectionId, board: boardToValidate?.id });
 
         if (!sectionToDelete) throw new NotFoundError('Section not found!');
 

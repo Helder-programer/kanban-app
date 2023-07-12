@@ -4,6 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
+import styled, { keyframes } from 'styled-components';
 
 import { boardService } from "@/services/board";
 import { useBoards } from '@/contexts/boards';
@@ -19,8 +20,12 @@ type CurrentBoardInformations = {
     favorite: boolean;
 }
 
+interface IProps {
+    className?: string;
+}
 
-function Board() {
+
+function Board({ className }: IProps) {
     const [currentBoardInformations, setCurrentBoardInformations] = useState<CurrentBoardInformations>({ title: '', description: '', icon: '', favorite: false });
     const [sections, setSections] = useState<ISection[]>([]);
     const boardsContext = useBoards();
@@ -60,14 +65,14 @@ function Board() {
     const onIconChange = async (newIcon: string) => {
         let newBoards = [...boardsContext.boards];
         const index = newBoards.findIndex(board => board._id === boardId);
-        newBoards[index] = { ...newBoards[index], icon: newIcon };
+        newBoards[index].icon = newIcon;
         boardsContext.setBoards(newBoards);
 
 
         if (currentBoardInformations.favorite) {
             let newFavoritesBoards = [...boardsContext.favoritesBoards];
             const index = newFavoritesBoards.findIndex(board => board._id === boardId);
-            newFavoritesBoards[index] = { ...newFavoritesBoards[index], icon: newIcon };
+            newFavoritesBoards[index].icon = newIcon;
             boardsContext.setFavoritesBoards(newFavoritesBoards);
         }
 
@@ -89,7 +94,7 @@ function Board() {
 
         let newBoards = [...boardsContext.boards];
         const index = newBoards.findIndex(board => board._id === boardId);
-        newBoards[index] = { ...newBoards[index], title: newTitle };
+        newBoards[index].title = newTitle;
 
         boardsContext.setBoards(newBoards);
 
@@ -104,13 +109,13 @@ function Board() {
 
 
 
-        try {
-            timer = setTimeout(async () => {
+        timer = setTimeout(async () => {
+            try {
                 await boardService.updateBoard({ boardId, title: newTitle });
-            }, timeout);
-        } catch (err: any) {
-            console.log(err);
-        }
+            } catch (err: any) {
+                console.log(err);
+            }
+        }, timeout);
     }
 
     const updateDescription = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -122,13 +127,13 @@ function Board() {
         let newDescription = event.target.value;
         setCurrentBoardInformations({ ...currentBoardInformations, description: newDescription });
 
-        try {
-            timer = setTimeout(async () => {
+        timer = setTimeout(async () => {
+            try {
                 await boardService.updateBoard({ boardId, description: newDescription });
-            }, timeout);
-        } catch (err: any) {
-            console.log(err);
-        }
+            } catch (err: any) {
+                console.log(err);
+            }
+        }, timeout);
 
     }
 
@@ -178,15 +183,15 @@ function Board() {
 
     return (
         <AppLayout>
-            <main className="px-2 py-3 d-flex flex-column w-100 h-100" id="board-content">
-                <section id="icons-for-actions" className="d-flex w-100 justify-content-between mb-3 px-2">
+            <main className={`px-2 py-3 d-flex flex-column w-100 h-100 ${className}`}>
+                <section className="d-flex w-100 justify-content-between mb-3 px-2" id='board-content'>
                     <i
                         className="text-custom-yellow"
                         style={{ cursor: 'pointer' }}
                         onClick={updateFavorite}
                         title='Favorite this board'
                     >
-                        {currentBoardInformations?.favorite ? <AiFillStar className="fs-4" /> : <AiOutlineStar className="fs-4" />}
+                        {currentBoardInformations?.favorite ? <AiFillStar className="fs-4" id="star-fill" /> : <AiOutlineStar className="fs-4" />}
                     </i>
                     <i
                         style={{ cursor: 'pointer' }}
@@ -197,8 +202,8 @@ function Board() {
                     </i>
                 </section>
 
-                <section className="px-5" id="text">
-                    <section id="text">
+                <section className="px-5">
+                    <section>
                         <div className="d-flex align-items-center gap-2">
 
                             <EmojiPicker icon={currentBoardInformations.icon} onChange={onIconChange} />
@@ -221,17 +226,40 @@ function Board() {
                             rows={3}
                             onChange={event => updateDescription(event)}
                         ></textarea>
-
                     </section>
 
 
-                    <Kanban sections={sections} setSections={setSections} />
+                    <Kanban
+                        sections={sections}
+                        setSections={setSections}
+                        boardId={boardId}
+                    />
                 </section>
 
             </main>
         </AppLayout>
     );
 }
+
+
+const brightness = keyframes`
+    0% {
+        filter: blur(0px);
+    }
+    50% {
+        filter: blur(5px);
+    }
+    100% {
+        filter: blur(0px);
+    }
+`
+const StyledBoard = styled(Board)`
+    #star-fill {
+        animation: ${brightness} 0.5s forwards ease-in-out;
+    }
+
+
+`;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { 'kanban-token': token } = parseCookies(ctx);
@@ -250,4 +278,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
 }
 
-export default Board;
+export default StyledBoard;

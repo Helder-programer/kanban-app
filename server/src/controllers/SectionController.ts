@@ -22,6 +22,14 @@ export class SectionController {
         const userId = req.user!._id;
 
         const section = await this.repository.update({ boardId, sectionId, userId, title });
-        
+        res.status(200).json(section);
+    }
+
+    public async deleteSection(req: Request, res: Response) {
+        const { boardId, sectionId } = req.params;
+        const userId = req.user!._id;
+
+        await this.repository.deleteSection({ boardId, sectionId, userId });
+        res.status(200).json({ message: 'Section sucessfully deleted' });
     }
 }

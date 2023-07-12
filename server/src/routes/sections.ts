@@ -10,6 +10,8 @@ const sectionRepository = new SectionRepository();
 const sectionController = new SectionController(sectionRepository);
 
 router.post('/', authMiddleware, (req, res) => sectionController.create(req, res));
+router.put('/:sectionId', authMiddleware, (req, res) => sectionController.update(req, res));
+router.delete('/:sectionId', authMiddleware, (req, res) => sectionController.deleteSection(req, res));
 
 export default router;
 

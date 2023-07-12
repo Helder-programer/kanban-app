@@ -6,7 +6,7 @@ const sectionSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            default: ''
+            default: 'Untitled'
         },
         board: {
             type: mongoose.Schema.Types.ObjectId,
