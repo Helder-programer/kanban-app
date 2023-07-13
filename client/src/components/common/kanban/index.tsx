@@ -65,6 +65,8 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
         }
     }
 
+    
+
 
     return (
         <>

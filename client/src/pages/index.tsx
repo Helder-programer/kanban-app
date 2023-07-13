@@ -38,37 +38,32 @@ function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    try {
 
-        const { 'kanban-token': token } = parseCookies(ctx);
-        const response = await getApiClient(ctx).get<IBoard[]>('/boards');
-        const boards = response.data;
+    const { 'kanban-token': token } = parseCookies(ctx);
 
-
-
-        if (!token)
-            return {
-                redirect: {
-                    destination: '/login',
-                    permanent: false
-                }
+    if (!token)
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false
             }
+        }
+
+    const response = await getApiClient(ctx).get<IBoard[]>('/boards');
+    const boards = response.data;
 
 
 
-        if (boards.length > 0)
-            return {
-                redirect: {
-                    destination: `/boards/${boards[0]._id}`,
-                    permanent: false
-                }
+
+
+
+    if (boards.length > 0)
+        return {
+            redirect: {
+                destination: `/boards/${boards[0]._id}`,
+                permanent: false
             }
-
-
-
-    } catch (err: any) {
-        console.log(err);
-    }
+        }
 
     return {
         props: {}

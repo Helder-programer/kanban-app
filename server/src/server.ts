@@ -9,6 +9,7 @@ import { IUserDocument } from './models/types/IUserDocument';
 import usersRouter from './routes/users';
 import boardsRouter from './routes/boards';
 import sectionsRouter from './routes/sections';
+import tasksRouter from './routes/tasks';
 import './database';
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/users', usersRouter);
 app.use('/boards', boardsRouter);
 app.use('/boards/:boardId/sections', sectionsRouter);
+app.use('/boards/:boardId/tasks', tasksRouter);
 
 
 app.use(errorMiddleware);
