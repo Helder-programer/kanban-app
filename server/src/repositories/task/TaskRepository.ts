@@ -20,6 +20,7 @@ export class TaskRepository implements ITaskRepository {
 
         await newTask.save();
         newTask._doc.section = section;
+        console.log(newTask);
 
         return newTask;
     }

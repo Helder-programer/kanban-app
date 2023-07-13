@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { BsPlusLg } from 'react-icons/bs';
@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 import { ISection } from "@/types/ISection";
 import { sectionService } from "@/services/section";
+import { taskService } from "@/services/task";
 
 
 interface IProps {
@@ -29,7 +30,35 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
     }
 
     const onDragEnd = async ({ source, destination }: DropResult) => {
+        if (!destination) return;
+        const newSections = [...sections];
+        const sourceSectionIndex = newSections.findIndex(section => section._id === source.droppableId);
+        const destinationSectionIndex = newSections.findIndex(section => section._id == destination.droppableId);
+        const sourceTasks = [...newSections[sourceSectionIndex].tasks];
+        const destinationTasks = [...newSections[sourceSectionIndex].tasks];
 
+        if (source.droppableId === destination.droppableId) {
+            const [removedTask] = destinationTasks.splice(source.index, 1);
+            destinationTasks.splice(destination.index, 0, removedTask);
+            newSections[destinationSectionIndex].tasks = destinationTasks;
+        } else {
+            const [removedTask] = sourceTasks.splice(source.index, 1);
+            destinationTasks.splice(destination.index, 0, removedTask);
+            newSections[destinationSectionIndex].tasks = destinationTasks;
+            newSections[sourceSectionIndex].tasks = sourceTasks;
+        }
+
+        try {
+            // await taskApi.updatePosition(boardId, {
+            //     resourceList: sourceTasks,
+            //     destinationList: destinationTasks,
+            //     resourceSectionId: sourceSectionId,
+            //     destinationSectionId: destinationSectionId
+            // })
+            setSections(newSections);
+        } catch (err) {
+            alert(err)
+        }
     }
 
 
@@ -65,7 +94,21 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
         }
     }
 
-    
+
+    const createTask = async (sectionId: string) => {
+        try {
+            const newTask = await taskService.create({ sectionId, boardId });
+            const newSections = [...sections];
+            const sectionIndex = newSections.findIndex(section => section._id === sectionId);
+            newSections[sectionIndex].tasks = [...newSections[sectionIndex].tasks, newTask];
+
+            setSections(newSections);
+        } catch (err: any) {
+            console.log(err);
+        }
+    }
+
+
 
 
     return (
@@ -90,46 +133,62 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
                 <section id="kanban" className={className}>
                     {
                         sections.map(section => (
-                            <div key={section._id} id="section">
-                                <Droppable key={section._id} droppableId={section._id}>
-                                    {(provided) => (
-                                        <div
-                                            className="w-100 p-3 bg-custom-black-light shadow rounded"
-                                            ref={provided.innerRef}
-                                            {...provided.droppableProps}
-                                        >
-                                            <div className="d-flex w-100 justify-content-between align-items-center mb-3">
-                                                <input 
-                                                    type="text"
-                                                    className="outline-0 bg-transparent w-100 border-0 text-custom-white"
-                                                    value={section.title}
-                                                    placeholder="Untitled"
-                                                    onChange={event => updateSection(event, section._id)}
-                                                />
-                                                <i
-                                                    className="fs-5 mx-2 text-custom-white"
-                                                    style={{ cursor: 'pointer' }}
-                                                >
+                            <Droppable key={section._id} droppableId={section._id}>
+                                {(provided) => (
+                                    <div
+                                        key={section._id}
+                                        className="section p-3 bg-custom-black border border-custom-black-light shadow rounded mb-3"
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                    >
+                                        <div className="d-flex w-100 justify-content-between align-items-center mb-3">
+                                            <input
+                                                type="text"
+                                                className="outline-0 bg-transparent w-100 border-0 text-custom-white"
+                                                value={section.title}
+                                                placeholder="Untitled"
+                                                onChange={event => updateSection(event, section._id)}
+                                            />
+                                            <i
+                                                className="fs-5 mx-2 text-custom-white"
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={event => createTask(section._id)}
+                                            >
 
-                                                    <BsPlusLg id="add-task-icon" />
-                                                </i>
-                                                <i
-                                                    className="fs-6 text-custom-white"
-                                                    style={{ cursor: 'pointer' }}
-                                                    onClick={() => deleteSection(section._id)}
-                                                >
-                                                    <FaTrash id="delete-task-icon" />
-                                                </i>
-                                            </div>
+                                                <BsPlusLg id="add-task-icon" />
+                                            </i>
+                                            <i
+                                                className="fs-6 text-custom-white"
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={() => deleteSection(section._id)}
+                                            >
+                                                <FaTrash id="delete-task-icon" />
+                                            </i>
                                         </div>
-                                    )}
-                                </Droppable>
-                            </div>
+
+                                        {section.tasks.map((task, index) =>
+                                            <Draggable draggableId={task._id} key={task._id} index={index}>
+                                                {(provided, snapshot) => (
+                                                    <Card
+                                                        className="bg-custom-black-light text-custom-white p-2 mb-2 task"
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                    >
+                                                        {task.title ? task.title : 'Untitled'}
+                                                    </Card>
+                                                )}
+                                            </Draggable>
+                                        )}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
                         ))
                     }
 
                 </section>
-            </DragDropContext>
+            </DragDropContext >
         </>
     );
 }
@@ -139,11 +198,14 @@ const StyledKanban = styled(Kanban)`
     max-width: calc(100vw - 360px);
     overflow: auto;
     display: flex;
+    align-items: flex-start;
     gap: 2rem;
 
-    #section {
-        width: 25%;
-        min-width: 200px;
+    .section {
+        width: 250px;
+        min-width: 250px;
+        overflow: auto;
+        max-height: calc(100vh - 300px);
     }
 
 
@@ -153,6 +215,10 @@ const StyledKanban = styled(Kanban)`
 
     #delete-task-icon:hover {
         color: #a30101;
+    }
+
+    input[type=text] {
+        outline: none;
     }
 
 `;

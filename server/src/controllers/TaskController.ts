@@ -12,7 +12,7 @@ export class TaskController {
     async create(req: Request, res: Response) {
         const { sectionId } = req.body;
 
-        const newTask = this.repository.create({ sectionId });
+        const newTask = await this.repository.create({ sectionId });
 
         res.status(200).json(newTask);
 
