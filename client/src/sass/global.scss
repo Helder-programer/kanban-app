@@ -30,15 +30,21 @@ $custom-colors: (
 $theme-colors: map-merge($theme-colors, $custom-colors);
 $list-group-active-bg: #6d6d6d;
 
+body {
+    overflow: hidden;
+}
 
 a:hover {
     color: $custom-black-light;
 }
 
-body {
-    overflow: hidden;
+.small-text {
+    font-size: 0.8rem;
 }
 
+
+
+//ScrollBar
 ::-webkit-scrollbar {
     height: 5px;
     width: 5px;

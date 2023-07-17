@@ -10,6 +10,6 @@ export interface IBoard {
     favoritePosition: number;
     user: string;
     sections: ISection[];
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }

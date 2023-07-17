@@ -6,6 +6,6 @@ export interface ITask {
     content: string;
     position: string;
     section: ISection;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }

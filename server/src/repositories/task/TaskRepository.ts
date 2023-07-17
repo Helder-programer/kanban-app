@@ -1,9 +1,11 @@
-import { NotFoundError } from "../../helpers/apiErrors";
 import Section from "../../models/Section";
 import Task from "../../models/Task";
-import { ITaskDocument } from "../../models/types/ITaskDocument";
+import { NotFoundError } from "../../helpers/apiErrors";
 import { ITaskRepository } from "../types/ITaskRepository";
 import { ICreateTaskDTO } from "./dtos/ICreateTaskDTO";
+import { ITaskDocument } from "../../models/types/ITaskDocument";
+import { IUpdateBoardDTO } from "../board/dtos/IUpdateBoardDTO";
+import { IUpdateTaskDTO } from "./dtos/IUpdateTaskDTO";
 
 export class TaskRepository implements ITaskRepository {
     public async create(data: ICreateTaskDTO) {
@@ -20,8 +22,16 @@ export class TaskRepository implements ITaskRepository {
 
         await newTask.save();
         newTask._doc.section = section;
-        console.log(newTask);
-
         return newTask;
+    }
+
+
+    public async update(data: IUpdateTaskDTO) {
+        const taskToUpdate = await Task.findById(data.taskId);
+        if (!taskToUpdate) throw new NotFoundError('Task not found!');
+
+        taskToUpdate.set({ title: data.title, content: data.content });
+        await taskToUpdate.save();
+        return taskToUpdate;
     }
 }

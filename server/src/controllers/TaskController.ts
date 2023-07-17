@@ -9,17 +9,20 @@ export class TaskController {
         this.repository = repository;
     }
 
-    async create(req: Request, res: Response) {
+    public async create(req: Request, res: Response) {
         const { sectionId } = req.body;
 
         const newTask = await this.repository.create({ sectionId });
-
+        
         res.status(200).json(newTask);
-
-
-
-
-
     }
 
+    public async update(req: Request, res: Response) {
+        const { title, content } = req.body;
+        const { taskId } = req.params;
+
+        const updatedTask = this.repository.update({ title, content, taskId });
+
+        res.status(200).json(updatedTask);
+    }
 }

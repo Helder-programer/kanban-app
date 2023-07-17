@@ -219,7 +219,7 @@ function Board({ className }: IProps) {
                         </div>
                         <textarea
                             value={currentBoardInformations.description}
-                            className="w-100 mt-3 bg-custom-black border-0 text-custom-white p-0 outline-none ps-5"
+                            className="w-100 mt-3 bg-transparent border-0 text-custom-white p-0 outline-none ps-5"
                             style={{ outline: 'none', resize: 'none' }}
                             placeholder="Add description here..."
                             cols={30}

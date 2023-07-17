@@ -58,6 +58,7 @@ export class BoardRepository implements IBoardRepostiory {
 
     public async deleteBoard(data: IDeleteBoardDTO) {
         await Board.findOneAndDelete({ _id: data.boardId, user: data.userId });
+         
     }
 
     public async update(data: IUpdateBoardDTO): Promise<IBoardDocument> {

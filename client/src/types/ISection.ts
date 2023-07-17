@@ -5,6 +5,6 @@ export interface ISection {
     title: string;
     board: string;
     tasks: ITask[];
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }

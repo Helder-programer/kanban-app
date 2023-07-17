@@ -1,5 +1,5 @@
 import { Button, Card } from "react-bootstrap";
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { BsPlusLg } from 'react-icons/bs';
 import { FaTrash } from "react-icons/fa";
@@ -8,6 +8,8 @@ import styled from "styled-components";
 import { ISection } from "@/types/ISection";
 import { sectionService } from "@/services/section";
 import { taskService } from "@/services/task";
+import { ITask } from "@/types/ITask";
+import TaskModal from "../taskModal";
 
 
 interface IProps {
@@ -18,7 +20,7 @@ interface IProps {
 }
 
 function Kanban({ sections, setSections, boardId, className }: IProps) {
-
+    const [currentTask, setCurrentTask] = useState<ITask | undefined>(undefined);
 
     const createSection = async () => {
         try {
@@ -35,7 +37,7 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
         const sourceSectionIndex = newSections.findIndex(section => section._id === source.droppableId);
         const destinationSectionIndex = newSections.findIndex(section => section._id == destination.droppableId);
         const sourceTasks = [...newSections[sourceSectionIndex].tasks];
-        const destinationTasks = [...newSections[sourceSectionIndex].tasks];
+        const destinationTasks = [...newSections[destinationSectionIndex].tasks];
 
         if (source.droppableId === destination.droppableId) {
             const [removedTask] = destinationTasks.splice(source.index, 1);
@@ -109,8 +111,6 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
     }
 
 
-
-
     return (
         <>
             <section className="d-flex w-100 mt-3 justify-content-between align-items-center">
@@ -174,6 +174,7 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
                                                         ref={provided.innerRef}
                                                         {...provided.draggableProps}
                                                         {...provided.dragHandleProps}
+                                                        onClick={() => setCurrentTask(task)}
                                                     >
                                                         {task.title ? task.title : 'Untitled'}
                                                     </Card>
@@ -186,7 +187,11 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
                             </Droppable>
                         ))
                     }
-
+                    <TaskModal
+                        currentTask={currentTask}
+                        setCurrentTask={setCurrentTask}
+                        boardId={boardId}
+                    />
                 </section>
             </DragDropContext >
         </>
