@@ -1,5 +1,5 @@
 import { Button, Card } from "react-bootstrap";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { BsPlusLg } from 'react-icons/bs';
 import { FaTrash } from "react-icons/fa";
@@ -109,6 +109,20 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
             console.log(err);
         }
     }
+
+
+    useEffect(() => {
+
+        if (!currentTask) return;
+        const taskSectionId = currentTask.section._id;
+        const sectionIndex = sections.findIndex(section => section._id === taskSectionId);
+        const taskIndex = sections[sectionIndex].tasks.findIndex(task => task._id === currentTask._id);
+        const newTaskData = { ...currentTask! };
+        const newSectionData = [...sections[sectionIndex].tasks];
+        newSectionData[taskIndex] = newTaskData;
+
+
+    }, [currentTask]);
 
 
     return (

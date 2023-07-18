@@ -20,7 +20,6 @@ export class TaskController {
     public async update(req: Request, res: Response) {
         const { title, content } = req.body;
         const { taskId } = req.params;
-
         const updatedTask = this.repository.update({ title, content, taskId });
 
         res.status(200).json(updatedTask);
