@@ -7,10 +7,10 @@ interface ICreateTaskParams {
 }
 
 interface IUpdateTaskParams {
-    boardId: string;
+    boardId?: string;
     title?: string;
     content?: string;
-    taskId: string;
+    taskId?: string;
 }
 
 export const taskService = {

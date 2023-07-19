@@ -117,11 +117,15 @@ function Kanban({ sections, setSections, boardId, className }: IProps) {
         const taskSectionId = currentTask.section._id;
         const sectionIndex = sections.findIndex(section => section._id === taskSectionId);
         const taskIndex = sections[sectionIndex].tasks.findIndex(task => task._id === currentTask._id);
+
         const newTaskData = { ...currentTask! };
-        const newSectionData = [...sections[sectionIndex].tasks];
-        newSectionData[taskIndex] = newTaskData;
+        let newTasks = [...sections[sectionIndex].tasks];
+        newTasks[taskIndex] = newTaskData;
 
+        const newSections = [...sections];
+        newSections[sectionIndex].tasks = newTasks;
 
+        setSections(newSections);
     }, [currentTask]);
 
 

@@ -30,7 +30,12 @@ export class TaskRepository implements ITaskRepository {
         const taskToUpdate = await Task.findById(data.taskId);
         if (!taskToUpdate) throw new NotFoundError('Task not found!');
 
-        taskToUpdate.set({ title: data.title, content: data.content });
+        let objectToUpdate: any = {};
+
+        if (data.title) objectToUpdate.title = data.title;
+        if (data.content) objectToUpdate.content = data.content;
+
+        taskToUpdate.set(objectToUpdate);
         await taskToUpdate.save();
         return taskToUpdate;
     }
