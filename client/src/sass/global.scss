@@ -31,7 +31,7 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 $list-group-active-bg: #6d6d6d;
 
 body {
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 a:hover {

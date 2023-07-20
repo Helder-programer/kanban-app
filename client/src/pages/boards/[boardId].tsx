@@ -214,7 +214,6 @@ function Board({ className }: IProps) {
                                 placeholder="Untitled"
                                 type="text"
                                 onChange={event => updateTitle(event)}
-
                             />
                         </div>
                         <textarea

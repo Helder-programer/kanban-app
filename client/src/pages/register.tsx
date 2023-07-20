@@ -1,15 +1,17 @@
 import { Card, Container, Form, Button, Spinner } from "react-bootstrap";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
+import { GetServerSideProps } from "next";
 import Router from "next/router";
 import Link from "next/link";
-import { GetServerSideProps } from "next";
+import styled from 'styled-components';
+
 
 import CustomInput from "@/components/common/inputStyled";
 import { authService } from "@/services/auth";
 import { parseCookies } from "nookies";
 
 
-export default function Register() {
+function Register({ className }: { className: string }) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -47,10 +49,10 @@ export default function Register() {
 
 
     return (
-        <Container fluid className="bg-custom-black d-flex justify-content-center align-items-center vh-100 vw-100">
-            <Card className="bg-custom-black border-0" style={{ width: '25%' }}>
+        <Container fluid className={`bg-custom-black d-flex justify-content-center align-items-center ${className}`}>
+            <Card className="bg-custom-black border-0">
                 <Card.Body>
-                    <h2 className="text-center text-white fw-bold">Kanban App</h2>
+                    <h2 className="text-center text-white fw-bold">HN Kanban</h2>
                     <h5 className="text-center text-white">Create Your Account</h5>
                     <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
                         <CustomInput
@@ -119,9 +121,27 @@ export default function Register() {
     );
 }
 
+const StyledRegister = styled(Register)`
+    min-height: 100vh;
+    min-width: 100vw;
+
+    .card {
+        width: 25%;
+    }
+
+    @media screen and (max-width: 768px) {
+        .card { 
+            width: 100%;
+        }
+    }
+
+`;
+
+export default StyledRegister;
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { 'kanban-token': token } = parseCookies(ctx);
-    
+
     if (token)
         return {
             redirect: {

@@ -6,12 +6,12 @@ import { ICreateTaskDTO } from "./dtos/ICreateTaskDTO";
 import { ITaskDocument } from "../../models/types/ITaskDocument";
 import { IUpdateBoardDTO } from "../board/dtos/IUpdateBoardDTO";
 import { IUpdateTaskDTO } from "./dtos/IUpdateTaskDTO";
+import { IDeleteTaskDTO } from "./dtos/IDeleteTaskDTO";
 
 export class TaskRepository implements ITaskRepository {
     public async create(data: ICreateTaskDTO) {
         const section = await Section.findById(data.sectionId);
         const tasks = await Task.find({ section: section?.id });
-
 
         if (!section) throw new NotFoundError('Section not found');
 
@@ -38,5 +38,9 @@ export class TaskRepository implements ITaskRepository {
         taskToUpdate.set(objectToUpdate);
         await taskToUpdate.save();
         return taskToUpdate;
+    }
+
+    public async deleteTask(data: IDeleteTaskDTO) {
+        await Task.deleteOne({ _id: data.taskId });
     }
 }

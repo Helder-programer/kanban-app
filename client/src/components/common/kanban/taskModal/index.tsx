@@ -8,22 +8,25 @@ import 'react-quill/dist/quill.snow.css';
 
 import { ITask } from "@/types/ITask";
 import { taskService } from "@/services/task";
+import { FaTrash } from "react-icons/fa";
+
+const ReactQuill = dynamic(() => {
+    return import('react-quill');
+}, { ssr: false });
 
 interface IProps {
     currentTask: ITask | undefined;
     setCurrentTask: Dispatch<SetStateAction<ITask | undefined>>;
     boardId: string;
     className?: string;
+    deleteTask(): Promise<void>;
 }
 
-const ReactQuill = dynamic(() => {
-    return import('react-quill');
-}, { ssr: false });
 
 let timer: any = undefined;
-const timeout = 600;
+const timeout = 1000;
 
-function TaskModal({ currentTask, setCurrentTask, boardId, className }: IProps) {
+function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask }: IProps) {
     const [taskTitle, setTaskTitle] = useState<string | undefined>('');
     const [taskContent, setTaskContent] = useState<string | undefined>('');
 
@@ -33,9 +36,9 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className }: IProps) 
         const newTitle = event.target.value;
         setTaskTitle(newTitle);
 
-        if (currentTask)
-            setCurrentTask({ ...currentTask, title: newTitle });
-        else return;
+        if (!currentTask) return;
+
+        setCurrentTask({ ...currentTask, title: newTitle });
 
         timer = setTimeout(async () => {
             try {
@@ -49,24 +52,21 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className }: IProps) 
     const updateDescription = (content: string, delta: TypeDelta, source: Sources) => {
         clearInterval(timer);
 
+        if (!currentTask) return;
+
         if (source === 'user') {
-            
-            if (!currentTask) return;
-            
+
             setCurrentTask({ ...currentTask, content });
             setTaskContent(content);
 
-
-            timer = setInterval(async () => {
+            timer = setTimeout(async () => {
                 try {
-                    await taskService.update({ boardId, content: taskContent, taskId: currentTask._id });
+                    await taskService.update({ boardId, content, taskId: currentTask._id });
                 } catch (err: any) {
                     console.log(err);
                 }
             }, timeout);
         }
-
-
     }
 
     useEffect(() => {
@@ -104,13 +104,22 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className }: IProps) 
 
             <Modal.Header className="border-0">
                 <div className="w-100">
-                    <input type="text"
-                        className="w-100 mb-3 bg-transparent border-0 fs-4 text-custom-white p-0 outline-none fw-bold"
-                        placeholder="Untitled"
-                        style={{ outline: 'none' }}
-                        value={taskTitle}
-                        onChange={updateTitle}
-                    />
+                    <div className="d-flex align-items-center mb-3">
+                        <input type="text"
+                            className="w-100 bg-transparent border-0 fs-4 text-custom-white p-0 outline-none fw-bold"
+                            placeholder="Untitled"
+                            style={{ outline: 'none' }}
+                            value={taskTitle}
+                            onChange={updateTitle}
+                        />
+                        <i
+                            style={{ cursor: 'pointer' }}
+                            title="Delete this task"
+                            onClick={() => deleteTask()}
+                        >
+                            <FaTrash className="fs-5 text-custom-red" />
+                        </i>
+                    </div>
                     <span className="ps-1 text-custom-white small-text">{currentTask ? moment(currentTask.createdAt).format('DD/MM/YYYY') : ''}</span>
                 </div>
             </Modal.Header>
@@ -142,9 +151,6 @@ const StyledModal = styled(TaskModal)`
         overflow-y: auto;
     }
 
-
-
-
     .ql-container {
         border: none;
         color: #fff;
@@ -157,7 +163,7 @@ const StyledModal = styled(TaskModal)`
 
 
     .ql-toolbar {
-        border: none;
+        border: dashed 1px;
 
         .ql-stroke {
             fill: none;

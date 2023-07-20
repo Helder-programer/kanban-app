@@ -13,7 +13,7 @@ export class TaskController {
         const { sectionId } = req.body;
 
         const newTask = await this.repository.create({ sectionId });
-        
+
         res.status(200).json(newTask);
     }
 
@@ -23,5 +23,13 @@ export class TaskController {
         const updatedTask = this.repository.update({ title, content, taskId });
 
         res.status(200).json(updatedTask);
+    }
+
+    public async deleteTask(req: Request, res: Response) {
+        const { boardId, taskId } = req.params;
+
+        await this.repository.deleteTask({ taskId, boardId });
+
+        res.status(200).json({ message: 'Task succesfully deleted' });
     }
 }

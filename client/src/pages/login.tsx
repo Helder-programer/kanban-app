@@ -1,14 +1,14 @@
 import { Card, Container, Form, Button, Spinner } from "react-bootstrap";
-import CustomInput from "@/components/common/inputStyled";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { useAuth } from "@/contexts/auth";
-import Link from "next/link";
-import Router from "next/router";
-import { GetServerSideProps } from "next";
+import { FormEvent, useState } from "react";
 import { parseCookies } from "nookies";
+import { GetServerSideProps } from "next";
+import Link from "next/link";
+import styled from 'styled-components';
 
+import CustomInput from "@/components/common/inputStyled";
+import { useAuth } from "@/contexts/auth";
 
-export default function Login() {
+function Login({ className }: { className: string }) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const auth = useAuth();
@@ -40,8 +40,8 @@ export default function Login() {
     }
 
     return (
-        <Container fluid className="bg-custom-black d-flex justify-content-center align-items-center vh-100 vw-100">
-            <Card className="bg-custom-black border-0" style={{ width: '25%' }}>
+        <Container fluid className={`bg-custom-black d-flex justify-content-center align-items-center vh-100 vw-100 ${className}`}>
+            <Card className="bg-custom-black border-0">
                 <Card.Body>
                     <h2 className="text-center text-white fw-bold">Kanban App</h2>
                     <h4 className="text-center text-white">Make Your Login</h4>
@@ -88,10 +88,28 @@ export default function Login() {
     );
 }
 
+const StyledLogin = styled(Login)`
+    min-height: 100vh;
+    min-width: 100vw;
+
+    .card {
+        width: 25%;
+    }
+
+    @media screen and (max-width: 768px) {
+        .card { 
+            width: 100%;
+        }
+    }
+
+`;
+
+
+export default StyledLogin;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { 'kanban-token': token } = parseCookies(ctx);
-    
+
     if (token)
         return {
             redirect: {
