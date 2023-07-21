@@ -3,10 +3,9 @@ import Task from "../../models/Task";
 import { NotFoundError } from "../../helpers/apiErrors";
 import { ITaskRepository } from "../types/ITaskRepository";
 import { ICreateTaskDTO } from "./dtos/ICreateTaskDTO";
-import { ITaskDocument } from "../../models/types/ITaskDocument";
-import { IUpdateBoardDTO } from "../board/dtos/IUpdateBoardDTO";
 import { IUpdateTaskDTO } from "./dtos/IUpdateTaskDTO";
 import { IDeleteTaskDTO } from "./dtos/IDeleteTaskDTO";
+import { IUpdateTasksPositionsDTO } from "./dtos/IUpdateTasksPositionsDTO";
 
 export class TaskRepository implements ITaskRepository {
     public async create(data: ICreateTaskDTO) {
@@ -34,6 +33,7 @@ export class TaskRepository implements ITaskRepository {
 
         if (data.title) objectToUpdate.title = data.title;
         if (data.content) objectToUpdate.content = data.content;
+        if (data.color) objectToUpdate.color = data.color;
 
         taskToUpdate.set(objectToUpdate);
         await taskToUpdate.save();
@@ -41,6 +41,32 @@ export class TaskRepository implements ITaskRepository {
     }
 
     public async deleteTask(data: IDeleteTaskDTO) {
-        await Task.deleteOne({ _id: data.taskId });
+        const taskToDelete = await Task.findById(data.taskId);
+        await Task.deleteOne({ _id: taskToDelete?.id });
+
+        const tasks = await Task.find({ section: taskToDelete?.section });
+
+        for (let key in tasks) {
+            await Task.findByIdAndUpdate(tasks[key].id, { position: key });
+        }
+    }
+
+
+    public async updateTasksPositions({ destinationSectionId, destinationTasksList, sourceSectionId, sourceTasksList }: IUpdateTasksPositionsDTO) {
+        if (sourceSectionId != destinationSectionId) {
+            for (let key in sourceTasksList) {
+                await Task.findByIdAndUpdate(sourceTasksList[key]._id, {
+                    section: sourceSectionId,
+                    position: key
+                });
+            }
+        }
+
+        for (let key in destinationTasksList) {
+            await Task.findByIdAndUpdate(destinationTasksList[key]._id, {
+                section: destinationSectionId,
+                position: key
+            });
+        }
     }
 }

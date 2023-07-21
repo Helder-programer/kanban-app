@@ -1,4 +1,6 @@
+import { Types } from "mongoose";
+
 export interface IDeleteTaskDTO {
-    boardId: string;
-    taskId: string;
+    boardId: Types.ObjectId | string;
+    taskId: Types.ObjectId | string;
 }

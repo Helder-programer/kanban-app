@@ -256,8 +256,6 @@ const StyledBoard = styled(Board)`
     #star-fill {
         animation: ${brightness} 0.5s forwards ease-in-out;
     }
-
-
 `;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

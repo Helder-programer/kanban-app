@@ -50,12 +50,13 @@ function Kanban({ sections, setSections, boardId }: IProps) {
         }
 
         try {
-            // await taskApi.updatePosition(boardId, {
-            //     resourceList: sourceTasks,
-            //     destinationList: destinationTasks,
-            //     resourceSectionId: sourceSectionId,
-            //     destinationSectionId: destinationSectionId
-            // })
+            await taskService.updateTasksPositions({
+                boardId,
+                sourceTasksList: sourceTasks,
+                destinationTasksList: destinationTasks,
+                sourceSectionId: source.droppableId,
+                destinationSectionId: destination.droppableId
+            })
             setSections(newSections);
         } catch (err) {
             alert(err)
@@ -119,8 +120,13 @@ function Kanban({ sections, setSections, boardId }: IProps) {
 
         setCurrentTask(undefined);
         setSections(newSections);
+
         try {
-            await taskService.deleteTask({ boardId, taskId: currentTask._id });
+            await taskService.deleteTask({
+                boardId,
+                taskId: currentTask._id
+            });
+
             setCurrentTask(undefined);
         } catch (err: any) {
             console.log(err);
@@ -136,7 +142,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
         const taskIndex = sections[sectionIndex].tasks.findIndex(task => task._id === currentTask._id);
 
         const newTaskData = { ...currentTask! };
-        let newTasks = [...sections[sectionIndex].tasks];
+        const newTasks = [...sections[sectionIndex].tasks];
         newTasks[taskIndex] = newTaskData;
 
         const newSections = [...sections];

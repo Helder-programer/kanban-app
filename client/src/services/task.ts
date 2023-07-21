@@ -8,14 +8,23 @@ interface ICreateTaskParams {
 
 interface IUpdateTaskParams {
     boardId?: string;
+    taskId?: string;
     title?: string;
     content?: string;
-    taskId?: string;
+    color?: string;
 }
 
 interface IDeleteTaskParams {
     boardId: string;
     taskId: string;
+}
+
+interface IUpdateTasksPositionsParams {
+    boardId: string;
+    sourceSectionId: string;
+    destinationSectionId: string;
+    sourceTasksList: ITask[];
+    destinationTasksList: ITask[];
 }
 
 export const taskService = {
@@ -25,12 +34,26 @@ export const taskService = {
     },
 
     update: async function (data: IUpdateTaskParams) {
-        const response = await api.put<ITask>(`/boards/${data.boardId}/tasks/${data.taskId}`, { title: data.title, content: data.content });
+        const response = await api.put<ITask>(`/boards/${data.boardId}/tasks/${data.taskId}`, {
+            title: data.title,
+            content: data.content,
+            color: data.color
+        });
         return response.data;
     },
 
     deleteTask: async function (data: IDeleteTaskParams) {
-        const response = await api.delete(`/boards/${data.boardId}/tasks/${data.taskId}`);
+        const response = await api.delete(`/boards/${data.boardId}/tasks/${data.taskId}`,);
+        return response.data;
+    },
+    updateTasksPositions: async function ({ boardId, destinationSectionId, destinationTasksList, sourceSectionId, sourceTasksList }: IUpdateTasksPositionsParams) {
+        const response = await api.put(`/boards/${boardId}/tasks/updatePositions`, {
+            sourceSectionId,
+            destinationSectionId,
+            sourceTasksList,
+            destinationTasksList
+        });
+
         return response.data;
     }
 }

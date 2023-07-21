@@ -6,6 +6,7 @@ export interface ITaskDocument extends Document {
     content: string;
     position: number;
     section: string;
+    color: string;
     createdAt: Date;
     updatedAt: Date;
 }

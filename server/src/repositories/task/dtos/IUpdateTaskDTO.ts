@@ -4,4 +4,5 @@ export interface IUpdateTaskDTO {
     taskId: Types.ObjectId | string;
     title: string;
     content: string;
+    color: string;
 }

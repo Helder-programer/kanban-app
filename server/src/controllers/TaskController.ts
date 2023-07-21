@@ -18,9 +18,9 @@ export class TaskController {
     }
 
     public async update(req: Request, res: Response) {
-        const { title, content } = req.body;
+        const { title, content, color } = req.body;
         const { taskId } = req.params;
-        const updatedTask = this.repository.update({ title, content, taskId });
+        const updatedTask = this.repository.update({ title, content, taskId, color });
 
         res.status(200).json(updatedTask);
     }
@@ -31,5 +31,28 @@ export class TaskController {
         await this.repository.deleteTask({ taskId, boardId });
 
         res.status(200).json({ message: 'Task succesfully deleted' });
+    }
+
+    public async updateTasksPositions(req: Request, res: Response) {
+        const {
+            sourceSectionId,
+            destinationSectionId,
+            sourceTasksList,
+            destinationTasksList
+        } = req.body;
+
+        const { boardId } = req.params;
+
+
+        await this.repository.updateTasksPositions({
+            boardId,
+            destinationSectionId,
+            destinationTasksList,
+            sourceSectionId,
+            sourceTasksList
+        });
+
+
+        res.status(200).json({ message: 'Updated' });
     }
 }

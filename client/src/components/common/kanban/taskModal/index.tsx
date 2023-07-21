@@ -29,6 +29,7 @@ const timeout = 1000;
 function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask }: IProps) {
     const [taskTitle, setTaskTitle] = useState<string | undefined>('');
     const [taskContent, setTaskContent] = useState<string | undefined>('');
+    const [taskColor, setTaskColor] = useState<string | undefined>('');
 
     const updateTitle = (event: ChangeEvent<HTMLInputElement>) => {
         clearTimeout(timer);
@@ -50,7 +51,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
     }
 
     const updateDescription = (content: string, delta: TypeDelta, source: Sources) => {
-        clearInterval(timer);
+        clearTimeout(timer);
 
         if (!currentTask) return;
 
@@ -69,9 +70,27 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
         }
     }
 
+    const updateColor = async (event: ChangeEvent<HTMLInputElement>) => {
+        clearTimeout(timer);
+        if (!currentTask) return;
+
+        const color = event.target.value;
+        setTaskColor(color);
+        setCurrentTask({ ...currentTask, color });
+
+        timer = setTimeout(async () => {
+            try {
+                await taskService.update({ taskId: currentTask._id, boardId, color });
+            } catch (err: any) {
+                console.log(err);
+            }
+        }, timeout);
+    }
+
     useEffect(() => {
         setTaskTitle(currentTask?.title);
         setTaskContent(currentTask?.content);
+        setTaskColor(currentTask?.color);
     }, [currentTask?._id]);
 
     const handleClose = () => {
@@ -120,7 +139,17 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
                             <FaTrash className="fs-5 text-custom-red" />
                         </i>
                     </div>
-                    <span className="ps-1 text-custom-white small-text">{currentTask ? moment(currentTask.createdAt).format('DD/MM/YYYY') : ''}</span>
+                    <div className="ps-1">
+                        <span className="text-custom-white small-text">{currentTask ? moment(currentTask.createdAt).format('DD/MM/YYYY') : ''}</span>
+                        <span className="text-white small-text d-block">
+                            Color:
+                            <input
+                                type="color"
+                                value={taskColor}
+                                onChange={updateColor}
+                            />
+                        </span>
+                    </div>
                 </div>
             </Modal.Header>
             <hr className="m-0 text-custom-white" />

@@ -11,6 +11,10 @@ const taskSchema = new mongoose.Schema(
             type: String,
             default: ''
         },
+        color: {
+            type: String,
+            default: '#333333'
+        },
         position: {
             type: Number
         },

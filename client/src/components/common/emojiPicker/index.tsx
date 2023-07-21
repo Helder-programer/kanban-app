@@ -56,6 +56,7 @@ function EmojiPicker({ icon, className, onChange }: IProps) {
 
 const StyledEmojiPicker = styled(EmojiPicker)`
     position: relative;
+    z-index: 1000;
 
     h3 {
         cursor: pointer;

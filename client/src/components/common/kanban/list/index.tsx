@@ -28,11 +28,11 @@ function List({
     setCurrentTask }: IProps) {
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <section id="kanban" className={className}>
+        <section id="kanban" className={className}>
+            <DragDropContext onDragEnd={onDragEnd}>
                 {
                     sections.map(section => (
-                        <Droppable key={section._id} droppableId={section._id}>
+                        <Droppable key={section._id} droppableId={section._id} direction="vertical">
                             {(provided) => (
                                 <div
                                     key={section._id}
@@ -68,15 +68,20 @@ function List({
                                     {section.tasks.map((task, index) =>
                                         <Draggable draggableId={task._id} key={task._id} index={index}>
                                             {(provided, snapshot) => (
-                                                <Card
-                                                    className="bg-custom-black-light text-custom-white p-2 mb-2 task"
+                                                <div
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    onClick={() => setCurrentTask(task)}
-                                                >
-                                                    {task.title ? task.title : 'Untitled'}
-                                                </Card>
+                                                    {...provided.dragHandleProps}>
+                                                    <Card
+                                                        className="text-custom-white p-2 mb-2 task"
+                                                        onClick={() => setCurrentTask(task)}
+                                                        style={{
+                                                            backgroundColor: `${task.color}`
+                                                        }}
+                                                    >
+                                                        {task.title ? task.title : 'Untitled'}
+                                                    </Card>
+                                                </div>
                                             )}
                                         </Draggable>
                                     )}
@@ -86,23 +91,22 @@ function List({
                         </Droppable>
                     ))
                 }
-            </section>
-        </DragDropContext >
+            </DragDropContext >
+        </section>
     );
 }
 
 const StyledList = styled(List)`
-    max-width: calc(100vw - 360px);
-    overflow: auto;
+    max-width: calc(100vw - 362px);
     display: flex;
+    overflow: auto;
     align-items: flex-start;
+    max-height: calc(100vh - 300px);
     gap: 2rem;
 
     .section {
         width: 250px;
         min-width: 250px;
-        overflow: auto;
-        max-height: calc(100vh - 300px);
     }
 
 
