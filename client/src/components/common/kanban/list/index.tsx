@@ -2,7 +2,6 @@ import { ISection } from "@/types/ISection";
 import { ITask } from "@/types/ITask";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
-import { Card } from "react-bootstrap";
 import { BsPlusLg } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import styled from 'styled-components';
@@ -72,15 +71,22 @@ function List({
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}>
-                                                    <Card
-                                                        className="text-custom-white p-2 mb-2 task"
+                                                    <div
+                                                        className="task rounded shadow mt-3"
                                                         onClick={() => setCurrentTask(task)}
-                                                        style={{
-                                                            backgroundColor: `${task.color}`
-                                                        }}
                                                     >
-                                                        {task.title ? task.title : 'Untitled'}
-                                                    </Card>
+                                                        <div
+                                                            style={{
+                                                                backgroundColor: `${task.color}`,
+                                                                width: '100%',
+                                                                height: '30px'
+                                                            }}
+                                                            className="rounded-top w-100"
+                                                        ></div>
+                                                        <div className="p-3">
+                                                            <span className="text-custom-white d-block fw-semibold">{task.title ? task.title : 'Untitled'}</span>                                                            
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             )}
                                         </Draggable>
@@ -97,18 +103,25 @@ function List({
 }
 
 const StyledList = styled(List)`
-    max-width: calc(100vw - 362px);
+    max-width: calc(100vw - 150px);
     display: flex;
     overflow: auto;
     align-items: flex-start;
-    max-height: calc(100vh - 300px);
+    height: calc(100vh - 235px);
     gap: 2rem;
 
     .section {
-        width: 250px;
-        min-width: 250px;
+        width: 300px;
+        min-width: 300px;
     }
 
+    .task {
+        color: #fff;
+        background-color: #333;
+        span:nth-child(2) {
+            line-height: 1.3rem;
+        }
+    }
 
     #add-task-icon:hover {
         color: #008000;

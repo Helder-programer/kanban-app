@@ -4,7 +4,6 @@ import { FaTrash } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
-import styled, { keyframes } from 'styled-components';
 
 import { boardService } from "@/services/board";
 import { useBoards } from '@/contexts/boards';
@@ -20,12 +19,8 @@ type CurrentBoardInformations = {
     favorite: boolean;
 }
 
-interface IProps {
-    className?: string;
-}
 
-
-function Board({ className }: IProps) {
+function Board() {
     const [currentBoardInformations, setCurrentBoardInformations] = useState<CurrentBoardInformations>({ title: '', description: '', icon: '', favorite: false });
     const [sections, setSections] = useState<ISection[]>([]);
     const boardsContext = useBoards();
@@ -118,7 +113,7 @@ function Board({ className }: IProps) {
         }, timeout);
     }
 
-    const updateDescription = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const updateDescription = (event: ChangeEvent<HTMLInputElement>) => {
         let timer;
         const timeout = 600;
 
@@ -183,7 +178,7 @@ function Board({ className }: IProps) {
 
     return (
         <AppLayout>
-            <main className={`px-2 py-3 d-flex flex-column w-100 h-100 ${className}`}>
+            <main className="px-2 py-3 d-flex flex-column w-100 h-100">
                 <section className="d-flex w-100 justify-content-between mb-3 px-2" id='board-content'>
                     <i
                         className="text-custom-yellow"
@@ -213,18 +208,16 @@ function Board({ className }: IProps) {
                                 style={{ outline: 'none' }}
                                 placeholder="Untitled"
                                 type="text"
-                                onChange={event => updateTitle(event)}
+                                onChange={updateTitle}
                             />
                         </div>
-                        <textarea
+                        <input
                             value={currentBoardInformations.description}
                             className="w-100 mt-3 bg-transparent border-0 text-custom-white p-0 outline-none ps-5"
                             style={{ outline: 'none', resize: 'none' }}
-                            placeholder="Add description here..."
-                            cols={30}
-                            rows={3}
-                            onChange={event => updateDescription(event)}
-                        ></textarea>
+                            placeholder="Add description here..."                        
+                            onChange={updateDescription}
+                        />
                     </section>
 
 
@@ -239,25 +232,6 @@ function Board({ className }: IProps) {
         </AppLayout>
     );
 }
-
-
-const brightness = keyframes`
-    0% {
-        filter: blur(0px);
-    }
-    50% {
-        filter: blur(5px);
-    }
-    100% {
-        filter: blur(0px);
-    }
-`
-const StyledBoard = styled(Board)`
-    #star-fill {
-        animation: ${brightness} 0.5s forwards ease-in-out;
-    }
-`;
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { 'kanban-token': token } = parseCookies(ctx);
 
@@ -275,4 +249,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
 }
 
-export default StyledBoard;
+export default Board;

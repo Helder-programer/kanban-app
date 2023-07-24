@@ -14,9 +14,7 @@ const boardSchema = new mongoose.Schema(
         },
         description: {
             type: String,
-            default: `Add description here
-            ✅ You can add multiline description
-            ✅ Let's start...`
+            default: `Add description here...`
         },
         position: {
             type: Number

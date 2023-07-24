@@ -123,7 +123,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
 
             <Modal.Header className="border-0">
                 <div className="w-100">
-                    <div className="d-flex align-items-center mb-3">
+                    <div className="d-flex gap-3 align-items-center mb-2">
                         <input type="text"
                             className="w-100 bg-transparent border-0 fs-4 text-custom-white p-0 outline-none fw-bold"
                             placeholder="Untitled"
@@ -141,13 +141,16 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
                     </div>
                     <div className="ps-1">
                         <span className="text-custom-white small-text">{currentTask ? moment(currentTask.createdAt).format('DD/MM/YYYY') : ''}</span>
-                        <span className="text-white small-text d-block">
+                        <span className="text-white small-text d-flex align-items-center gap-2">
                             Color:
-                            <input
-                                type="color"
-                                value={taskColor}
-                                onChange={updateColor}
-                            />
+                            <div id="color-picker">
+                                <input
+
+                                    type="color"
+                                    value={taskColor}
+                                    onChange={updateColor}
+                                />
+                            </div>
                         </span>
                     </div>
                 </div>
@@ -170,6 +173,25 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
 }
 
 const StyledModal = styled(TaskModal)`
+
+    #color-picker {
+        overflow: hidden;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;   
+        border: 1px solid black;
+        
+        input {
+            cursor: pointer;
+            position: relative;
+            left: -2px;
+            top: -2px;
+            padding: 0;
+            border: 0;
+            margin: 0;
+        }
+    }
+
     .modal-content {
         padding: 2rem;
         background-color: #333;
