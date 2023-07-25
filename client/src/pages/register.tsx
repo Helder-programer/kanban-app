@@ -5,7 +5,6 @@ import Router from "next/router";
 import Link from "next/link";
 import styled from 'styled-components';
 
-
 import CustomInput from "@/components/common/inputStyled";
 import { authService } from "@/services/auth";
 import { parseCookies } from "nookies";
@@ -52,7 +51,7 @@ function Register({ className }: { className: string }) {
         <Container fluid className={`bg-custom-black d-flex justify-content-center align-items-center ${className}`}>
             <Card className="bg-custom-black border-0">
                 <Card.Body>
-                    <h2 className="text-center text-white fw-bold">HN Kanban</h2>
+                    <h2 className="text-center text-white fw-bold">Hn Kanban</h2>
                     <h5 className="text-center text-white">Create Your Account</h5>
                     <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
                         <CustomInput

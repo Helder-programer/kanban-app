@@ -55,15 +55,27 @@ function Sidebar({ className }: IProps) {
                 id="checkbox-to-nav"
             />
 
-            <nav className={`bg-custom-black-light`}>
+            <label id="bar-open-nav" htmlFor="checkbox-to-nav"></label>
+
+            <nav className='bg-custom-black-light'>
+
                 <ListGroup className="w-100" as="ul">
+                    <ListGroup.Item
+                        as='li'
+                        className="border-0 px-3 pt-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-center align-items-center"
+                        action
+                        style={{ cursor: 'default' }}
+                    >
+                        <h4 id="title">Hn Kanban</h4>
+                    </ListGroup.Item>
+
                     <ListGroup.Item
                         as='li'
                         className="border-0 px-3 pt-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
-                        <span className="fw-bold">{username}</span>
+                        <span className="fw-semibold">{username}</span>
 
                         <BiLogOut
                             className='fs-5 me-1'
@@ -125,7 +137,6 @@ function Sidebar({ className }: IProps) {
 const StyledSidebar = styled(Sidebar)`
     position: relative;
 
-
     nav {
         position: relative;
         width: 15px;
@@ -135,17 +146,40 @@ const StyledSidebar = styled(Sidebar)`
         transition: width 0.3s ease-in-out;
     }
 
+    #checkbox-to-nav:checked {
+        &~#bar-open-nav {
+            left: -150%;            
+        }
 
-    #checkbox-to-nav:checked~nav {
-        width: 250px;
+        &~nav {
+            width: 250px;
+        }
     }
 
-
+    #title {
+        font-weight: 700;
+        white-space: nowrap;
+    }
 
     #new-board-icon {
         transition: all 0.3s ease-in-out;
         &:hover {
             color:#4d4d52;
+        }
+    }
+
+    #bar-open-nav {
+        left: 0;
+        position: absolute;
+        height: 100%;
+        width: 20px;
+        background-color: #333;
+        z-index: 9998;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            background-color: #6b6b6b;
         }
     }
 

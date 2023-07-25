@@ -43,8 +43,8 @@ function Login({ className }: { className: string }) {
         <Container fluid className={`bg-custom-black d-flex justify-content-center align-items-center vh-100 vw-100 ${className}`}>
             <Card className="bg-custom-black border-0">
                 <Card.Body>
-                    <h2 className="text-center text-white fw-bold">Kanban App</h2>
-                    <h4 className="text-center text-white">Make Your Login</h4>
+                    <h2 className="text-center text-white fw-bold">Hn Kanban</h2>
+                    <h5 className="text-center text-white">Make Your Login</h5>
                     <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
 
                         <CustomInput

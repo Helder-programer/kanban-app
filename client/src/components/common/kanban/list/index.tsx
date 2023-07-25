@@ -72,8 +72,8 @@ function List({
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}>
                                                     <div
-                                                        className="task rounded shadow mt-3"
-                                                        onClick={() => setCurrentTask(task)}
+                                                        className={`task rounded shadow mt-3 ${snapshot.isDragging ? 'task-dragging': ''}`}
+                                                        onClick={() => setCurrentTask(task)}                                                    
                                                     >
                                                         <div
                                                             style={{
@@ -84,7 +84,7 @@ function List({
                                                             className="rounded-top w-100"
                                                         ></div>
                                                         <div className="p-3">
-                                                            <span className="text-custom-white d-block fw-semibold">{task.title ? task.title : 'Untitled'}</span>                                                            
+                                                            <span className="text-custom-white d-block fw-semibold">{task.title ? task.title : 'Untitled'}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -118,9 +118,12 @@ const StyledList = styled(List)`
     .task {
         color: #fff;
         background-color: #333;
-        span:nth-child(2) {
-            line-height: 1.3rem;
-        }
+    }
+
+    .task-dragging {
+        transform: rotate(5deg);
+        opacity: 0.8;
+        transition: all 0.1s ease-in-out; 
     }
 
     #add-task-icon:hover {
