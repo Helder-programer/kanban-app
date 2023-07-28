@@ -1,9 +1,18 @@
-import mongoose from "mongoose";
+import { Sequelize } from "sequelize";
+import dotEnv from 'dotenv';
 
-mongoose.connect('mongodb://127.0.0.1:27017/kanbanApp', {
-    autoIndex: true
-}).then(() => {
-    console.log('Conectado ao Banco de Dados');
-}).catch(error => {
-    console.log(error);
+dotEnv.config();
+
+const connection = new Sequelize({
+    dialect: 'mysql',
+    database: 'db_hn_kanban',
+    host: 'localhost',
+    username: 'root',
+    password: process.env.DB_PASSWORD,
+    port: 3306,
+    define: {
+        timestamps: false,
+    }
 });
+
+export default connection;
