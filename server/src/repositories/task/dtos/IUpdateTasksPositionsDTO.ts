@@ -1,4 +1,4 @@
-import { ITaskDocument } from "../../../models/types/ITaskDocument";
+import { ITaskDocument } from "../../../models/types/ITask";
 
 export interface IUpdateTasksPositionsDTO {
     boardId: string;

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ITaskDocument } from "./types/ITaskDocument";
+import { ITaskDocument } from "./types/ITask";
 
 const taskSchema = new mongoose.Schema(
     {

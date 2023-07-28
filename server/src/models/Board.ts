@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { IBoardDocument } from "./types/IBoardDocument";
+import { IBoardDocument } from "./types/IBoard";
 
 const boardSchema = new mongoose.Schema(
     {

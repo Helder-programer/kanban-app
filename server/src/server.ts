@@ -3,9 +3,10 @@ import 'express-async-errors';
 import dotenv from 'dotenv';
 import cors from 'cors';
 dotenv.config();
+import './database';
 
 import { errorMiddleware } from './middlewares/error';
-import { IUserDocument } from './models/types/IUserDocument';
+import { IUser } from './models/types/IUser';
 import usersRouter from './routes/users';
 import boardsRouter from './routes/boards';
 import sectionsRouter from './routes/sections';
@@ -28,7 +29,7 @@ app.use(errorMiddleware);
 declare global {
     namespace Express {
         interface Request {
-            user?: IUserDocument | null;
+            user?: IUser | null;
         }
     }
 }

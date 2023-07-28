@@ -1,4 +1,4 @@
-import { IUserDocument } from "../../models/types/IUserDocument";
+import { IUserDocument } from "../../models/types/IUser";
 import { ICreateUserDTO } from "../user/dtos/ICreateUserDTO";
 
 export interface IUserRepository {

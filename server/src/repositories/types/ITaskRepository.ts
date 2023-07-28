@@ -1,4 +1,4 @@
-import { ITaskDocument } from "../../models/types/ITaskDocument";
+import { ITaskDocument } from "../../models/types/ITask";
 import { ICreateTaskDTO } from "../task/dtos/ICreateTaskDTO";
 import { IDeleteTaskDTO } from "../task/dtos/IDeleteTaskDTO";
 import { IUpdateTaskDTO } from "../task/dtos/IUpdateTaskDTO";

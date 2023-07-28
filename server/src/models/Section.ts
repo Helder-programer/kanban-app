@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { ISectionDocument } from "./types/ISectionDocument";
+import { ISectionDocument } from "./types/ISection";
 
 const sectionSchema = new mongoose.Schema(
     {

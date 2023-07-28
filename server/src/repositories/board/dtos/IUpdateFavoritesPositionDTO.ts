@@ -1,4 +1,4 @@
-import { IBoardDocument } from "../../../models/types/IBoardDocument";
+import { IBoardDocument } from "../../../models/types/IBoard";
 
 export interface IUpdateFavoritesPositionDTO {
     boards: IBoardDocument[];

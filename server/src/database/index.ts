@@ -12,6 +12,8 @@ const connection = new Sequelize({
     port: 3306,
     define: {
         timestamps: false,
+        freezeTableName: true,
+        underscored: true
     }
 });
 

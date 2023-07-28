@@ -2,7 +2,7 @@ import { IUserRepository } from "../types/IUserRepository";
 import { ICreateUserDTO } from "./dtos/ICreateUserDTO";
 import User from "../../models/User";
 import { BadRequestError, NotFoundError } from "../../helpers/apiErrors";
-import { IUserDocument } from "../../models/types/IUserDocument";
+import { IUserDocument } from "../../models/types/IUser";
 
 
 

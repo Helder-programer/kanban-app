@@ -1,4 +1,4 @@
-import { IBoardDocument } from "../../models/types/IBoardDocument";
+import { IBoardDocument } from "../../models/types/IBoard";
 import { ICreateBoardDTO } from "../board/dtos/ICreateBoardDTO";
 import { IDeleteBoardDTO } from "../board/dtos/IDeleteBoardDTO";
 import { IFindAllDTO } from "../board/dtos/IFindAllDTO";

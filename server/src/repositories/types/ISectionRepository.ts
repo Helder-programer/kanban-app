@@ -1,4 +1,4 @@
-import { ISectionDocument } from "../../models/types/ISectionDocument";
+import { ISectionDocument } from "../../models/types/ISection";
 import { ICreateSectionDTO } from "../section/dtos/ICreateSectionDTO";
 import { IDeleteSectionDTO } from "../section/dtos/IDeleteSectionDTO";
 import { IUpdateSectionDTO } from "../section/dtos/IUpdateSectionDTO";

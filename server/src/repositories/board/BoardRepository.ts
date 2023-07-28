@@ -9,7 +9,7 @@ import { IUpdateBoardsPositionsDTO } from "./dtos/IUpdateBoardsPositionsDTO";
 import { IFindAllDTO } from "./dtos/IFindAllDTO";
 import { IDeleteBoardDTO } from "./dtos/IDeleteBoardDTO";
 import { IUpdateBoardDTO } from "./dtos/IUpdateBoardDTO";
-import { IBoardDocument } from "../../models/types/IBoardDocument";
+import { IBoardDocument } from "../../models/types/IBoard";
 import { Types } from "mongoose";
 import { IFindFavoritesDTO } from "./dtos/IFindFavoritesDTO";
 import { IUpdateFavoritesPositionDTO } from "./dtos/IUpdateFavoritesPositionDTO";

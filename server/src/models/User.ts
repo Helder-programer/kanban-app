@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
 
-import { IUserDocument } from "./types/IUserDocument";
+import { IUserDocument } from "./types/IUser";
 
 const userSchema = new mongoose.Schema(
     {
