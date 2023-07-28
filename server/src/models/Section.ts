@@ -1,23 +1,32 @@
-import mongoose from "mongoose";
+import { Model, DataType, Table, Column, ForeignKey, BelongsTo } from "sequelize-typescript";
+import { ISection } from "./types/ISection";
+import Board from "./Board";
+import { IBoard } from "./types/IBoard";
 
-import { ISectionDocument } from "./types/ISection";
+@Table({
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    modelName: 'tb_sections',
+})
+export default class Section extends Model implements ISection {
+    @Column({
+        primaryKey: true,
+        type: DataType.CHAR
+    })
+    declare section_id: string;
 
-const sectionSchema = new mongoose.Schema(
-    {
-        title: {
-            type: String,
-            default: 'Untitled'
-        },
-        board: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Board',
-            required: true
-        }
-    },
-    {
-        timestamps: true
-    }
-);
+    @Column(DataType.STRING)
+    declare title: string;
 
+    @Column(DataType.DATE)
+    declare created_at: Date;
+    @Column(DataType.DATE)
+    declare updated_at: Date;
 
-export default mongoose.model<ISectionDocument>('Section', sectionSchema);
+    @ForeignKey(() => Board)
+    @Column(DataType.UUIDV4)
+    declare board_id: string;
+
+    @BelongsTo(() => Board, 'board_id')
+    declare board: IBoard;
+}

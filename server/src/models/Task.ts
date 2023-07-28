@@ -1,32 +1,32 @@
-import mongoose from "mongoose";
-import { ITaskDocument } from "./types/ITask";
+import { Model, DataType, Table, Column, ForeignKey } from "sequelize-typescript";
+import { ITask } from "./types/ITask";
 
-const taskSchema = new mongoose.Schema(
-    {
-        title: {
-            type: String,
-            default: ''
-        },
-        content: {
-            type: String,
-            default: ''
-        },
-        color: {
-            type: String,
-            default: '#E3E3E3'
-        },
-        position: {
-            type: Number
-        },
-        section: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Section',
-            required: true
-        }
-    },
-    {
-        timestamps: true
-    }
-);
+@Table({
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    modelName: 'tb_tasks',
+})
+export default class Task extends Model implements ITask {
+    @Column({
+        primaryKey: true,
+        type: DataType.CHAR
+    })
+    declare task_id: string;
 
-export default mongoose.model<ITaskDocument>('Task', taskSchema);
+    @Column(DataType.STRING)
+    declare title: string;
+
+    @Column(DataType.STRING)
+    declare content: string;
+
+    @Column(DataType.INTEGER)
+    declare position: number;
+
+    @Column(DataType.STRING)
+    declare color: string;
+
+    @Column(DataType.DATE)
+    declare created_at: Date;
+    @Column(DataType.DATE)
+    declare updated_at: Date;
+}

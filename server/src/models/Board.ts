@@ -1,41 +1,38 @@
-import mongoose from "mongoose";
+import { Model, DataType, Table, Column, HasMany } from "sequelize-typescript";
+import { IBoard } from "./types/IBoard";
+import connection from "../database";
+import Section from "./Section";
+import { ISection } from "./types/ISection";
 
-import { IBoardDocument } from "./types/IBoard";
 
-const boardSchema = new mongoose.Schema(
-    {
-        icon: {
-            type: String,
-            default: '📝'
-        },
-        title: {
-            type: String,
-            default: 'Untitled'
-        },
-        description: {
-            type: String,
-            default: `Add description here...`
-        },
-        position: {
-            type: Number
-        },
-        favorite: {
-            type: Boolean,
-            default: false
-        },
-        favoritePosition: {
-            type: Number,
-            default: 0
-        },
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        }
-    },
-    {
-        timestamps: true
-    }
-);
+@Table({
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    modelName: 'tb_boards',
+})
+export default class Board extends Model<IBoard> {
 
-export default mongoose.model<IBoardDocument>('Board', boardSchema);
+    @Column({ 
+        primaryKey: true,
+        type: DataType.CHAR
+     })
+    declare board_id: string;
+
+    @Column(DataType.STRING)
+    declare icon: string;
+    @Column(DataType.STRING)
+    declare title: string;
+    @Column(DataType.STRING)
+    declare position: string;
+    @Column(DataType.BOOLEAN)
+    declare favorite: boolean;
+    @Column(DataType.INTEGER)
+    declare favorite_position: number;
+    @Column(DataType.DATE)
+    declare created_at: Date;
+    @Column(DataType.DATE)
+    declare updated_at: Date;
+
+    @HasMany(() => Section, 'board_id')
+     declare sections: ISection[];
+}

@@ -7,7 +7,7 @@ export interface IBoard {
     position: number;
     favorite: boolean;
     favoritePosition: number;
-    user_id: string;
     created_at: Date;
     updated_at: Date;
+    user_id: string;
 }

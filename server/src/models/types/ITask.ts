@@ -4,8 +4,8 @@ export interface ITask {
     title: string;
     content: string;
     position: number;
-    section: string;
     color: string;
     created_at: Date;
     updated_at: Date;
+    section_id: string;
 }
