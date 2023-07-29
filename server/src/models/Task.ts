@@ -1,5 +1,7 @@
-import { Model, DataType, Table, Column, ForeignKey } from "sequelize-typescript";
+import { Model, DataType, Table, Column, ForeignKey, BelongsTo } from "sequelize-typescript";
 import { ITask } from "./types/ITask";
+import Section from "./Section";
+import { ISection } from "./types/ISection";
 
 @Table({
     createdAt: 'created_at',
@@ -29,4 +31,11 @@ export default class Task extends Model implements ITask {
     declare created_at: Date;
     @Column(DataType.DATE)
     declare updated_at: Date;
+
+    @ForeignKey(() => Section)
+    @Column(DataType.CHAR)
+    declare section_id: string;
+
+    @BelongsTo(() => Section, 'section_id')
+    declare section: ISection[];
 }

@@ -1,8 +1,6 @@
-import { Types } from "mongoose";
-
 export interface IUpdateBoardDTO {
-    boardId: Types.ObjectId | string;
-    userId: Types.ObjectId | string;
+    boardId: string;
+    userId: string;
     title: string;
     description: string;
     favorite: boolean;

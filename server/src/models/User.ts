@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
-import { BeforeCreate, BeforeUpdate, Column, DataType, Model, Table } from 'sequelize-typescript';
+import { BeforeCreate, BeforeUpdate, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 import { IUser } from './types/IUser';
+import Board from './Board';
+import { IBoard } from './types/IBoard';
 
 @Table({
     createdAt: 'created_at',
@@ -25,7 +27,10 @@ export default class User extends Model implements IUser {
     declare created_at: Date;
     @Column(DataType.DATE)
     declare updated_at: Date;
-
+    
+    @HasMany(() => Board, 'user_id')
+    declare boards: IBoard[];
+    
     @BeforeCreate
     @BeforeUpdate
     public static async passwordEncrypt(instance: User) {

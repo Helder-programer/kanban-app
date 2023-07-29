@@ -1,7 +1,9 @@
-import { Model, DataType, Table, Column, ForeignKey, BelongsTo } from "sequelize-typescript";
+import { Model, DataType, Table, Column, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
 import { ISection } from "./types/ISection";
 import Board from "./Board";
 import { IBoard } from "./types/IBoard";
+import Task from "./Task";
+import { ITask } from "./types/ITask";
 
 @Table({
     createdAt: 'created_at',
@@ -24,9 +26,12 @@ export default class Section extends Model implements ISection {
     declare updated_at: Date;
 
     @ForeignKey(() => Board)
-    @Column(DataType.UUIDV4)
+    @Column(DataType.CHAR)
     declare board_id: string;
 
     @BelongsTo(() => Board, 'board_id')
     declare board: IBoard;
+
+    @HasMany(() => Task, 'section_id')
+    declare tasks: ITask[];
 }
