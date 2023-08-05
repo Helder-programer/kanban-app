@@ -41,5 +41,5 @@ export default class Task extends Model<Partial<ITask>> implements ITask {
     declare section_id: string;
 
     @BelongsTo(() => Section, 'section_id')
-    declare section: ISection[];
+    declare section: ISection;
 }

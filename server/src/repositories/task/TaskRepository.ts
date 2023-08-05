@@ -97,7 +97,7 @@ export class TaskRepository implements ITaskRepository {
 
         const tasks = await Task.findAll({
             where: {
-                section_id: data.sectionId
+                section_id: taskToDelete.section.section_id
             }
         });
 

@@ -1,3 +1,4 @@
+import { ISection } from "./ISection";
 
 export interface ITask {
     task_id: string;
@@ -8,4 +9,5 @@ export interface ITask {
     created_at: Date;
     updated_at: Date;
     section_id: string;
+    section?: ISection;
 }

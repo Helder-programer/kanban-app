@@ -1,4 +1,5 @@
 import { ISection } from "./ISection";
+import { IUser } from "./IUser";
 
 export interface IBoard {
     board_id: string
@@ -12,4 +13,5 @@ export interface IBoard {
     updated_at: Date;
     user_id: string;
     sections: ISection[];
+    user?: IUser;
 }

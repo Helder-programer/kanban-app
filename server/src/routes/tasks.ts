@@ -11,8 +11,8 @@ const taskController = new TaskController(taskRepository);
 
 router.post('/:sectionId/tasks', authMiddleware, (req, res) => taskController.create(req, res));
 router.put('/tasks/updatePositions', authMiddleware, (req, res) => taskController.updateTasksPositions(req, res));
-router.put('/:sectionId/tasks/:taskId', authMiddleware, (req, res) => taskController.update(req, res));
-router.delete('/:sectionId/tasks/:taskId', authMiddleware, (req, res) => taskController.deleteTask(req, res));
+router.put('/tasks/:taskId', authMiddleware, (req, res) => taskController.update(req, res));
+router.delete('/tasks/:taskId', authMiddleware, (req, res) => taskController.deleteTask(req, res));
 
 
 export default router;
