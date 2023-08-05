@@ -10,7 +10,7 @@ import { ITask } from "./types/ITask";
     updatedAt: 'updated_at',
     modelName: 'tb_sections',
 })
-export default class Section extends Model implements ISection {
+export default class Section extends Model<Partial<ISection>> implements ISection {
     @Column({
         primaryKey: true,
         type: DataType.CHAR
@@ -22,9 +22,13 @@ export default class Section extends Model implements ISection {
 
     @Column(DataType.DATE)
     declare created_at: Date;
+
     @Column(DataType.DATE)
     declare updated_at: Date;
 
+
+
+    
     @ForeignKey(() => Board)
     @Column(DataType.CHAR)
     declare board_id: string;

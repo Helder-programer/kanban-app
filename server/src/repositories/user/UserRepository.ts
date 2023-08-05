@@ -1,22 +1,23 @@
+import { v4 as uuidv4 } from "uuid";
+
+import User from "../../models/User";
 import { IUserRepository } from "../types/IUserRepository";
 import { ICreateUserDTO } from "./dtos/ICreateUserDTO";
-import User from "../../models/User";
 import { BadRequestError, NotFoundError } from "../../helpers/apiErrors";
-import { IUser } from "../../models/types/IUser";
 
 
 
 export class UserRepository implements IUserRepository {
 
     public async create({ name, email, password }: ICreateUserDTO) {
+        const userId = uuidv4();
         const userToValidate = await User.findOne({ where: { email } });
         if (userToValidate) throw new BadRequestError('Email already exists!');
 
-        const user = new User({ name, email, password });
-        await user.save();
+        await User.create({user_id: userId, name, email, password });
     }
 
-    public async findByEmail(email: string): Promise<IUser> {
+    public async findByEmail(email: string) {
         const searchedUser = await User.findOne({ where: { email } });
         return searchedUser!;
     }

@@ -11,25 +11,25 @@ export class SectionController {
 
     public async create(req: Request, res: Response) {
         const { boardId } = req.params;
-        const section: any = await this.repository.create({ boardId });
-        section._doc.tasks = [];
+        const userId = req.user!.user_id;
+        const section = await this.repository.create({ boardId, userId });
         res.status(200).json(section);
     }
 
     public async update(req: Request, res: Response) {
-        const { boardId, sectionId } = req.params;
+        const { sectionId } = req.params;
         const { title } = req.body;
-        const userId = req.user!._id;
+        const userId = req.user!.user_id;
 
-        const section = await this.repository.update({ boardId, sectionId, userId, title });
+        const section = await this.repository.update({ sectionId, userId, title });
         res.status(200).json(section);
     }
 
     public async deleteSection(req: Request, res: Response) {
-        const { boardId, sectionId } = req.params;
-        const userId = req.user!._id;
+        const { sectionId } = req.params;
+        const userId = req.user!.user_id;
 
-        await this.repository.deleteSection({ boardId, sectionId, userId });
+        await this.repository.deleteSection({ sectionId, userId });
         res.status(200).json({ message: 'Section sucessfully deleted' });
     }
 }

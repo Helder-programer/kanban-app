@@ -27,7 +27,7 @@ export class UserController {
         if (!user || !await user.isCorrectPassword(password)) throw new BadRequestError('Incorrect Email or Password!');
 
         const token = jwt.sign(
-            { id: user._id },
+            { id: user.user_id },
             process.env.TOKEN_SECRET_KEY!,
             { expiresIn: '24h' }
         );

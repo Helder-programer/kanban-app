@@ -1,6 +1,4 @@
 import { Request, Response } from 'express';
-import { BadRequestError } from '../helpers/apiErrors';
-
 import { IBoardRepostiory } from "../repositories/types/IBoardRepository";
 
 export class BoardController {

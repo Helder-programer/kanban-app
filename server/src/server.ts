@@ -20,9 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/users', usersRouter);
 app.use('/boards', boardsRouter);
-app.use('/boards/:boardId/sections', sectionsRouter);
-app.use('/boards/:boardId/tasks', tasksRouter);
-
+app.use('/boards/:boardId/sections', sectionsRouter, tasksRouter);
 
 app.use(errorMiddleware);
 

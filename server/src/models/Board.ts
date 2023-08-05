@@ -11,7 +11,7 @@ import { IUser } from "./types/IUser";
     updatedAt: 'updated_at',
     modelName: 'tb_boards',
 })
-export default class Board extends Model<IBoard, Partial<IBoard>> {
+export default class Board extends Model<Partial<IBoard>> implements IBoard {
 
     @Column({
         primaryKey: true,
@@ -19,19 +19,36 @@ export default class Board extends Model<IBoard, Partial<IBoard>> {
     })
     declare board_id: string;
 
-    @Column(DataType.STRING)
+    @Column({
+        type: DataType.STRING,
+    })
     declare icon: string;
 
-    @Column(DataType.STRING)
+    @Column({
+        type: DataType.STRING,
+        defaultValue: 'Untitled'
+    })
     declare title: string;
 
-    @Column(DataType.STRING)
-    declare position: string;
-
-    @Column(DataType.BOOLEAN)
-    declare favorite: boolean;
+    @Column({
+        type: DataType.STRING,
+        defaultValue: 'Add description here...'
+    })
+    declare description: string;
 
     @Column(DataType.INTEGER)
+    declare position: number;
+
+    @Column({
+        type: DataType.TINYINT,
+        defaultValue: 0
+    })
+    declare favorite: boolean;
+
+    @Column({
+        type: DataType.INTEGER,
+        defaultValue: 0
+    })
     declare favorite_position: number;
 
     @Column(DataType.DATE)

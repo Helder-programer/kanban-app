@@ -15,12 +15,10 @@ const connection = new Sequelize({
     password: process.env.DB_PASSWORD,
     port: 3306,
     define: {
-        timestamps: false,
+        timestamps: true,
         freezeTableName: true,
     },
     models: [Board, User, Section, Task]
 });
-
-connection.sync().then(() => console.log('Conectado com o MySQL'));
 
 export default connection;

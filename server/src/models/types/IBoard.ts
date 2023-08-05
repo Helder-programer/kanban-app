@@ -1,3 +1,4 @@
+import { ISection } from "./ISection";
 
 export interface IBoard {
     board_id: string
@@ -6,8 +7,9 @@ export interface IBoard {
     description: string;
     position: number;
     favorite: boolean;
-    favoritePosition: number;
+    favorite_position: number;
     created_at: Date;
     updated_at: Date;
     user_id: string;
+    sections: ISection[];
 }

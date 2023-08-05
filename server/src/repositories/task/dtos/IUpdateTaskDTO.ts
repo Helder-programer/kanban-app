@@ -1,7 +1,6 @@
-import { Types } from "mongoose";
-
 export interface IUpdateTaskDTO {
-    taskId: Types.ObjectId | string;
+    taskId: string;
+    userId: string;
     title: string;
     content: string;
     color: string;

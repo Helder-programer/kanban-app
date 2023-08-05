@@ -1,4 +1,4 @@
-import { v4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import Board from "../../models/Board";
 import Section from "../../models/Section";
@@ -11,22 +11,39 @@ import { IUpdateBoardsPositionsDTO } from "./dtos/IUpdateBoardsPositionsDTO";
 import { IFindAllDTO } from "./dtos/IFindAllDTO";
 import { IDeleteBoardDTO } from "./dtos/IDeleteBoardDTO";
 import { IUpdateBoardDTO } from "./dtos/IUpdateBoardDTO";
-import { IBoard } from "../../models/types/IBoard";
 import { IFindFavoritesDTO } from "./dtos/IFindFavoritesDTO";
 import { IUpdateFavoritesPositionDTO } from "./dtos/IUpdateFavoritesPositionDTO";
+import { Op } from 'sequelize';
 
 export class BoardRepository implements IBoardRepostiory {
 
     public async create(data: ICreateBoardDTO) {
         const boardsQuantity = await this.countBoards(data.userId);
+        const boardId = uuidv4();
         const position = boardsQuantity > 0 ? boardsQuantity : 0;
 
-        const board = await Board.create({ user_id: data.userId, position });
+        const board = await Board.create({
+            board_id: boardId,
+            user_id: data.userId,
+            position
+        });
+
         return board;
     }
 
     public async findAll(data: IFindAllDTO) {
-        const boards = await Board.findAll({ where: { user_id: data.userId } });
+        const boards = await Board.findAll({
+            where: {
+                user_id: data.userId
+            }
+        });
+
+        boards.sort((a, b) => {
+            if (a.position > b.position) return 1;
+            if (a.position < b.position) return -1;
+            return 0;
+        });
+
         return boards;
     }
 
@@ -36,39 +53,58 @@ export class BoardRepository implements IBoardRepostiory {
     }
 
     public async findOne(data: IFindOneDTO) {
-        const searchedBoard: any = await Board.findOne({where: {user_id: data.userId, board_id: data.boardId}});
+        const searchedBoard = await Board.findOne({
+            where: {
+                user_id: data.userId,
+                board_id: data.boardId
+            },
+            include: {
+                model: Section,
+                as: 'sections',
+                include: [Task],
+                required: true
+            }
+        });
+
         if (!searchedBoard) throw new NotFoundError('Board not found!');
 
-        const sections: any = await Section.find({ board: data.boardId });
+        console.log(searchedBoard);
+        return searchedBoard!;
 
-        for (let section of sections) {
-            let tasks = await Task.find({ section: section._id }).populate('section').sort('position');
-            section._doc.tasks = tasks;
-        }
 
-        searchedBoard._doc.sections = sections;
-        return searchedBoard;
     }
 
     public async updateBoardsPositions(data: IUpdateBoardsPositionsDTO) {
         for (let index in data.boards) {
-            await Board.findByIdAndUpdate(data.boards[index]._id, { position: index });
+            await Board.update({ position: Number(index) }, { where: { board_id: data.boards[index].board_id } });
         }
     }
 
     public async deleteBoard(data: IDeleteBoardDTO) {
-        await Board.findOneAndDelete({ _id: data.boardId, user: data.userId });
-
+        const boardToDelete = await Board.findOne({
+            where: {
+                user_id: data.userId,
+                board_id: data.boardId
+            }
+        });
+        if (!boardToDelete) throw new NotFoundError('Board not found!');
+        await boardToDelete.destroy();
     }
 
-    public async update(data: IUpdateBoardDTO): Promise<IBoardDocument> {
-        const boardToUpdate = await Board.findOne({ user: data.userId, _id: data.boardId });
+    public async update(data: IUpdateBoardDTO) {
+        const boardToUpdate = await Board.findOne({
+            where: {
+                user_id: data.userId,
+                board_id: data.boardId
+            }
+        });
+
         let favoritePosition = 0;
 
         if (!boardToUpdate) throw new NotFoundError('Board not found!');
 
         if (data.favorite != boardToUpdate.favorite) {
-            const favoritesBoards = await this.findFavorites({ userId: data.userId, boardId: data.boardId });
+            const favoritesBoards = await this.findFavoritesWithoutSearchedBoard(data.boardId, data.userId);
 
             if (data.favorite) {
                 favoritePosition = favoritesBoards.length > 0 ? favoritesBoards.length : 0;
@@ -85,27 +121,43 @@ export class BoardRepository implements IBoardRepostiory {
         if (data.favorite !== undefined)
             objectToUpdate.favorite = data.favorite;
 
-        boardToUpdate.set({ ...objectToUpdate, favoritePosition });
-        boardToUpdate.save();
+        boardToUpdate.set({ ...objectToUpdate, favorite_position: favoritePosition });
+        await boardToUpdate.save();
         return boardToUpdate;
-
-
     }
 
     public async findFavorites(data: IFindFavoritesDTO) {
-        if (data.boardId) {
-            const favoritesBoards = await Board.find({ user: data.userId, favorite: true, _id: { $ne: data.boardId } }).sort('position');
-            return favoritesBoards;
-        }
-
-        const favoritesBoards = await Board.find({ user: data.userId, favorite: true }).sort('position');
+        const favoritesBoards = await Board.findAll({
+            where: {
+                user_id: data.userId,
+                favorite: true
+            }
+        });
         return favoritesBoards;
+    }
 
+
+    private async findFavoritesWithoutSearchedBoard(boardId: string, userId: string) {
+        const favoritesBoards = await Board.findAll({
+            where: {
+                user_id: userId,
+                favorite: true,
+                board_id: { [Op.not]: boardId }
+            }
+        });
+
+        favoritesBoards.sort((a, b) => {
+            if (a.favorite_position > b.favorite_position) return 1;
+            if (a.favorite_position < b.favorite_position) return -1;
+            return 0;
+        });
+
+        return favoritesBoards;
     }
 
     public async updateFavoritesBoardsPositions({ boards }: IUpdateFavoritesPositionDTO) {
         for (let index in boards) {
-            await Board.findByIdAndUpdate(boards[index]._id, { favoritePosition: index });
+            await Board.update({ favorite_position: Number(index) }, { where: { board_id: boards[index].board_id } });
         }
     }
 

@@ -8,7 +8,7 @@ import { ISection } from "./types/ISection";
     updatedAt: 'updated_at',
     modelName: 'tb_tasks',
 })
-export default class Task extends Model implements ITask {
+export default class Task extends Model<Partial<ITask>> implements ITask {
     @Column({
         primaryKey: true,
         type: DataType.CHAR
@@ -24,11 +24,15 @@ export default class Task extends Model implements ITask {
     @Column(DataType.INTEGER)
     declare position: number;
 
-    @Column(DataType.STRING)
+    @Column({
+        type: DataType.STRING,
+        defaultValue: '#333333'
+    })
     declare color: string;
 
     @Column(DataType.DATE)
     declare created_at: Date;
+
     @Column(DataType.DATE)
     declare updated_at: Date;
 

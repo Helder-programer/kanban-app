@@ -9,7 +9,7 @@ import { IBoard } from './types/IBoard';
     updatedAt: 'updated_at',
     modelName: 'tb_users',
 })
-export default class User extends Model implements IUser {
+export default class User extends Model<Partial<IUser>> implements IUser {
 
     @Column({
         primaryKey: true,
@@ -19,12 +19,16 @@ export default class User extends Model implements IUser {
 
     @Column(DataType.STRING)
     declare name: string;
+
     @Column(DataType.STRING)
     declare email: string;
+
     @Column(DataType.STRING)
     declare password: string;
+
     @Column(DataType.DATE)
     declare created_at: Date;
+    
     @Column(DataType.DATE)
     declare updated_at: Date;
     
@@ -42,7 +46,7 @@ export default class User extends Model implements IUser {
     }
 
     public async isCorrectPassword(password: string) {
-        const isEqualPassword = await bcrypt.compare(this.password, password);
+        const isEqualPassword = await bcrypt.compare(password, this.password);
         return isEqualPassword;
     }
 }

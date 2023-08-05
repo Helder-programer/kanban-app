@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { NotFoundError } from "../../helpers/apiErrors";
 import Board from "../../models/Board";
 import Section from "../../models/Section";
@@ -9,32 +11,64 @@ import { IUpdateSectionDTO } from "./dtos/IUpdateSectionDTO";
 
 export class SectionRepository implements ISectionRepository {
     public async create(data: ICreateSectionDTO) {
-        const newSection = new Section({ board: data.boardId });
-        await newSection.save();
+        const sectionId = uuidv4();
+
+        const boardToValidate = Board.findOne({
+            where: {
+                user_id: data.userId,
+                board_id: data.boardId
+            }
+        });
+
+        if (!boardToValidate) throw new NotFoundError('Board not found!');
+
+        const newSection = await Section.create({
+            section_id: sectionId,
+            board_id: data.boardId
+        });
+
         return newSection;
     }
 
-    public async update(data: IUpdateSectionDTO) {
-        const boardToValidate = await Board.findOne({ _id: data.boardId, user: data.userId });
-        const sectionToUpdate: any = await Section.findOne({ _id: data.sectionId, board: boardToValidate?.id });
+    public async update({ sectionId, userId, title }: IUpdateSectionDTO) {
+        const sectionToUpdate = await Section.findOne({
+            where: {
+                section_id: sectionId,
+            },
+            include: {
+                model: Board,
+                attributes: [],
+                required: true,
+                where: {
+                    user_id: userId
+                }
+            }
+        });
 
         if (!sectionToUpdate) throw new NotFoundError('Section not found!');
 
-        sectionToUpdate.set({ title: data.title });
+        sectionToUpdate.set({ title: title });
         await sectionToUpdate.save();
 
-        sectionToUpdate._doc.tasks = [];
         return sectionToUpdate;
     }
 
-    public async deleteSection(data: IDeleteSectionDTO) {
-        const boardToValidate = await Board.findOne({ _id: data.boardId, user: data.userId });
-        const sectionToDelete = await Section.findOne({ _id: data.sectionId, board: boardToValidate?.id });
+    public async deleteSection({ sectionId, userId }: IDeleteSectionDTO) {
+        const sectionToDelete = await Section.findOne({
+            where: {
+                section_id: sectionId,
+            },
+            include: {
+                model: Board,
+                attributes: [],
+                required: true,
+                where: {
+                    user_id: userId
+                }
+            }
+        });
 
         if (!sectionToDelete) throw new NotFoundError('Section not found!');
-
-        await Task.deleteMany({ section: sectionToDelete._id });
-        await Section.findByIdAndDelete(sectionToDelete._id);
     }
 
 }
