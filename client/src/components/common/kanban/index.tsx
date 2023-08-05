@@ -22,7 +22,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
 
     const createSection = async () => {
         try {
-            const newSection = await sectionService.create({ boardId });
+            const newSection = await sectionService.create({ boardId });            
             setSections([...sections, newSection]);
         } catch (err: any) {
             console.log(err);
@@ -32,8 +32,8 @@ function Kanban({ sections, setSections, boardId }: IProps) {
     const onDragEnd = async ({ source, destination }: DropResult) => {
         if (!destination) return;
         const newSections = [...sections];
-        const sourceSectionIndex = newSections.findIndex(section => section._id === source.droppableId);
-        const destinationSectionIndex = newSections.findIndex(section => section._id == destination.droppableId);
+        const sourceSectionIndex = newSections.findIndex(section => section.section_id === source.droppableId);
+        const destinationSectionIndex = newSections.findIndex(section => section.section_id == destination.droppableId);
 
         const sourceTasks = [...newSections[sourceSectionIndex].tasks];
         const destinationTasks = [...newSections[destinationSectionIndex].tasks];
@@ -71,7 +71,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
         const title = event.target.value;
 
         const newSections = [...sections];
-        const index = newSections.findIndex(section => section._id === sectionId);
+        const index = newSections.findIndex(section => section.section_id === sectionId);
         newSections[index].title = title;
         setSections(newSections);
 
@@ -89,7 +89,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
     const deleteSection = async (sectionId: string) => {
         try {
             await sectionService.deleteSection({ sectionId, boardId });
-            const newSections = [...sections].filter(section => section._id !== sectionId);
+            const newSections = [...sections].filter(section => section.section_id !== sectionId);
             setSections(newSections);
         } catch (err: any) {
             console.log(err);
@@ -101,7 +101,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
         try {
             const newTask = await taskService.create({ sectionId, boardId });
             const newSections = [...sections];
-            const sectionIndex = newSections.findIndex(section => section._id === sectionId);
+            const sectionIndex = newSections.findIndex(section => section.section_id === sectionId);
             newSections[sectionIndex].tasks = [...newSections[sectionIndex].tasks, newTask];
 
             setSections(newSections);
@@ -113,9 +113,9 @@ function Kanban({ sections, setSections, boardId }: IProps) {
     const deleteTask = async () => {
         if (!currentTask) return;
 
-        const sectionIndex = sections.findIndex(section => section._id === currentTask?.section._id);
+        const sectionIndex = sections.findIndex(section => section.section_id === currentTask.section_id);
         let newSections = [...sections];
-        const taskIndex = newSections[sectionIndex].tasks.findIndex(task => task._id === currentTask?._id);
+        const taskIndex = newSections[sectionIndex].tasks.findIndex(task => task.task_id === currentTask?.task_id);
         newSections[sectionIndex].tasks.splice(taskIndex, 1);
 
         setCurrentTask(undefined);
@@ -124,7 +124,8 @@ function Kanban({ sections, setSections, boardId }: IProps) {
         try {
             await taskService.deleteTask({
                 boardId,
-                taskId: currentTask._id
+                taskId: currentTask.task_id,
+                sectionId: currentTask.section_id
             });
 
             setCurrentTask(undefined);
@@ -137,9 +138,9 @@ function Kanban({ sections, setSections, boardId }: IProps) {
 
         if (!currentTask) return;
 
-        const taskSectionId = currentTask.section._id;
-        const sectionIndex = sections.findIndex(section => section._id === taskSectionId);
-        const taskIndex = sections[sectionIndex].tasks.findIndex(task => task._id === currentTask._id);
+        const taskSectionId = currentTask.section_id;
+        const sectionIndex = sections.findIndex(section => section.section_id === taskSectionId);
+        const taskIndex = sections[sectionIndex].tasks.findIndex(task => task.task_id === currentTask.task_id);
 
         const newTaskData = { ...currentTask! };
         const newTasks = [...sections[sectionIndex].tasks];

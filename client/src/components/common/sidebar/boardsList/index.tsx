@@ -56,7 +56,7 @@ function BoardsList({ className }: IProps) {
 
 
     useEffect(() => {
-        const index = boardsContext.boards.findIndex(currentBoard => currentBoard._id === boardId);
+        const index = boardsContext.boards.findIndex(currentBoard => currentBoard.board_id === boardId);
         setActiveBoardIndex(index);
     }, [boardsContext.boards, boardId]);
 
@@ -67,7 +67,7 @@ function BoardsList({ className }: IProps) {
         if (!destination) return;
 
         newBoards.splice(destination.index, 0, removed);
-        const index = newBoards.findIndex(currentBoard => currentBoard._id === boardId);
+        const index = newBoards.findIndex(currentBoard => currentBoard.board_id === boardId);
         setActiveBoardIndex(index);
         boardsContext.setBoards(newBoards);
 
@@ -93,7 +93,7 @@ function BoardsList({ className }: IProps) {
                         >
 
                             {boardsContext.boards.map((board, index) =>
-                                <Draggable key={board._id} draggableId={board._id} index={index}>
+                                <Draggable key={board.board_id} draggableId={board.board_id} index={index}>
                                     {(provided, snapshot) => (
                                         <ListGroup.Item
                                             as="li"
@@ -104,7 +104,7 @@ function BoardsList({ className }: IProps) {
                                             id="board"
                                             {...provided.dragHandleProps}
                                             {...provided.draggableProps}
-                                            onClick={() => router.push(`/boards/${board._id}`)}
+                                            onClick={() => router.push(`/boards/${board.board_id}`)}
                                         >
                                             <span>
                                                 {board.icon} {board.title}

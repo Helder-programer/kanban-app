@@ -53,7 +53,7 @@ function FavoritesBooardsList({ className }: IProps) {
     }, []);
 
     useEffect(() => {
-        const index = boardsContext.favoritesBoards.findIndex(board => board._id === boardId);
+        const index = boardsContext.favoritesBoards.findIndex(board => board.board_id === boardId);
         setActiveBoardIndex(index);
     }, [boardsContext.favoritesBoards, boardId]);
 
@@ -64,7 +64,7 @@ function FavoritesBooardsList({ className }: IProps) {
 
         if (!destination) return;
         newFavoritesBoards.splice(destination.index, 0, removed);
-        const index = newFavoritesBoards.findIndex(board => board._id === boardId);
+        const index = newFavoritesBoards.findIndex(board => board.board_id === boardId);
         setActiveBoardIndex(index);
         boardsContext.setFavoritesBoards(newFavoritesBoards);
 
@@ -88,7 +88,7 @@ function FavoritesBooardsList({ className }: IProps) {
                         >
 
                             {boardsContext.favoritesBoards.map((board, index) =>
-                                <Draggable key={board._id} draggableId={board._id} index={index}>
+                                <Draggable key={board.board_id} draggableId={board.board_id} index={index}>
                                     {(provided, snapshot) => (
                                         <ListGroup.Item
                                             as="li"
@@ -99,7 +99,7 @@ function FavoritesBooardsList({ className }: IProps) {
                                             id="board"
                                             {...provided.dragHandleProps}
                                             {...provided.draggableProps}
-                                            onClick={() => router.push(`/boards/${board._id}`)}
+                                            onClick={() => router.push(`/boards/${board.board_id}`)}
                                         >
                                             <span>
                                                 {board.icon} {board.title}

@@ -1,10 +1,12 @@
+import { IBoard } from "./IBoard";
 import { ITask } from "./ITask";
 
 export interface ISection {
-    _id: string;
+    section_id: string;
     title: string;
-    board: string;
+    created_at: string;
+    updated_at: string;
+    board_id: string;
     tasks: ITask[];
-    createdAt: string;
-    updatedAt: string;
+    board?: IBoard;
 }

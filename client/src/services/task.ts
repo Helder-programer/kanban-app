@@ -18,6 +18,7 @@ interface IUpdateTaskParams {
 interface IDeleteTaskParams {
     boardId: string;
     taskId: string;
+    sectionId: string;
 }
 
 interface IUpdateTasksPositionsParams {
@@ -35,7 +36,7 @@ export const taskService = {
     },
 
     update: async function (data: IUpdateTaskParams) {
-        const response = await api.put<ITask>(`/boards/${data.boardId}/sections/tasks/${data.taskId}`, {
+        const response = await api.put<ITask>(`/boards/${data.boardId}/sections/${data.sectionId}/tasks/${data.taskId}`, {
             title: data.title,
             content: data.content,
             color: data.color
@@ -44,7 +45,7 @@ export const taskService = {
     },
 
     deleteTask: async function (data: IDeleteTaskParams) {
-        const response = await api.delete(`/boards/${data.boardId}/sections/${data}/tasks/${data.taskId}`,);
+        const response = await api.delete(`/boards/${data.boardId}/sections/${data.sectionId}/tasks/${data.taskId}`,);
         return response.data;
     },
     updateTasksPositions: async function ({ boardId, destinationSectionId, destinationTasksList, sourceSectionId, sourceTasksList }: IUpdateTasksPositionsParams) {

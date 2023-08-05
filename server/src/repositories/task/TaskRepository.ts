@@ -116,7 +116,6 @@ export class TaskRepository implements ITaskRepository {
             for (let key in sourceTasksList) {
                 await Task.update(
                     {
-                        section_id: sourceSectionId,
                         position: Number(key)
                     },
                     {
@@ -131,11 +130,12 @@ export class TaskRepository implements ITaskRepository {
         for (let key in destinationTasksList) {
             await Task.update(
                 {
+                    section_id: destinationSectionId,
                     position: Number(key)
                 },
                 {
                     where: {
-                        task_id: sourceTasksList[key].task_id
+                        task_id: destinationTasksList[key].task_id
                     }
                 }
             );

@@ -19,7 +19,7 @@ function Home() {
         try {
             const newBoard = await boardService.createBoard();
             boardsContext.setBoards(state => [...state, newBoard]);
-            router.push(`/boards/${newBoard._id}`);
+            router.push(`/boards/${newBoard.board_id}`);
         } catch (err: any) {
             console.log(err);
         }
@@ -53,14 +53,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const boards = response.data;
 
 
-
-
-
-
     if (boards.length > 0)
         return {
             redirect: {
-                destination: `/boards/${boards[0]._id}`,
+                destination: `/boards/${boards[0].board_id}`,
                 permanent: false
             }
         }

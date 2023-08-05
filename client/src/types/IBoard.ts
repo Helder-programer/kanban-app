@@ -1,15 +1,17 @@
 import { ISection } from "./ISection";
+import { IUser } from "./IUser";
 
 export interface IBoard {
-    _id: string;
+    board_id: string;
     icon: string;
     title: string;
     description: string;
     position: number;
     favorite: boolean;
-    favoritePosition: number;
-    user: string;
+    favorite_position: number;
+    created_at: string;
+    updated_at: string;
+    user_id: string;
     sections: ISection[];
-    createdAt: string;
-    updatedAt: string;
+    user?: IUser;
 }

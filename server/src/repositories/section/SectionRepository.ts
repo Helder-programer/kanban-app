@@ -26,7 +26,7 @@ export class SectionRepository implements ISectionRepository {
             section_id: sectionId,
             board_id: data.boardId
         });
-
+        
         return newSection;
     }
 
@@ -69,6 +69,8 @@ export class SectionRepository implements ISectionRepository {
         });
 
         if (!sectionToDelete) throw new NotFoundError('Section not found!');
+
+        sectionToDelete.destroy();
     }
 
 }

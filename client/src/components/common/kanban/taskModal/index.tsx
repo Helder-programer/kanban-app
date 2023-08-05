@@ -43,7 +43,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
 
         timer = setTimeout(async () => {
             try {
-                await taskService.update({ boardId, taskId: currentTask._id, title: newTitle });
+                await taskService.update({ boardId, taskId: currentTask.task_id, title: newTitle, sectionId: currentTask.section_id });
             } catch (err: any) {
                 console.log(err);
             }
@@ -62,7 +62,12 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
 
             timer = setTimeout(async () => {
                 try {
-                    await taskService.update({ boardId, content, taskId: currentTask._id });
+                    await taskService.update({
+                        boardId,
+                        content,
+                        taskId: currentTask.task_id,
+                        sectionId: currentTask.section_id
+                    });
                 } catch (err: any) {
                     console.log(err);
                 }
@@ -80,7 +85,11 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
 
         timer = setTimeout(async () => {
             try {
-                await taskService.update({ taskId: currentTask._id, boardId, color });
+                await taskService.update({ 
+                    taskId: currentTask.task_id, 
+                    boardId, color,
+                    sectionId: currentTask.section_id
+                 });
             } catch (err: any) {
                 console.log(err);
             }
@@ -91,7 +100,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
         setTaskTitle(currentTask?.title);
         setTaskContent(currentTask?.content);
         setTaskColor(currentTask?.color);
-    }, [currentTask?._id]);
+    }, [currentTask?.task_id]);
 
     const handleClose = () => {
         setCurrentTask(undefined);
@@ -140,7 +149,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
                         </i>
                     </div>
                     <div className="ps-1">
-                        <span className="text-custom-white small-text">{currentTask ? moment(currentTask.createdAt).format('DD/MM/YYYY') : ''}</span>
+                        <span className="text-custom-white small-text">{currentTask ? moment(currentTask.created_at).format('DD/MM/YYYY') : ''}</span>
                         <span className="text-white small-text d-flex align-items-center gap-2">
                             Color:
                             <div id="color-picker">

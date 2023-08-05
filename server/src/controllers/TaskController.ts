@@ -10,7 +10,7 @@ export class TaskController {
     }
 
     public async create(req: Request, res: Response) {
-        const { sectionId } = req.body;
+        const { sectionId } = req.params;
         const userId = req.user!.user_id;
 
         const newTask = await this.repository.create({ sectionId, userId });
@@ -29,10 +29,10 @@ export class TaskController {
     }
 
     public async deleteTask(req: Request, res: Response) {
-        const { taskId, sectionId } = req.params;
+        const { taskId } = req.params;
         const userId = req.user!.user_id;
 
-        await this.repository.deleteTask({ taskId, userId, sectionId });
+        await this.repository.deleteTask({ taskId, userId });
 
         res.status(200).json({ message: 'Task succesfully deleted' });
     }

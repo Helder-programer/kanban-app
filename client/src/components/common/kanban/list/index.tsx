@@ -31,10 +31,10 @@ function List({
             <DragDropContext onDragEnd={onDragEnd}>
                 {
                     sections.map(section => (
-                        <Droppable key={section._id} droppableId={section._id} direction="vertical">
+                        <Droppable key={section.section_id} droppableId={section.section_id} direction="vertical">
                             {(provided) => (
                                 <div
-                                    key={section._id}
+                                    key={section.section_id}
                                     className="section p-3 bg-custom-black border border-custom-black-light shadow rounded mb-3"
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}
@@ -45,12 +45,12 @@ function List({
                                             className="outline-0 bg-transparent w-100 border-0 text-custom-white"
                                             value={section.title}
                                             placeholder="Untitled"
-                                            onChange={event => updateSection(event, section._id)}
+                                            onChange={event => updateSection(event, section.section_id)}
                                         />
                                         <i
                                             className="fs-5 mx-2 text-custom-white"
                                             style={{ cursor: 'pointer' }}
-                                            onClick={event => createTask(section._id)}
+                                            onClick={event => createTask(section.section_id)}
                                         >
 
                                             <BsPlusLg id="add-task-icon" />
@@ -58,14 +58,14 @@ function List({
                                         <i
                                             className="fs-6 text-custom-white"
                                             style={{ cursor: 'pointer' }}
-                                            onClick={() => deleteSection(section._id)}
+                                            onClick={() => deleteSection(section.section_id)}
                                         >
                                             <FaTrash id="delete-task-icon" />
                                         </i>
                                     </div>
 
-                                    {section.tasks.map((task, index) =>
-                                        <Draggable draggableId={task._id} key={task._id} index={index}>
+                                    {section.tasks && section.tasks.map((task, index) =>
+                                        <Draggable draggableId={task.task_id} key={task.task_id} index={index}>
                                             {(provided, snapshot) => (
                                                 <div
                                                     ref={provided.innerRef}

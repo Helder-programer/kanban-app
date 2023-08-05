@@ -61,17 +61,21 @@ export class BoardRepository implements IBoardRepostiory {
             include: {
                 model: Section,
                 as: 'sections',
-                include: [Task],
-                required: true
+                include: [Task]             
             }
         });
 
         if (!searchedBoard) throw new NotFoundError('Board not found!');
 
-        console.log(searchedBoard);
+        searchedBoard.sections.forEach(section => {
+            section.tasks.sort((a, b) => {
+                if (a.position > b.position) return 1;
+                if (a.position < b.position) return -1;
+                return 0
+            });
+        })
+
         return searchedBoard!;
-
-
     }
 
     public async updateBoardsPositions(data: IUpdateBoardsPositionsDTO) {

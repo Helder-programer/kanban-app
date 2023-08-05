@@ -26,16 +26,16 @@ function Board() {
     const boardsContext = useBoards();
     const router = useRouter();
     const boardId = String(router.query['boardId']);
-
+    
     const deleteBoard = async () => {
         await boardService.deleteBoard({ boardId });
 
         const newBoards = [...boardsContext.boards];
-        const index = newBoards.findIndex(board => board._id === boardId);
+        const index = newBoards.findIndex(board => board.board_id === boardId);
         newBoards.splice(index, 1);
 
         const newFavoritesBoards = [...boardsContext.favoritesBoards];
-        const favoriteIndex = newFavoritesBoards.findIndex(board => board._id === boardId);
+        const favoriteIndex = newFavoritesBoards.findIndex(board => board.board_id === boardId);
         newFavoritesBoards.splice(favoriteIndex, 1);
 
         boardsContext.setBoards(newBoards);
@@ -52,21 +52,21 @@ function Board() {
 
 
         if (newBoards.length > 0)
-            return router.push(`/boards/${newBoards[0]._id}`);
+            return router.push(`/boards/${newBoards[0].board_id}`);
         else
             return router.push('/');
     }
 
     const onIconChange = async (newIcon: string) => {
         let newBoards = [...boardsContext.boards];
-        const index = newBoards.findIndex(board => board._id === boardId);
+        const index = newBoards.findIndex(board => board.board_id === boardId);
         newBoards[index].icon = newIcon;
         boardsContext.setBoards(newBoards);
 
 
         if (currentBoardInformations.favorite) {
             let newFavoritesBoards = [...boardsContext.favoritesBoards];
-            const index = newFavoritesBoards.findIndex(board => board._id === boardId);
+            const index = newFavoritesBoards.findIndex(board => board.board_id === boardId);
             newFavoritesBoards[index].icon = newIcon;
             boardsContext.setFavoritesBoards(newFavoritesBoards);
         }
@@ -88,14 +88,14 @@ function Board() {
         setCurrentBoardInformations({ ...currentBoardInformations, title: newTitle });
 
         let newBoards = [...boardsContext.boards];
-        const index = newBoards.findIndex(board => board._id === boardId);
+        const index = newBoards.findIndex(board => board.board_id === boardId);
         newBoards[index].title = newTitle;
 
         boardsContext.setBoards(newBoards);
 
         if (currentBoardInformations.favorite) {
             let newFavoritesBoards = [...boardsContext.favoritesBoards];
-            const index = newFavoritesBoards.findIndex(board => board._id === boardId);
+            const index = newFavoritesBoards.findIndex(board => board.board_id === boardId);
             newFavoritesBoards[index] = { ...newFavoritesBoards[index], title: newTitle };
             boardsContext.setFavoritesBoards(newFavoritesBoards);
         }
@@ -143,7 +143,7 @@ function Board() {
         if (isFavorite)
             newFavoritesBoards = [...newFavoritesBoards, board];
         else {
-            const index = newFavoritesBoards.findIndex(board => board._id === boardId);
+            const index = newFavoritesBoards.findIndex(board => board.board_id === boardId);
             newFavoritesBoards.splice(index, 1);
         }
 

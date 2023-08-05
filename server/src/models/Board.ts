@@ -21,6 +21,7 @@ export default class Board extends Model<Partial<IBoard>> implements IBoard {
 
     @Column({
         type: DataType.STRING,
+        defaultValue: '📝'
     })
     declare icon: string;
 
