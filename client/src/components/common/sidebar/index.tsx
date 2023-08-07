@@ -36,6 +36,15 @@ function Sidebar({ className }: IProps) {
 
     return (
         <div className={className}>
+
+            <input
+                type="checkbox"
+                className="d-none"
+                id="checkbox-to-nav"
+            />
+
+            <label id="bar-open-nav" htmlFor="checkbox-to-nav"></label>
+
             <label
                 id="open-nav"
                 htmlFor="checkbox-to-nav"
@@ -49,20 +58,12 @@ function Sidebar({ className }: IProps) {
                 }
             </label>
 
-            <input
-                type="checkbox"
-                className="d-none"
-                id="checkbox-to-nav"
-            />
-
-            <label id="bar-open-nav" htmlFor="checkbox-to-nav"></label>
-
             <nav className='bg-custom-black-light'>
 
                 <ListGroup className="w-100" as="ul">
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 pt-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-center align-items-center"
+                        className="border-0 px-3 pt-3 text-white bg-transparent rounded-0 d-flex justify-content-center align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -71,7 +72,7 @@ function Sidebar({ className }: IProps) {
 
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 pt-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
+                        className="border-0 px-3 pt-3 text-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -87,7 +88,7 @@ function Sidebar({ className }: IProps) {
 
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
+                        className="border-0 px-3 text-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -96,7 +97,7 @@ function Sidebar({ className }: IProps) {
                     </ListGroup.Item>
                     <ListGroup.Item
                         as="li"
-                        className="border-0 p-0 text-white bg-custom-black-light rounded-0"
+                        className="border-0 p-0 text-white bg-transparent rounded-0"
                     >
 
                         <FavoritesBoardsList />
@@ -106,7 +107,7 @@ function Sidebar({ className }: IProps) {
 
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 text-white bg-custom-black-light rounded-0 d-flex justify-content-between align-items-center"
+                        className="border-0 px-3 text-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -173,13 +174,12 @@ const StyledSidebar = styled(Sidebar)`
         position: absolute;
         height: 100%;
         width: 20px;
-        background-color: #333;
         z-index: 9998;
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-
         &:hover {
             background-color: #6b6b6b;
+            &~#open-nav {
+                background-color: #6b6b6b;
+            }
         }
     }
 
@@ -189,9 +189,15 @@ const StyledSidebar = styled(Sidebar)`
         left: calc(100% - 16px);
         border-radius: 50%;
         padding: 0.2rem 0.5rem 0.2rem 0.5rem;
-        background-color: #333;
         z-index: 9999;
         color: #fff;
+    }
+
+
+    #bar-open-nav, #open-nav {
+        position: absolute;
+        background-color: #333;
+        transition: all 0.3s ease-in-out;
         cursor: pointer;
     }
 `;
