@@ -61,7 +61,8 @@ export class BoardRepository implements IBoardRepostiory {
             include: {
                 model: Section,
                 as: 'sections',
-                include: [Task]             
+                include: [Task],
+                required: false            
             }
         });
 

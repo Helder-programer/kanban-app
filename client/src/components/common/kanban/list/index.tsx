@@ -64,7 +64,7 @@ function List({
                                         </i>
                                     </div>
 
-                                    {section.tasks && section.tasks.map((task, index) =>
+                                    {section.tasks.map((task, index) =>
                                         <Draggable draggableId={task.task_id} key={task.task_id} index={index}>
                                             {(provided, snapshot) => (
                                                 <div

@@ -22,12 +22,19 @@ export class SectionRepository implements ISectionRepository {
 
         if (!boardToValidate) throw new NotFoundError('Board not found!');
 
-        const newSection = await Section.create({
+        await Section.create({
             section_id: sectionId,
             board_id: data.boardId
         });
-        
-        return newSection;
+
+        const newSection = await Section.findByPk(sectionId, {
+            include: {
+                model: Task,
+                required: false,
+            }
+        });
+         
+        return newSection!;
     }
 
     public async update({ sectionId, userId, title }: IUpdateSectionDTO) {
