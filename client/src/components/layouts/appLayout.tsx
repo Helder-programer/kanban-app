@@ -11,7 +11,7 @@ interface IProps {
 
 function AppLayout({ className, children }: IProps) {
     return (
-        <div className={`${className} bg-custom-black`}>
+        <div className={className}>
             <Sidebar />
             {children}
         </div>
@@ -23,6 +23,7 @@ const StyledAppLayout = styled(AppLayout)`
     height: 100vh;
     width: 100vw;
     display: flex;
+    background-color: ${({theme}) => theme.colors.primary};
 `;
 
 export default StyledAppLayout;

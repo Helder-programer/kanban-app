@@ -63,7 +63,7 @@ function Sidebar({ className }: IProps) {
                 <ListGroup className="w-100" as="ul">
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 pt-3 text-white bg-transparent rounded-0 d-flex justify-content-center align-items-center"
+                        className="border-0 px-3 pt-3 text-custom-white bg-transparent rounded-0 d-flex justify-content-center align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -72,7 +72,7 @@ function Sidebar({ className }: IProps) {
 
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 pt-3 text-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
+                        className="border-0 px-3 pt-3 text-custom-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -88,7 +88,7 @@ function Sidebar({ className }: IProps) {
 
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 text-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
+                        className="border-0 px-3 text-custom-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -97,7 +97,7 @@ function Sidebar({ className }: IProps) {
                     </ListGroup.Item>
                     <ListGroup.Item
                         as="li"
-                        className="border-0 p-0 text-white bg-transparent rounded-0"
+                        className="border-0 p-0 text-custom-white bg-transparent rounded-0"
                     >
 
                         <FavoritesBoardsList />
@@ -107,7 +107,7 @@ function Sidebar({ className }: IProps) {
 
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 text-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
+                        className="border-0 px-3 text-custom-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -122,7 +122,7 @@ function Sidebar({ className }: IProps) {
 
                     <ListGroup.Item
                         as="li"
-                        className="border-0 p-0 text-white bg-custom-black-light rounded-0"
+                        className="border-0 p-0 text-custom-white bg-transparent rounded-0"
                     >
 
                         <BoardsList />

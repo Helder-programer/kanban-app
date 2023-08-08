@@ -4,6 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
+import styled from 'styled-components';
 
 import { boardService } from "@/services/board";
 import { useBoards } from '@/contexts/boards';
@@ -204,7 +205,7 @@ function Board() {
                             <EmojiPicker icon={currentBoardInformations.icon} onChange={onIconChange} />
                             <input
                                 value={currentBoardInformations.title}
-                                className="w-100 bg-custom-black border-0 fs-2 text-custom-white p-0 outline-none fw-bold"
+                                className="w-100 border-0 fs-2 p-0 outline-none fw-bold"
                                 style={{ outline: 'none' }}
                                 placeholder="Untitled"
                                 type="text"
@@ -232,9 +233,11 @@ function Board() {
         </AppLayout>
     );
 }
+
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { 'kanban-token': token } = parseCookies(ctx);
-
+    
     if (!token)
         return {
             redirect: {
@@ -242,7 +245,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
                 permanent: false
             }
         }
-
 
     return {
         props: {}

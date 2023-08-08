@@ -35,20 +35,20 @@ function List({
                             {(provided) => (
                                 <div
                                     key={section.section_id}
-                                    className="section p-3 bg-custom-black border border-custom-black-light shadow rounded mb-3"
+                                    className="section p-3 border border-custom-black-light shadow rounded mb-3"
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}
                                 >
                                     <div className="d-flex w-100 justify-content-between align-items-center mb-3">
                                         <input
                                             type="text"
-                                            className="outline-0 bg-transparent w-100 border-0 text-custom-white"
+                                            className="outline-0 bg-transparent w-100 border-0"
                                             value={section.title}
                                             placeholder="Untitled"
                                             onChange={event => updateSection(event, section.section_id)}
                                         />
                                         <i
-                                            className="fs-5 mx-2 text-custom-white"
+                                            className="fs-5 mx-2"
                                             style={{ cursor: 'pointer' }}
                                             onClick={event => createTask(section.section_id)}
                                         >
@@ -56,7 +56,7 @@ function List({
                                             <BsPlusLg id="add-task-icon" />
                                         </i>
                                         <i
-                                            className="fs-6 text-custom-white"
+                                            className="fs-6"
                                             style={{ cursor: 'pointer' }}
                                             onClick={() => deleteSection(section.section_id)}
                                         >
