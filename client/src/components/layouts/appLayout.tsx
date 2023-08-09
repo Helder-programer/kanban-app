@@ -21,8 +21,9 @@ function AppLayout({ className, children }: IProps) {
 
 const StyledAppLayout = styled(AppLayout)`
     height: 100vh;
-    width: 100vw;
+    max-width: 100vw;
     display: flex;
+    overflow: hidden;
     background-color: ${({theme}) => theme.colors.primary};
 `;
 

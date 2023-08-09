@@ -103,7 +103,7 @@ function List({
 }
 
 const StyledList = styled(List)`
-    max-width: calc(100vw - 150px);
+    width: 100%;
     display: flex;
     overflow: auto;
     align-items: flex-start;

@@ -33,11 +33,11 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     ::-webkit-scrollbar-thumb {
-        background-color: $custom-black-light;
+        background-color: #333;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background-color: $custom-black-light;
+        background-color: #333;
     }
 
 `;

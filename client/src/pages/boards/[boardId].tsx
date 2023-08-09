@@ -27,7 +27,7 @@ function Board() {
     const boardsContext = useBoards();
     const router = useRouter();
     const boardId = String(router.query['boardId']);
-    
+
     const deleteBoard = async () => {
         await boardService.deleteBoard({ boardId });
 
@@ -179,7 +179,7 @@ function Board() {
 
     return (
         <AppLayout>
-            <main className="px-2 py-3 d-flex flex-column w-100 h-100">
+            <main className="px-2 py-3 d-flex flex-column h-100" style={{ width: '100%', overflow: 'hidden' }}>
                 <section className="d-flex w-100 justify-content-between mb-3 px-2" id='board-content'>
                     <i
                         className="text-custom-yellow"
@@ -214,9 +214,9 @@ function Board() {
                         </div>
                         <input
                             value={currentBoardInformations.description}
-                            className="w-100 mt-3 bg-transparent border-0 text-custom-white p-0 outline-none ps-5"
+                            className="w-100 mt-3 bg-transparent border-0 p-0 outline-none ps-5"
                             style={{ outline: 'none', resize: 'none' }}
-                            placeholder="Add description here..."                        
+                            placeholder="Add description here..."
                             onChange={updateDescription}
                         />
                     </section>
@@ -237,7 +237,7 @@ function Board() {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { 'kanban-token': token } = parseCookies(ctx);
-    
+
     if (!token)
         return {
             redirect: {

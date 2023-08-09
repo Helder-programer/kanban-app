@@ -11,10 +11,12 @@ export const light = {
 
 
 export const dark = {
-    name: 'light-theme',
+    name: 'dark-theme',
     colors: {
         primary: '#141214',
         secondary: '#333333',
         text: '#EEE',
+        section: '#141214',
+        task: '#333333'
     }
 }

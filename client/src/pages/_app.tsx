@@ -1,20 +1,18 @@
-import { AuthProvider } from '@/contexts/auth';
 import type { AppProps } from 'next/app';
-import '../styles/global.scss';
+
+import { AuthProvider } from '@/contexts/auth';
+import { ThemeContextProvider } from '@/contexts/theme';
 import { BoardsContextProvider } from '@/contexts/boards';
-import { ThemeProvider, ThemeContext } from 'styled-components';
-import { light } from '@/styles/theme.styled';
-import { GlobalStyles } from '@/styles/global';
+import '../styles/global.scss';
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <AuthProvider>
-            <ThemeProvider theme={light}>
+            <ThemeContextProvider>
                 <BoardsContextProvider>
                     <Component {...pageProps} />
-                    <GlobalStyles/>
                 </BoardsContextProvider>
-            </ThemeProvider>
+            </ThemeContextProvider>
         </AuthProvider>
-    )
+    );
 }

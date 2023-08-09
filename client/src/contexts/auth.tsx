@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { setCookie, destroyCookie, parseCookies } from "nookies";
-import { IUser } from "../types/IUser";
-import { authService } from "@/services/auth";
 import Router from "next/router";
+
+import { IUser } from "../types/IUser";
+import { light, dark } from "@/styles/theme.styled";
+import { authService } from "@/services/auth";
 
 interface IAuthContext {
     signIn: (email: string, password: string) => Promise<void>;
@@ -38,6 +40,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setCookie(undefined, 'kanban-token', token, {
             maxAge: 60 * 60 * 1 //1 hour
         });
+
+        setCookie(undefined, 'kanban-theme', JSON.stringify(light));
 
         setUser(user);
         Router.push('/');
