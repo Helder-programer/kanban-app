@@ -35,14 +35,14 @@ function List({
                             {(provided) => (
                                 <div
                                     key={section.section_id}
-                                    className="section p-3 border border-custom-black-light shadow rounded mb-3"
+                                    className="section p-3 shadow-sm rounded mb-3"
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}
                                 >
                                     <div className="d-flex w-100 justify-content-between align-items-center mb-3">
                                         <input
                                             type="text"
-                                            className="outline-0 bg-transparent w-100 border-0"
+                                            className="outline-0 bg-transparent w-100 fw-bold border-0"
                                             value={section.title}
                                             placeholder="Untitled"
                                             onChange={event => updateSection(event, section.section_id)}
@@ -72,8 +72,8 @@ function List({
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}>
                                                     <div
-                                                        className={`task rounded shadow mt-3 ${snapshot.isDragging ? 'task-dragging': ''}`}
-                                                        onClick={() => setCurrentTask(task)}                                                    
+                                                        className={`task rounded shadow mt-3 ${snapshot.isDragging ? 'task-dragging' : ''}`}
+                                                        onClick={() => setCurrentTask(task)}
                                                     >
                                                         <div
                                                             style={{
@@ -84,7 +84,7 @@ function List({
                                                             className="rounded-top w-100"
                                                         ></div>
                                                         <div className="p-3">
-                                                            <span className="text-custom-white d-block fw-semibold">{task.title ? task.title : 'Untitled'}</span>
+                                                            <span className="d-block fw-semibold">{task.title ? task.title : 'Untitled'}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -113,11 +113,12 @@ const StyledList = styled(List)`
     .section {
         width: 300px;
         min-width: 300px;
+        background-color: ${({ theme }) => theme.colors.section};
     }
 
     .task {
-        color: #fff;
-        background-color: #333;
+        color: ${({ theme }) => theme.colors.text};
+        background-color: ${({ theme }) => theme.colors.task};
     }
 
     .task-dragging {
@@ -137,7 +138,6 @@ const StyledList = styled(List)`
     input[type=text] {
         outline: none;
     }
-
 `;
 
 

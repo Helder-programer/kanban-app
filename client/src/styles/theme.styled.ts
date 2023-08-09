@@ -4,6 +4,8 @@ export const light = {
         primary: '#FFFFFF',
         secondary: '#141214',
         text: '#333333',
+        section: '#EBECF0',
+        task: '#FFFFFF'
     }
 }
 

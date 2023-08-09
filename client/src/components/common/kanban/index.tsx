@@ -164,12 +164,12 @@ function Kanban({ sections, setSections, boardId }: IProps) {
                     Add Section
                 </Button>
 
-                <span className="text-custom-white pe-4">
+                <span className="pe-4">
                     {sections.length}  Sections
                 </span>
 
             </section>
-            <hr className="text-white mt-1" />
+            <hr className="mt-1" />
             <List
                 createTask={createTask}
                 deleteSection={deleteSection}
