@@ -35,13 +35,8 @@ export class BoardRepository implements IBoardRepostiory {
         const boards = await Board.findAll({
             where: {
                 user_id: data.userId
-            }
-        });
-
-        boards.sort((a, b) => {
-            if (a.position > b.position) return 1;
-            if (a.position < b.position) return -1;
-            return 0;
+            },
+            order: [['position', 'ASC']]
         });
 
         return boards;
@@ -62,10 +57,11 @@ export class BoardRepository implements IBoardRepostiory {
                 {
                     model: Section,
                     as: 'sections',
-                    include: [{ model: Task, order: [['position', 'ASC']] }],
+                    include: [{ model: Task, as: 'tasks' }],
                     required: false,
                 }
-            ]
+            ],
+            order: [[sequelize.col('sections.tasks.position'), 'ASC'], [sequelize.col('sections.created_at'), 'ASC']]
         });
 
         if (!searchedBoard) throw new NotFoundError('Board not found!');
@@ -143,7 +139,7 @@ export class BoardRepository implements IBoardRepostiory {
                 favorite: true,
                 board_id: { [Op.not]: boardId }
             },
-            order: ['favorite_position']
+            order: [['favorite_position', 'ASC']]
         });
 
         return favoritesBoards;
