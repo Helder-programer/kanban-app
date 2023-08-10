@@ -161,7 +161,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
                 <Button
                     variant="none"
 
-                    className={`${theme.name === 'dark-theme' ? 'btn-outline-custom-black-light' : ''}  text-primary border-0`}
+                    className={`${theme.name === 'dark-theme' ? 'btn-outline-custom-black-light text-primary' : ''}`}
                     onClick={createSection}
                 >
                     Add Section

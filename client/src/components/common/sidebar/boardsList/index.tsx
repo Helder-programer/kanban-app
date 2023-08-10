@@ -97,7 +97,7 @@ function BoardsList({ className }: IProps) {
                                     {(provided, snapshot) => (
                                         <ListGroup.Item
                                             as="li"
-                                            className={`${index === activeBoardIndex ? 'active' : 'bg-transparent'} border-0 px-3 text-white rounded-0 d-flex justify-content-between align-items-center`}
+                                            className={`${index === activeBoardIndex ? 'active' : 'bg-transparent'} text border-0 px-3 rounded-0 d-flex justify-content-between align-items-center`}
                                             key={index}
                                             ref={provided.innerRef}
                                             style={{ cursor: snapshot.isDragging ? 'grab' : 'pointer !important' }}
@@ -107,7 +107,7 @@ function BoardsList({ className }: IProps) {
                                             onClick={() => router.push(`/boards/${board.board_id}`)}
                                         >
                                             <span>
-                                                {board.icon} {board.title}
+                                                {board.icon} {board.title ? board.title : 'Untitled'}
                                             </span>
                                         </ListGroup.Item>
                                     )}

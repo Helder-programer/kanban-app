@@ -40,7 +40,7 @@ function Sidebar({ className }: IProps) {
 
     return (
         <div className={className}>
-
+            {/* Checkbox Hacking */}
             <input
                 type="checkbox"
                 className="d-none"
@@ -51,6 +51,7 @@ function Sidebar({ className }: IProps) {
 
             <label
                 id="open-nav"
+                className="text"
                 htmlFor="checkbox-to-nav"
                 onClick={() => setIsOpen(!isOpen)}
             >
@@ -62,7 +63,7 @@ function Sidebar({ className }: IProps) {
                 }
             </label>
 
-            <nav className='bg-custom-black-light'>
+            <nav>
                 <i className="theme-icon">
                     {
                         theme.name === 'dark-theme' ? <BsFillSunFill
@@ -77,7 +78,7 @@ function Sidebar({ className }: IProps) {
                 <ListGroup className="w-100" as="ul">
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 pt-3 text-custom-white bg-transparent rounded-0 d-flex justify-content-center align-items-center"
+                        className="border-0 text px-3 pt-3 bg-transparent rounded-0 d-flex justify-content-center align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -86,7 +87,7 @@ function Sidebar({ className }: IProps) {
 
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 pt-3 text-custom-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
+                        className="border-0 text px-3 pt-3 bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -98,11 +99,11 @@ function Sidebar({ className }: IProps) {
                             onClick={() => auth.logout()}
                         />
                     </ListGroup.Item>
-                    <hr className="text-custom-white my-2" />
+                    <hr className="text my-0" />
 
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 text-custom-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
+                        className="border-0 text px-3 bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -111,17 +112,17 @@ function Sidebar({ className }: IProps) {
                     </ListGroup.Item>
                     <ListGroup.Item
                         as="li"
-                        className="border-0 p-0 text-custom-white bg-transparent rounded-0"
+                        className="border-0 p-0 bg-transparent rounded-0"
                     >
 
                         <FavoritesBoardsList />
 
                     </ListGroup.Item>
-                    <hr className="text-custom-white my-2" />
+                    <hr className="text my-0" />
 
                     <ListGroup.Item
                         as='li'
-                        className="border-0 px-3 text-custom-white bg-transparent rounded-0 d-flex justify-content-between align-items-center"
+                        className="border-0 px-3 text bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                         action
                         style={{ cursor: 'default' }}
                     >
@@ -140,7 +141,7 @@ function Sidebar({ className }: IProps) {
                         id="board-list"
                     >
 
-                        <BoardsList />
+                        <BoardsList />                
 
                     </ListGroup.Item>
 
@@ -154,6 +155,7 @@ const StyledSidebar = styled(Sidebar)`
     position: relative;
 
     nav {
+        background-color: ${({theme}) => theme.colors.sidebar};
         position: relative;
         width: 15px;
         overflow: hidden;
@@ -184,9 +186,37 @@ const StyledSidebar = styled(Sidebar)`
         }
     }
 
+    
+    .theme-icon {
+        position: absolute;
+        top: calc(100vh - 30px);
+        left: 5px;
+        
+        svg {
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 9999;
+        }
+    }
+
+    #open-nav {
+        top: 10px;
+        left: calc(100% - 16px);
+        border-radius: 50%;
+        padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+        z-index: 8999;
+    }
+
+
+    #bar-open-nav, #open-nav {
+        position: absolute;
+        background-color: ${({theme}) => theme.colors.sidebar};
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
     #bar-open-nav {
         left: 0;
-        position: absolute;
         height: 100%;
         width: 20px;
         z-index: 8997;
@@ -198,44 +228,12 @@ const StyledSidebar = styled(Sidebar)`
         }
     }
 
-    .theme-icon {
-        position: absolute;
-        top: calc(100vh - 30px);
-        left: 5px;
-        
-        svg {
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 9999;
-            /* background-color: blue; */
-
-        }
-    }
-
-    #open-nav {
-        position: absolute;
-        top: 10px;
-        left: calc(100% - 16px);
-        border-radius: 50%;
-        padding: 0.2rem 0.5rem 0.2rem 0.5rem;
-        z-index: 8999;
-        color: #fff;
-    }
-
-
-    #bar-open-nav, #open-nav {
-        position: absolute;
-        background-color: #333;
-        transition: all 0.3s ease-in-out;
-        cursor: pointer;
-    }
-
 
     #board-list {
         max-height: 70%;
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
-
 `;
 
 export default StyledSidebar;
