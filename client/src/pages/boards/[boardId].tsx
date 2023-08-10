@@ -205,7 +205,7 @@ function Board() {
                             <EmojiPicker icon={currentBoardInformations.icon} onChange={onIconChange} />
                             <input
                                 value={currentBoardInformations.title}
-                                className="w-100 border-0 fs-2 p-0 outline-none fw-bold"
+                                className="w-100 border-0 bg-transparent fs-2 p-0 outline-none fw-bold text"
                                 style={{ outline: 'none' }}
                                 placeholder="Untitled"
                                 type="text"
@@ -214,7 +214,7 @@ function Board() {
                         </div>
                         <input
                             value={currentBoardInformations.description}
-                            className="w-100 mt-3 bg-transparent border-0 p-0 outline-none ps-5"
+                            className="w-100 mt-3 bg-transparent border-0 p-0 outline-none ps-5 text"
                             style={{ outline: 'none', resize: 'none' }}
                             placeholder="Add description here..."
                             onChange={updateDescription}

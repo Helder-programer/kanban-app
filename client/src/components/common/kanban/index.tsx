@@ -6,6 +6,7 @@ import { ISection } from "@/types/ISection";
 import { sectionService } from "@/services/section";
 import { taskService } from "@/services/task";
 import { ITask } from "@/types/ITask";
+import { useTheme } from "@/contexts/theme";
 import TaskModal from "./taskModal";
 import List from "./list";
 
@@ -19,10 +20,11 @@ interface IProps {
 
 function Kanban({ sections, setSections, boardId }: IProps) {
     const [currentTask, setCurrentTask] = useState<ITask | undefined>(undefined);
+    const { theme, setTheme } = useTheme();
 
     const createSection = async () => {
         try {
-            const newSection = await sectionService.create({ boardId });            
+            const newSection = await sectionService.create({ boardId });
             setSections([...sections, newSection]);
         } catch (err: any) {
             console.log(err);
@@ -158,13 +160,14 @@ function Kanban({ sections, setSections, boardId }: IProps) {
             <section className="d-flex w-100 mt-3 justify-content-between align-items-center">
                 <Button
                     variant="none"
-                    className="btn-outline-custom-black-light text-primary border-0"
+
+                    className={`${theme.name === 'dark-theme' ? 'btn-outline-custom-black-light' : ''}  text-primary border-0`}
                     onClick={createSection}
                 >
                     Add Section
                 </Button>
 
-                <span className="pe-4">
+                <span className='pe-4 text'>
                     {sections.length}  Sections
                 </span>
 
@@ -188,5 +191,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
         </>
     );
 }
+
+
 
 export default Kanban;

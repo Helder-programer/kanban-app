@@ -5,7 +5,7 @@ export const light = {
         secondary: '#141214',
         text: '#333333',
         section: '#EBECF0',
-        task: '#FFFFFF'
+        task: '#FFFFFF',
     }
 }
 
@@ -16,7 +16,7 @@ export const dark = {
         primary: '#141214',
         secondary: '#333333',
         text: '#EEE',
-        section: '#141214',
+        section: '#0f0f0f',
         task: '#333333'
     }
 }

@@ -42,13 +42,13 @@ function List({
                                     <div className="d-flex w-100 justify-content-between align-items-center mb-3">
                                         <input
                                             type="text"
-                                            className="outline-0 bg-transparent w-100 fw-bold border-0"
+                                            className="outline-0 bg-transparent w-100 fw-bold border-0 text"
                                             value={section.title}
                                             placeholder="Untitled"
                                             onChange={event => updateSection(event, section.section_id)}
                                         />
                                         <i
-                                            className="fs-5 mx-2"
+                                            className="fs-5 mx-2 text"
                                             style={{ cursor: 'pointer' }}
                                             onClick={event => createTask(section.section_id)}
                                         >
@@ -56,7 +56,7 @@ function List({
                                             <BsPlusLg id="add-task-icon" />
                                         </i>
                                         <i
-                                            className="fs-6"
+                                            className="fs-6 text"
                                             style={{ cursor: 'pointer' }}
                                             onClick={() => deleteSection(section.section_id)}
                                         >
@@ -72,7 +72,7 @@ function List({
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}>
                                                     <div
-                                                        className={`task rounded shadow mt-3 ${snapshot.isDragging ? 'task-dragging' : ''}`}
+                                                        className={`task rounded shadow mt-3 text ${snapshot.isDragging ? 'task-dragging' : ''}`}
                                                         onClick={() => setCurrentTask(task)}
                                                     >
                                                         <div
@@ -117,7 +117,6 @@ const StyledList = styled(List)`
     }
 
     .task {
-        color: ${({ theme }) => theme.colors.text};
         background-color: ${({ theme }) => theme.colors.task};
     }
 

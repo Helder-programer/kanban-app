@@ -8,11 +8,13 @@
     font-family: 'Poppins';
 }
 
-//primary
 $custom-black: #141214;
-$custom-white: #ffffff;
+$custom-white: #eee;
 $custom-black-light: #333;
-//secondary
+$custom-black-one: #0f0f0f;
+$custom-blue: #0d6efd;
+$custom-white-one: #EBECF0;
+
 $custom-green: #008000;
 $custom-red: #a30101;
 $custom-yellow: #ffc107;
@@ -23,7 +25,10 @@ $custom-colors: (
     "custom-white": $custom-white,
     "custom-green": $custom-green,
     "custom-red": $custom-red,
-    "custom-yellow": $custom-yellow
+    "custom-yellow": $custom-yellow,
+    "custom-blue": $custom-blue,
+    "custom-black-one": $custom-black-one,
+    "custom-white-one": $custom-white-one
 );
 
 

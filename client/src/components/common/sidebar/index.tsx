@@ -10,6 +10,9 @@ import { boardService } from '@/services/board';
 import { useBoards } from '@/contexts/boards';
 import BoardsList from './boardsList';
 import FavoritesBoardsList from './favoritesBoardsList';
+import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
+import { light, dark } from '@/styles/theme.styled';
+import { useTheme } from '@/contexts/theme';
 
 
 
@@ -22,6 +25,7 @@ function Sidebar({ className }: IProps) {
     const auth = useAuth();
     const boardsContext = useBoards();
     const [isOpen, setIsOpen] = useState(false);
+    const { theme, setTheme } = useTheme();
     let username = auth.user?.name;
 
     if (username)
@@ -59,7 +63,17 @@ function Sidebar({ className }: IProps) {
             </label>
 
             <nav className='bg-custom-black-light'>
-
+                <i className="theme-icon">
+                    {
+                        theme.name === 'dark-theme' ? <BsFillSunFill
+                            className="text-custom-yellow"
+                            onClick={() => setTheme(light)}
+                        /> : <BsFillMoonFill
+                            className="text-custom-black"
+                            onClick={() => setTheme(dark)}
+                        />
+                    }
+                </i>
                 <ListGroup className="w-100" as="ul">
                     <ListGroup.Item
                         as='li'
@@ -123,6 +137,7 @@ function Sidebar({ className }: IProps) {
                     <ListGroup.Item
                         as="li"
                         className="border-0 p-0 text-custom-white bg-transparent rounded-0"
+                        id="board-list"
                     >
 
                         <BoardsList />
@@ -174,12 +189,26 @@ const StyledSidebar = styled(Sidebar)`
         position: absolute;
         height: 100%;
         width: 20px;
-        z-index: 9998;
+        z-index: 8997;
         &:hover {
             background-color: #6b6b6b;
             &~#open-nav {
                 background-color: #6b6b6b;
             }
+        }
+    }
+
+    .theme-icon {
+        position: absolute;
+        top: calc(100vh - 30px);
+        left: 5px;
+        
+        svg {
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 9999;
+            /* background-color: blue; */
+
         }
     }
 
@@ -189,7 +218,7 @@ const StyledSidebar = styled(Sidebar)`
         left: calc(100% - 16px);
         border-radius: 50%;
         padding: 0.2rem 0.5rem 0.2rem 0.5rem;
-        z-index: 9999;
+        z-index: 8999;
         color: #fff;
     }
 
@@ -200,6 +229,13 @@ const StyledSidebar = styled(Sidebar)`
         transition: all 0.3s ease-in-out;
         cursor: pointer;
     }
+
+
+    #board-list {
+        max-height: 70%;
+        overflow: auto;
+    }
+
 `;
 
 export default StyledSidebar;

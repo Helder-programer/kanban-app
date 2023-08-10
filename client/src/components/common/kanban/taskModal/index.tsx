@@ -129,12 +129,12 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
             size="lg"
             className={className}
         >
-
+            
             <Modal.Header className="border-0">
                 <div className="w-100">
                     <div className="d-flex gap-3 align-items-center mb-2">
                         <input type="text"
-                            className="w-100 bg-transparent border-0 fs-4 text-custom-white p-0 outline-none fw-bold"
+                            className="w-100 bg-transparent border-0 fs-4 p-0 outline-none fw-bold"
                             placeholder="Untitled"
                             style={{ outline: 'none' }}
                             value={taskTitle}
@@ -149,8 +149,8 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
                         </i>
                     </div>
                     <div className="ps-1">
-                        <span className="text-custom-white small-text">{currentTask ? moment(currentTask.created_at).format('DD/MM/YYYY') : ''}</span>
-                        <span className="text-white small-text d-flex align-items-center gap-2">
+                        <span className="text small-text">{currentTask ? moment(currentTask.created_at).format('DD/MM/YYYY') : ''}</span>
+                        <span className="text small-text d-flex align-items-center gap-2">
                             Color:
                             <div id="color-picker">
                                 <input
@@ -203,20 +203,20 @@ const StyledModal = styled(TaskModal)`
 
     .modal-content {
         padding: 2rem;
-        background-color: #333;
+        background-color: ${({theme}) => theme.colors.task};
     }
-
+    
+    
     #task-content-editor {
         height: 40vh;
         overflow-y: auto;
     }
-
+    
     .ql-container {
         border: none;
-        color: #fff;
 
         >.ql-editor::before {
-            color: #fff;
+            color: ${({theme}) => theme.colors.text};
             opacity: 0.3;
         }
     }
@@ -227,11 +227,11 @@ const StyledModal = styled(TaskModal)`
 
         .ql-stroke {
             fill: none;
-            stroke: #fff;
+            stroke: ${({theme}) => theme.colors.text};
         }
 
         .ql-fill {
-            fill: #fff;
+            fill: ${({theme}) => theme.colors.text};
             stroke: none;
         }
 
@@ -241,7 +241,7 @@ const StyledModal = styled(TaskModal)`
         }
         
         .ql-picker-label {
-            color: #fff;
+            color: ${({theme}) => theme.colors.text};
         }
     }
 `;
