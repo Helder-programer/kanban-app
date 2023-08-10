@@ -37,11 +37,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const signIn = async (email: string, password: string) => {
         const { user, token } = await authService.signIn({ email, password });
 
-        setCookie(undefined, 'kanban-token', token, {
-            maxAge: 60 * 60 * 1 //1 hour
+        setCookie({}, 'kanban-token', token, {
+            maxAge: 60 * 60 * 1, //1 hour
+            path: '/'
         });
 
-        setCookie(undefined, 'kanban-theme', JSON.stringify(light));
+        setCookie({}, 'kanban-theme', JSON.stringify(light), {
+            path: '/'
+        });
 
         setUser(user);
         Router.push('/');
@@ -49,8 +52,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const logout = () => {
         setUser(null);
-        destroyCookie(undefined, 'kanban-token');
-        Router.push('/login');
+        destroyCookie({}, 'kanban-token', {
+            path: '/'
+        });
+        Router.reload();    
     }
 
     return (

@@ -125,10 +125,9 @@ function BoardsList({ className }: IProps) {
 const StyledBoardsList = styled(BoardsList)`
     #board {
         font-size: 14px;
-        width: 250px;
-        
+        width: 250px;        
         &:hover {
-            background-color: #6d6d6d !important;
+            background-color: #a09e9e !important;
         }
 
         >span {

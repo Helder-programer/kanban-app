@@ -29,7 +29,9 @@ export function ThemeContextProvider({ children }: { children: ReactNode }) {
 
 
     const handleSetTheme = (theme: any) => {
-        setCookie(undefined, 'kanban-theme', JSON.stringify(theme));
+        setCookie({}, 'kanban-theme', JSON.stringify(theme), {
+            path: '/'
+        });
         setTheme(theme);
     }
 

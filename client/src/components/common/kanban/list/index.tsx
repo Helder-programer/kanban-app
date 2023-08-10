@@ -35,7 +35,7 @@ function List({
                             {(provided) => (
                                 <div
                                     key={section.section_id}
-                                    className="section p-3 shadow-sm rounded mb-3"
+                                    className="section p-3 shadow-sm mb-3"
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}
                                 >
@@ -114,6 +114,7 @@ const StyledList = styled(List)`
         width: 300px;
         min-width: 300px;
         background-color: ${({ theme }) => theme.colors.section};
+        border-radius: 20px;
     }
 
     .task {

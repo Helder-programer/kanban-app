@@ -41,26 +41,10 @@ function Sidebar({ className }: IProps) {
     return (
         <div className={className}>
             {/* Checkbox Hacking */}
-            <input
-                type="checkbox"
-                className="d-none"
-                id="checkbox-to-nav"
-            />
-
+            <input type="checkbox" className="d-none" id="checkbox-to-nav" />
             <label id="bar-open-nav" htmlFor="checkbox-to-nav"></label>
-
-            <label
-                id="open-nav"
-                className="text"
-                htmlFor="checkbox-to-nav"
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                {
-                    isOpen ?
-                        <AiOutlineArrowLeft />
-                        :
-                        <AiOutlineArrowRight />
-                }
+            <label id="open-nav" className="text" htmlFor="checkbox-to-nav" onClick={() => setIsOpen(!isOpen)}>
+                {isOpen ? <AiOutlineArrowLeft /> : <AiOutlineArrowRight />}
             </label>
 
             <nav>
@@ -75,77 +59,59 @@ function Sidebar({ className }: IProps) {
                         />
                     }
                 </i>
-                <ListGroup className="w-100" as="ul">
-                    <ListGroup.Item
-                        as='li'
-                        className="border-0 text px-3 pt-3 bg-transparent rounded-0 d-flex justify-content-center align-items-center"
-                        action
-                        style={{ cursor: 'default' }}
-                    >
-                        <h4 id="title">Hn Kanban</h4>
-                    </ListGroup.Item>
 
-                    <ListGroup.Item
-                        as='li'
-                        className="border-0 text px-3 pt-3 bg-transparent rounded-0 d-flex justify-content-between align-items-center"
-                        action
-                        style={{ cursor: 'default' }}
-                    >
-                        <span className="fw-semibold">{username}</span>
+                <div
+                    className="border-0 text px-3 pt-3 bg-transparent rounded-0 d-flex justify-content-center align-items-center"
+                    style={{ cursor: 'default' }}
+                >
+                    <h4 id="title">Hn Kanban</h4>
+                </div>
 
-                        <BiLogOut
-                            className='fs-5 me-1'
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => auth.logout()}
-                        />
-                    </ListGroup.Item>
-                    <hr className="text my-0" />
+                <div
+                    className="border-0 text px-3 my-2 bg-transparent rounded-0 d-flex justify-content-between align-items-center"
+                    style={{ cursor: 'default' }}
+                >
+                    <span className="fw-semibold">{username}</span>
 
-                    <ListGroup.Item
-                        as='li'
-                        className="border-0 text px-3 bg-transparent rounded-0 d-flex justify-content-between align-items-center"
-                        action
-                        style={{ cursor: 'default' }}
-                    >
-                        <span>Favorites</span>
+                    <BiLogOut
+                        className='fs-5 me-1'
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => auth.logout()}
+                    />
+                </div>
+                <hr className="text m-0" />
 
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        as="li"
-                        className="border-0 p-0 bg-transparent rounded-0"
-                    >
+                <div
+                    className="border-0 text px-3 mt-2 bg-transparent rounded-0 d-flex flex-column align-items-center"
+                    style={{ cursor: 'default' }}
+                >
+                    <span className="align-self-start mb-1">Favorites</span>
 
-                        <FavoritesBoardsList />
+                    <FavoritesBoardsList />
+                </div>
+                <hr className="text m-0" />
 
-                    </ListGroup.Item>
-                    <hr className="text my-0" />
+                <div
+                    className="border-0 px-3 mt-2 text bg-transparent rounded-0 d-flex justify-content-between align-items-center"
+                    style={{ cursor: 'default' }}
+                >
+                    <span className="mb-1">Boards</span>
+                    <AiFillFolderAdd
+                        className="fs-5"
+                        id="new-board-icon"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => createBoard()}
+                    />
+                </div>
 
-                    <ListGroup.Item
-                        as='li'
-                        className="border-0 px-3 text bg-transparent rounded-0 d-flex justify-content-between align-items-center"
-                        action
-                        style={{ cursor: 'default' }}
-                    >
-                        <span>Boards</span>
-                        <AiFillFolderAdd
-                            className="fs-5"
-                            id="new-board-icon"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => createBoard()}
-                        />
-                    </ListGroup.Item>
+                <div
+                    className="border-0 p-0 text-custom-white bg-transparent rounded-0"
+                    id="board-list"
+                >
 
-                    <ListGroup.Item
-                        as="li"
-                        className="border-0 p-0 text-custom-white bg-transparent rounded-0"
-                        id="board-list"
-                    >
+                    <BoardsList />
 
-                        <BoardsList />                
-
-                    </ListGroup.Item>
-
-                </ListGroup>
+                </div>
             </nav>
         </div>
     );
@@ -155,12 +121,11 @@ const StyledSidebar = styled(Sidebar)`
     position: relative;
 
     nav {
-        background-color: ${({theme}) => theme.colors.sidebar};
+        background-color: ${({ theme }) => theme.colors.sidebar};
         position: relative;
         width: 15px;
         overflow: hidden;
         height: 100vh;
-        display: flex;
         transition: width 0.3s ease-in-out;
     }
 
@@ -210,7 +175,7 @@ const StyledSidebar = styled(Sidebar)`
 
     #bar-open-nav, #open-nav {
         position: absolute;
-        background-color: ${({theme}) => theme.colors.sidebar};
+        background-color: ${({ theme }) => theme.colors.sidebar};
         transition: all 0.3s ease-in-out;
         cursor: pointer;
     }
