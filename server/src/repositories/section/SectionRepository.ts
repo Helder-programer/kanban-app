@@ -24,7 +24,8 @@ export class SectionRepository implements ISectionRepository {
 
         await Section.create({
             section_id: sectionId,
-            board_id: data.boardId
+            board_id: data.boardId,
+            title: data.title
         });
 
         const newSection = await Section.findByPk(sectionId, {

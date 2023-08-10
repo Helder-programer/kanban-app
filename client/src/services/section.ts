@@ -3,6 +3,7 @@ import { api } from "./api";
 
 interface ICreateSectionParams {
     boardId: string;
+    title?: string;
 }
 
 interface IDeleteSectionParams {
@@ -18,7 +19,7 @@ interface IUpdateSectionParams {
 
 export const sectionService = {
     create: async function (data: ICreateSectionParams) {
-        const response = await api.post<ISection>(`/boards/${data.boardId}/sections`);
+        const response = await api.post<ISection>(`/boards/${data.boardId}/sections`, { title: data.title });
         return response.data;
     },
     update: async function (data: IUpdateSectionParams) {

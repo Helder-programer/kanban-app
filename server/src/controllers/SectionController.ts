@@ -11,8 +11,9 @@ export class SectionController {
 
     public async create(req: Request, res: Response) {
         const { boardId } = req.params;
+        const { title } = req.body;
         const userId = req.user!.user_id;
-        const section = await this.repository.create({ boardId, userId });
+        const section = await this.repository.create({ boardId, userId, title });
         res.status(200).json(section);
     }
 

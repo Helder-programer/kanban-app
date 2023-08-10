@@ -13,7 +13,7 @@ import { IDeleteBoardDTO } from "./dtos/IDeleteBoardDTO";
 import { IUpdateBoardDTO } from "./dtos/IUpdateBoardDTO";
 import { IFindFavoritesDTO } from "./dtos/IFindFavoritesDTO";
 import { IUpdateFavoritesPositionDTO } from "./dtos/IUpdateFavoritesPositionDTO";
-import { Op } from 'sequelize';
+import sequelize, { Op } from 'sequelize';
 
 export class BoardRepository implements IBoardRepostiory {
 
@@ -58,23 +58,17 @@ export class BoardRepository implements IBoardRepostiory {
                 user_id: data.userId,
                 board_id: data.boardId
             },
-            include: {
-                model: Section,
-                as: 'sections',
-                include: [Task],
-                required: false            
-            }
+            include: [
+                {
+                    model: Section,
+                    as: 'sections',
+                    include: [{ model: Task, order: [['position', 'ASC']] }],
+                    required: false,
+                }
+            ]
         });
 
         if (!searchedBoard) throw new NotFoundError('Board not found!');
-
-        searchedBoard.sections.forEach(section => {
-            section.tasks.sort((a, b) => {
-                if (a.position > b.position) return 1;
-                if (a.position < b.position) return -1;
-                return 0
-            });
-        })
 
         return searchedBoard!;
     }
@@ -148,13 +142,8 @@ export class BoardRepository implements IBoardRepostiory {
                 user_id: userId,
                 favorite: true,
                 board_id: { [Op.not]: boardId }
-            }
-        });
-
-        favoritesBoards.sort((a, b) => {
-            if (a.favorite_position > b.favorite_position) return 1;
-            if (a.favorite_position < b.favorite_position) return -1;
-            return 0;
+            },
+            order: ['favorite_position']
         });
 
         return favoritesBoards;

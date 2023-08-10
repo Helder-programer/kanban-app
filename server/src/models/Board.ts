@@ -1,8 +1,10 @@
-import { Model, DataType, Table, Column, HasMany, BelongsTo, ForeignKey } from "sequelize-typescript";
-import { IBoard } from "./types/IBoard";
+import { Model, DataType, Table, Column, HasMany, BelongsTo, ForeignKey, AfterCreate } from "sequelize-typescript";
+import { v4 as uuidv4 } from "uuid";
+
 import Section from "./Section";
-import { ISection } from "./types/ISection";
 import User from "./User";
+import { IBoard } from "./types/IBoard";
+import { ISection } from "./types/ISection";
 import { IUser } from "./types/IUser";
 
 
@@ -67,4 +69,20 @@ export default class Board extends Model<Partial<IBoard>> implements IBoard {
 
     @BelongsTo(() => User)
     declare user: IUser;
+
+
+
+    @AfterCreate
+    public static async createSections(instance: Board) {
+        const sectionsTitles = ['No Status 📕', 'To Do 📚', 'In Progress 🚀', 'Finished 🏁'];
+
+        for (let counter in sectionsTitles) {
+            let sectionId = uuidv4();
+            await Section.create({
+                section_id: sectionId,
+                board_id: instance.board_id,
+                title: sectionsTitles[counter]
+            });
+        }
+    }
 }
