@@ -42,24 +42,12 @@ function Sidebar({ className }: IProps) {
         <div className={className}>
             {/* Checkbox Hacking */}
             <input type="checkbox" className="d-none" id="checkbox-to-nav" />
-            <label id="bar-open-nav" htmlFor="checkbox-to-nav"></label>
+            <label id="bar-open-nav" htmlFor="checkbox-to-nav" onClick={() => setIsOpen(!isOpen)}></label>
             <label id="open-nav" className="text" htmlFor="checkbox-to-nav" onClick={() => setIsOpen(!isOpen)}>
                 {isOpen ? <AiOutlineArrowLeft /> : <AiOutlineArrowRight />}
             </label>
 
             <nav>
-                <i className="theme-icon">
-                    {
-                        theme.name === 'dark-theme' ? <BsFillSunFill
-                            className="text-custom-yellow"
-                            onClick={() => setTheme(light)}
-                        /> : <BsFillMoonFill
-                            className="text-custom-black"
-                            onClick={() => setTheme(dark)}
-                        />
-                    }
-                </i>
-
                 <div
                     className="border-0 text px-3 pt-3 bg-transparent rounded-0 d-flex justify-content-center align-items-center"
                     style={{ cursor: 'default' }}
@@ -112,6 +100,17 @@ function Sidebar({ className }: IProps) {
                     <BoardsList />
 
                 </div>
+                <i className="theme-icon">
+                    {
+                        theme.name === 'dark-theme' ? <BsFillSunFill
+                            className="text-custom-yellow"
+                            onClick={() => setTheme(light)}
+                        /> : <BsFillMoonFill
+                            className="text-custom-black"
+                            onClick={() => setTheme(dark)}
+                        />
+                    }
+                </i>
             </nav>
         </div>
     );

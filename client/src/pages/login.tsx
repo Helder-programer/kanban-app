@@ -66,7 +66,7 @@ function Login({ className }: { className: string }) {
                             required
                             className="mt-3"
                             autoComplete="off"
-                            $withValueColor={`${theme.name === 'dark-theme' ? '#eeeeee' : '#0d6efd'}`}
+                            $withValueColor={`${theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}`}
                             $withoutValueColor={`#6e6e6e`}
                             $animationDuration="1s"
                             $animationDelay="0s"
@@ -79,7 +79,7 @@ function Login({ className }: { className: string }) {
                             required
                             className="mt-4"
                             autoComplete="off"
-                            $withValueColor={`${theme.name === 'dark-theme' ? '#eeeeee' : '#0d6efd'}`}
+                            $withValueColor={`${theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}`}
                             $withoutValueColor="#6e6e6e"
                             $animationDuration="1s"
                             $animationDelay="0.1s"
@@ -87,7 +87,7 @@ function Login({ className }: { className: string }) {
                         <div className="buttons w-100 d-flex flex-column align-items-center">
                             {error && <p style={{ fontSize: '0.9rem' }} className="text-danger align-self-start mt-3 mb-0">{error}</p>}
 
-                            <Button className={`w-100 mt-3 ${theme.name === 'dark-theme' ? 'btn-custom-black-light' : 'btn-custom-blue'}`} type="submit">
+                            <Button className='w-100 mt-3 btn-custom-black-light' variant="none"  type="submit">
                                 {isLoading ? <Spinner variant="secondary" animation="border" /> : 'Login'}
                             </Button>
                             <Link href="/register" className="mt-3 text-center text-decoration-none">Don't have account? Create your account</Link>

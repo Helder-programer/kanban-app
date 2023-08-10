@@ -85,11 +85,11 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
 
         timer = setTimeout(async () => {
             try {
-                await taskService.update({ 
-                    taskId: currentTask.task_id, 
+                await taskService.update({
+                    taskId: currentTask.task_id,
                     boardId, color,
                     sectionId: currentTask.section_id
-                 });
+                });
             } catch (err: any) {
                 console.log(err);
             }
@@ -129,7 +129,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
             size="lg"
             className={className}
         >
-            
+
             <Modal.Header className="border-0">
                 <div className="w-100">
                     <div className="d-flex gap-3 align-items-center mb-2">
@@ -154,7 +154,6 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
                             Color:
                             <div id="color-picker">
                                 <input
-
                                     type="color"
                                     value={taskColor}
                                     onChange={updateColor}
@@ -164,11 +163,10 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
                     </div>
                 </div>
             </Modal.Header>
-            <hr className="m-0 text-custom-white" />
+            <hr className="m-0 text" />
             <Modal.Body className="rounded-bottom">
                 <div id="task-content-editor">
                     <ReactQuill
-                        className="bg-custom-light"
                         modules={modules}
                         onChange={updateDescription}
                         value={taskContent}
@@ -203,7 +201,7 @@ const StyledModal = styled(TaskModal)`
 
     .modal-content {
         padding: 2rem;
-        background-color: ${({theme}) => theme.colors.task};
+        background-color: ${({ theme }) => theme.colors.task};
     }
     
     
@@ -214,9 +212,14 @@ const StyledModal = styled(TaskModal)`
     
     .ql-container {
         border: none;
+        
+        >.ql-editor {
+            padding-right: 0;
+            padding-left: 0;
+        }
 
         >.ql-editor::before {
-            color: ${({theme}) => theme.colors.text};
+            color: ${({ theme }) => theme.colors.text};
             opacity: 0.3;
         }
     }
@@ -227,11 +230,11 @@ const StyledModal = styled(TaskModal)`
 
         .ql-stroke {
             fill: none;
-            stroke: ${({theme}) => theme.colors.text};
+            stroke: ${({ theme }) => theme.colors.text};
         }
 
         .ql-fill {
-            fill: ${({theme}) => theme.colors.text};
+            fill: ${({ theme }) => theme.colors.text};
             stroke: none;
         }
 
@@ -241,7 +244,7 @@ const StyledModal = styled(TaskModal)`
         }
         
         .ql-picker-label {
-            color: ${({theme}) => theme.colors.text};
+            color: ${({ theme }) => theme.colors.text};
         }
     }
 `;
