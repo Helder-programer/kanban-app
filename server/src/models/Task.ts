@@ -26,7 +26,7 @@ export default class Task extends Model<Partial<ITask>> implements ITask {
 
     @Column({
         type: DataType.STRING,
-        defaultValue: '#EEE'
+        defaultValue: '#EEEEEE'
     })
     declare color: string;
 

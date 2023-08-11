@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { EmojiClickData, EmojiStyle, Theme } from "emoji-picker-react";
-import styled from 'styled-components';
+
+import dynamic from 'next/dynamic';
+import { useTheme } from "@/contexts/theme";
 
 interface IProps {
     icon: string;
@@ -8,8 +10,6 @@ interface IProps {
     onChange(icon: string): void;
 
 }
-
-import dynamic from 'next/dynamic';
 
 const Picker = dynamic(
   () => {
@@ -22,6 +22,7 @@ const Picker = dynamic(
 function EmojiPicker({ icon, className, onChange }: IProps) {
     const [show, setShow] = useState(false);
     const [currentEmoji, setCurrentEmoji] = useState('');
+    const {theme} = useTheme();
 
     useEffect(() => {
         setCurrentEmoji(icon);  
@@ -36,17 +37,22 @@ function EmojiPicker({ icon, className, onChange }: IProps) {
 
 
     return (
-        <div className={className}>
+        <div className="position-relative">
             <h3
                 className="m-0"
                 onClick={event => setShow(!show)}
+                style={{cursor: "pointer"}}
             >
                 {currentEmoji}
             </h3>
-            <div id="emoji-picker">
+            <div className="position-absolute">
                 {
                     show &&
-                    <Picker theme={Theme.DARK} onEmojiClick={handleEmojiClick} searchPlaceHolder="Search..." emojiStyle={EmojiStyle.NATIVE} />
+                    <Picker 
+                    theme={theme.name === 'dark-theme' ? Theme.DARK: Theme.LIGHT} 
+                    onEmojiClick={handleEmojiClick} 
+                    searchPlaceHolder="Search..." 
+                    emojiStyle={EmojiStyle.NATIVE} />
                 }
             </div>
         </div>
@@ -54,19 +60,4 @@ function EmojiPicker({ icon, className, onChange }: IProps) {
     );
 }
 
-const StyledEmojiPicker = styled(EmojiPicker)`
-    position: relative;
-    z-index: 1000;
-
-    h3 {
-        cursor: pointer;
-    }
-
-    #emoji-picker {
-        position: absolute;
-    }
-    
-
-`;
-
-export default StyledEmojiPicker;
+export default EmojiPicker;
