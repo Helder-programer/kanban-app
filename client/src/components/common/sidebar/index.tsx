@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import { ListGroup } from "react-bootstrap";
-import { BiLogOut } from 'react-icons/bi';
+import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 import { AiFillFolderAdd, AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { useState } from 'react';
 
@@ -59,7 +59,10 @@ function Sidebar({ className }: IProps) {
                     className="border-0 text px-3 my-2 bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                     style={{ cursor: 'default' }}
                 >
-                    <span className="fw-semibold">{username}</span>
+                    <div id="username">
+                        <BiSolidUser className="me-1"/>
+                        <span id="username">{username}</span>
+                    </div>
 
                     <BiLogOut
                         className='fs-5 me-1'
@@ -100,7 +103,7 @@ function Sidebar({ className }: IProps) {
                     <BoardsList />
 
                 </div>
-                <i className="theme-icon">
+                <i className="theme-icon" title="theme switcher">
                     {
                         theme.name === 'dark-theme' ? <BsFillSunFill
                             className="text-custom-yellow"
@@ -192,6 +195,13 @@ const StyledSidebar = styled(Sidebar)`
         }
     }
 
+    #username {
+        width: 150px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        font-weight: 500;
+    }
 
     #board-list {
         max-height: 70%;

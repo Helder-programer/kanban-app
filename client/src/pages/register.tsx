@@ -53,7 +53,7 @@ function Register({ className }: { className: string }) {
 
     return (
         <Container fluid className={`d-flex justify-content-center align-items-center ${className}`}>
-            <i className="theme-icon">
+            <i className="theme-icon" title="theme switcher">
                 {
                     theme.name === 'dark-theme' ? <BsFillSunFill
                         className="text-custom-yellow"

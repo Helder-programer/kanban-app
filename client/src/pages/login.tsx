@@ -41,7 +41,7 @@ function Login({ className }: { className: string }) {
 
     return (
         <Container fluid className={`d-flex justify-content-center position-relative align-items-center vh-100 vw-100 ${className}`}>
-            <i className="theme-icon">
+            <i className="theme-icon" title="theme swicther">
                 {
                     theme.name === 'dark-theme' ? <BsFillSunFill
                         className="text-custom-yellow"

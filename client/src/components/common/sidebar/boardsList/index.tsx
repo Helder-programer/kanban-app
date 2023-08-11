@@ -97,11 +97,10 @@ function BoardsList({ className }: IProps) {
                                     {(provided, snapshot) => (
                                         <ListGroup.Item
                                             as="li"
-                                            className={`${index === activeBoardIndex ? 'active' : 'bg-transparent'} text border-0 px-3 rounded-0 d-flex justify-content-between align-items-center`}
+                                            className={`${index === activeBoardIndex ? 'active' : 'bg-transparent'} text border-0 px-3 rounded-0 d-flex justify-content-between align-items-center board`}
                                             key={index}
                                             ref={provided.innerRef}
-                                            style={{ cursor: snapshot.isDragging ? 'grab' : 'pointer !important' }}
-                                            id="board"
+                                            style={{ cursor: snapshot.isDragging ? 'grab' : 'pointer !important' }}                                            
                                             {...provided.dragHandleProps}
                                             {...provided.draggableProps}
                                             onClick={() => router.push(`/boards/${board.board_id}`)}
@@ -123,7 +122,7 @@ function BoardsList({ className }: IProps) {
 }
 
 const StyledBoardsList = styled(BoardsList)`
-    #board {
+    .board {
         font-size: 14px;
         width: 250px;        
         &:hover {

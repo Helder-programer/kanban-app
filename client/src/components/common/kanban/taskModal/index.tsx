@@ -133,8 +133,9 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
             <Modal.Header className="border-0">
                 <div className="w-100">
                     <div className="d-flex gap-3 align-items-center mb-2">
-                        <input type="text"
-                            className="w-100 bg-transparent border-0 fs-4 p-0 outline-none fw-bold"
+                        <input 
+                            type="text"
+                            className="w-100 text bg-transparent border-0 fs-4 p-0 outline-none fw-bold"
                             placeholder="Untitled"
                             style={{ outline: 'none' }}
                             value={taskTitle}
@@ -216,6 +217,7 @@ const StyledModal = styled(TaskModal)`
         >.ql-editor {
             padding-right: 0;
             padding-left: 0;
+            color: ${({ theme }) => theme.colors.text};
         }
 
         >.ql-editor::before {
