@@ -59,7 +59,7 @@ function Sidebar({ className }: IProps) {
                     className="border-0 text px-3 my-2 bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                     style={{ cursor: 'default' }}
                 >
-                    <div id="username">
+                    <div className="d-flex align-items-center">
                         <BiSolidUser className="me-1"/>
                         <span id="username">{username}</span>
                     </div>
@@ -171,7 +171,6 @@ const StyledSidebar = styled(Sidebar)`
         left: calc(100% - 16px);
         border-radius: 50%;
         padding: 0.2rem 0.5rem 0.2rem 0.5rem;
-        z-index: 8999;
     }
 
 
@@ -180,13 +179,13 @@ const StyledSidebar = styled(Sidebar)`
         background-color: ${({ theme }) => theme.colors.sidebar};
         transition: all 0.3s ease-in-out;
         cursor: pointer;
+        z-index: 3;
     }
 
     #bar-open-nav {
         left: 0;
         height: 100%;
         width: 20px;
-        z-index: 8997;
         &:hover {
             background-color: #6b6b6b;
             &~#open-nav {

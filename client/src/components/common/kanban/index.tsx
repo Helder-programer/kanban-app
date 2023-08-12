@@ -46,6 +46,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
             newSections[destinationSectionIndex].tasks = destinationTasks;
         } else {
             const [removedTask] = sourceTasks.splice(source.index, 1);
+            removedTask.section_id = destination.droppableId;
             destinationTasks.splice(destination.index, 0, removedTask);
             newSections[destinationSectionIndex].tasks = destinationTasks;
             newSections[sourceSectionIndex].tasks = sourceTasks;
@@ -152,7 +153,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
         newSections[sectionIndex].tasks = newTasks;
 
         setSections(newSections);
-    }, [currentTask]);
+    }, [JSON.stringify(currentTask)]);
 
 
     return (

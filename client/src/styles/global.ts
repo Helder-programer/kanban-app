@@ -22,6 +22,10 @@ export const GlobalStyles = createGlobalStyle`
         color: ${({ theme }) => theme.colors.text};
     }
 
+    .tipo {
+        letter-spacing: -0.75px;
+    }
+
 
     //ScrollBar
     ::-webkit-scrollbar {
@@ -34,7 +38,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     ::-webkit-scrollbar-thumb {
-        background-color: #333;
+        background-color: #344;
     }
 
     ::-webkit-scrollbar-thumb:hover {

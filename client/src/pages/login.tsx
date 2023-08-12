@@ -54,8 +54,8 @@ function Login({ className }: { className: string }) {
             </i>
             <Card className="bg-transparent border-0">
                 <Card.Body>
-                    <h2 className="text-center fw-bold text">Hn Kanban</h2>
-                    <h5 className="text-center text">Make Your Login</h5>
+                    <h2 className="text-center fw-bold text tipo">Hn Kanban</h2>
+                    <h5 className="text-center text tipo">Make Your Login</h5>
                     <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
 
                         <CustomInput

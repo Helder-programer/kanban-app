@@ -100,7 +100,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
         setTaskTitle(currentTask?.title);
         setTaskContent(currentTask?.content);
         setTaskColor(currentTask?.color);
-    }, [currentTask?.task_id]);
+    }, [JSON.stringify(currentTask)]);
 
     const handleClose = () => {
         setCurrentTask(undefined);
@@ -133,7 +133,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
             <Modal.Header className="border-0">
                 <div className="w-100">
                     <div className="d-flex gap-3 align-items-center mb-2">
-                        <input 
+                        <input
                             type="text"
                             className="w-100 text bg-transparent border-0 fs-4 p-0 outline-none fw-bold"
                             placeholder="Untitled"
@@ -156,7 +156,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
                             <div id="color-picker">
                                 <input
                                     type="color"
-                                    value={taskColor}
+                                    value={taskColor ?? '#eeeeee'}
                                     onChange={updateColor}
                                 />
                             </div>
@@ -166,15 +166,13 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
             </Modal.Header>
             <hr className="m-0 text" />
             <Modal.Body className="rounded-bottom">
-                <div id="task-content-editor">
-                    <ReactQuill
-                        modules={modules}
-                        onChange={updateDescription}
-                        value={taskContent}
-                        placeholder="Add task content here..."
-                        theme="snow"
-                    />
-                </div>
+                <ReactQuill
+                    modules={modules}
+                    onChange={updateDescription}
+                    value={taskContent}
+                    placeholder="Add task content here..."
+                    theme="snow"
+                />
             </Modal.Body>
         </Modal>
     );
@@ -205,19 +203,13 @@ const StyledModal = styled(TaskModal)`
         background-color: ${({ theme }) => theme.colors.task};
     }
     
-    
-    #task-content-editor {
-        height: 40vh;
-        overflow-y: auto;
-    }
-    
     .ql-container {
-        border: none;
+        border: 1px dashed black;
         
         >.ql-editor {
-            padding-right: 0;
-            padding-left: 0;
             color: ${({ theme }) => theme.colors.text};
+            overflow: auto;
+            max-height: 40vh;
         }
 
         >.ql-editor::before {
@@ -228,7 +220,7 @@ const StyledModal = styled(TaskModal)`
 
 
     .ql-toolbar {
-        border: dashed 1px;
+        border: dashed 1px black;
 
         .ql-stroke {
             fill: none;

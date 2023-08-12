@@ -66,8 +66,8 @@ function Register({ className }: { className: string }) {
             </i>
             <Card className="bg-transparent border-0">
                 <Card.Body>
-                    <h2 className="text-center text fw-bold">Hn Kanban</h2>
-                    <h5 className="text-center text">Create Your Account</h5>
+                    <h2 className="text-center text fw-bold tipo">Hn Kanban</h2>
+                    <h5 className="text-center text tipo">Create Your Account</h5>
                     <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
                         <CustomInput
                             label="Name*"
