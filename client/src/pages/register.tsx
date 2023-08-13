@@ -56,7 +56,7 @@ function Register({ className }: { className: string }) {
             <i className="theme-icon" title="theme switcher">
                 {
                     theme.name === 'dark-theme' ? <BsFillSunFill
-                        className="text-custom-yellow"
+                        className="text-warning"
                         onClick={() => setTheme(light)}
                     /> : <BsFillMoonFill
                         className="text-custom-black-light"

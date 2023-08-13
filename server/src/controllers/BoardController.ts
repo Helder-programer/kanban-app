@@ -61,7 +61,8 @@ export class BoardController {
 
     public async updateFavoritesBoardsPositions(req: Request, res: Response) {
         const { boards } = req.body;
-        await this.repository.updateBoardsPositions({ boards });
+        console.log(boards);
+        await this.repository.updateFavoritesBoardsPositions({ boards });
         res.status(200).json({ message: 'Updated!' });
     }
 

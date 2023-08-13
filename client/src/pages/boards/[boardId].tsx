@@ -159,15 +159,18 @@ function Board() {
 
     useEffect(() => {
         const getOne = async () => {
-            const board = await boardService.getOneBoard({ boardId });
-
-            setCurrentBoardInformations({
-                title: board.title,
-                description: board.description,
-                icon: board.icon,
-                favorite: board.favorite,
-            });
-            setSections(board.sections);
+            try {
+                const board = await boardService.getOneBoard({ boardId });
+                setCurrentBoardInformations({
+                    title: board.title,
+                    description: board.description,
+                    icon: board.icon,
+                    favorite: board.favorite,
+                });
+                setSections(board.sections);
+            } catch (err: any) {
+                alert('Board not found!');
+            }
         }
 
         if (!router.isReady) return;

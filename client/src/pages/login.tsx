@@ -44,7 +44,7 @@ function Login({ className }: { className: string }) {
             <i className="theme-icon" title="theme swicther">
                 {
                     theme.name === 'dark-theme' ? <BsFillSunFill
-                        className="text-custom-yellow"
+                        className="text-warning"
                         onClick={() => setTheme(light)}
                     /> : <BsFillMoonFill 
                         className="text-custom-black-light" 
