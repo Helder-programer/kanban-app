@@ -1,15 +1,16 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, Dispatch, SetStateAction } from "react";
 import { setCookie, destroyCookie, parseCookies } from "nookies";
 import Router from "next/router";
 
 import { IUser } from "../types/IUser";
-import { light, dark } from "@/styles/theme.styled";
+import { light } from "@/styles/theme.styled";
 import { authService } from "@/services/auth";
 
 interface IAuthContext {
     signIn: (email: string, password: string) => Promise<void>;
     logout: () => void;
     user: IUser | null;
+    setUser: Dispatch<SetStateAction<IUser | null>>;
     isAuthenticated: boolean;
 }
 
@@ -55,11 +56,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         destroyCookie({}, 'kanban-token', {
             path: '/'
         });
-        Router.reload();    
+        Router.reload();
     }
 
     return (
-        <AuthContext.Provider value={{ signIn, isAuthenticated, user, logout }}>
+        <AuthContext.Provider value={{ signIn, isAuthenticated, user, logout, setUser }}>
             {children}
         </AuthContext.Provider>
     );

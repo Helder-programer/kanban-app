@@ -66,7 +66,7 @@ function Login({ className }: { className: string }) {
                             required
                             className="mt-3"
                             autoComplete="off"
-                            $withValueColor={`${theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}`}
+                            $withValueColor={theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}
                             $withoutValueColor={`#6e6e6e`}
                             $animationDuration="1s"
                             $animationDelay="0s"
@@ -79,7 +79,7 @@ function Login({ className }: { className: string }) {
                             required
                             className="mt-4"
                             autoComplete="off"
-                            $withValueColor={`${theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}`}
+                            $withValueColor={theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}
                             $withoutValueColor="#6e6e6e"
                             $animationDuration="1s"
                             $animationDelay="0.1s"

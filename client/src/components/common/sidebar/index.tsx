@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import Image from 'next/image';
-import { ListGroup } from "react-bootstrap";
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
-import { AiFillFolderAdd, AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+import { AiFillFolderAdd, AiFillSetting, AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { useAuth } from "@/contexts/auth";
 import { boardService } from '@/services/board';
@@ -26,6 +25,7 @@ function Sidebar({ className }: IProps) {
     const boardsContext = useBoards();
     const [isOpen, setIsOpen] = useState(false);
     const { theme, setTheme } = useTheme();
+    const router = useRouter();
     let username = auth.user?.name;
 
     if (username)
@@ -60,7 +60,7 @@ function Sidebar({ className }: IProps) {
                     style={{ cursor: 'default' }}
                 >
                     <div className="d-flex align-items-center">
-                        <BiSolidUser className="me-1"/>
+                        <BiSolidUser className="me-1" />
                         <span id="username">{username}</span>
                     </div>
 
@@ -106,13 +106,16 @@ function Sidebar({ className }: IProps) {
                 <i className="theme-icon" title="theme switcher">
                     {
                         theme.name === 'dark-theme' ? <BsFillSunFill
-                            className="text-custom-yellow"
+                            className="text-warning"
                             onClick={() => setTheme(light)}
                         /> : <BsFillMoonFill
                             className="text-custom-black"
                             onClick={() => setTheme(dark)}
                         />
                     }
+                </i>
+                <i className="text settings-icon">
+                    <AiFillSetting onClick={() => router.push('/settings')}/>
                 </i>
             </nav>
         </div>
@@ -206,6 +209,18 @@ const StyledSidebar = styled(Sidebar)`
         max-height: 70%;
         overflow-y: auto;
         overflow-x: hidden;
+    }
+
+    .settings-icon {
+        position: absolute;
+        top: calc(100vh - 30px);
+        right: 10px;
+        
+        svg {
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 9999;
+        }
     }
 `;
 

@@ -15,7 +15,7 @@ $custom-black-one: #0f0f0f;
 $custom-blue: #0d6efd;
 $custom-white-one: #EBECF0;
 
-$custom-green: #008000;
+$custom-green: #157347;
 $custom-red: #a30101;
 $custom-yellow: #ffc107;
 
@@ -23,9 +23,9 @@ $custom-colors: (
     "custom-black": $custom-black,
     "custom-black-light": $custom-black-light,
     "custom-white": $custom-white,
-    "custom-green": $custom-green,
-    "custom-red": $custom-red,
-    "custom-yellow": $custom-yellow,
+    "success": $custom-green,
+    "danger": $custom-red,
+    "warning": $custom-yellow,
     "custom-blue": $custom-blue,
     "custom-black-one": $custom-black-one,
     "custom-white-one": $custom-white-one

@@ -74,7 +74,7 @@ function Register({ className }: { className: string }) {
                             type="text"
                             id="name"
                             name="name"
-                            $withValueColor={`${theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}`}
+                            $withValueColor={theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}
                             $withoutValueColor='#6e6e6e'
                             className="mt-4"
                             autoComplete="off"
@@ -87,7 +87,7 @@ function Register({ className }: { className: string }) {
                             type="email"
                             id="email"
                             name="email"
-                            $withValueColor={`${theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}`}
+                            $withValueColor={theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}
                             $withoutValueColor="#6e6e6e"
                             className="mt-4"
                             autoComplete="off"
@@ -100,7 +100,7 @@ function Register({ className }: { className: string }) {
                             type="password"
                             id="password"
                             name="password"
-                            $withValueColor={`${theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}`}
+                            $withValueColor={theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}
                             $withoutValueColor="#6e6e6e"
                             className="mt-4"
                             autoComplete="off"
@@ -113,7 +113,7 @@ function Register({ className }: { className: string }) {
                             type="password"
                             id="passwordConfirmation"
                             name="passwordConfirmation"
-                            $withValueColor={`${theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}`}
+                            $withValueColor={theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}
                             $withoutValueColor="#6e6e6e"
                             className="mt-4"
                             autoComplete="off"

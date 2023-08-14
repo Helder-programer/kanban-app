@@ -182,7 +182,7 @@ function Board() {
             <main className="px-2 py-3 d-flex flex-column h-100" style={{ width: '100%', overflow: 'hidden' }}>
                 <section className="d-flex w-100 justify-content-between mb-3 px-2" id='board-content'>
                     <i
-                        className="text-custom-yellow"
+                        className="text-warning"
                         style={{ cursor: 'pointer' }}
                         onClick={updateFavorite}
                         title='Favorite this board'
@@ -194,7 +194,7 @@ function Board() {
                         onClick={() => deleteBoard()}
                         title="Delete this board"
                     >
-                        <FaTrash className="fs-5 text-custom-red" />
+                        <FaTrash className="fs-5 text-danger" />
                     </i>
                 </section>
 

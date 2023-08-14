@@ -146,7 +146,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
                             title="Delete this task"
                             onClick={() => deleteTask()}
                         >
-                            <FaTrash className="fs-5 text-custom-red" />
+                            <FaTrash className="fs-5 text-danger" />
                         </i>
                     </div>
                     <div className="ps-1">
