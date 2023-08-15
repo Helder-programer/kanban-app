@@ -92,11 +92,10 @@ function FavoritesBooardsList({ className }: IProps) {
                                     {(provided, snapshot) => (
                                         <ListGroup.Item
                                             as="li"
-                                            className={`${index === activeBoardIndex ? 'active' : 'bg-transparent'} border-0 px-3 text rounded-0 d-flex justify-content-between align-items-center`}
+                                            className={`${index === activeBoardIndex ? 'active' : 'bg-transparent'} border-0 px-3 text rounded-0 d-flex justify-content-between align-items-center board`}
                                             key={index}
                                             ref={provided.innerRef}
                                             style={{ cursor: snapshot.isDragging ? 'grab' : 'pointer !important' }}
-                                            id="board"
                                             {...provided.dragHandleProps}
                                             {...provided.draggableProps}
                                             onClick={() => router.push(`/boards/${board.board_id}`)}
@@ -118,7 +117,7 @@ function FavoritesBooardsList({ className }: IProps) {
 }
 
 const StyledFavoritesBooardsList = styled(FavoritesBooardsList)`
-    #board {
+    .board {
         font-size: 14px;
         width: 250px;
         

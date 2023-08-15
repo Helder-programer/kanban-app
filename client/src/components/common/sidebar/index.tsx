@@ -12,6 +12,7 @@ import FavoritesBoardsList from './favoritesBoardsList';
 import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
 import { light, dark } from '@/styles/theme.styled';
 import { useTheme } from '@/contexts/theme';
+import { FaFilter } from 'react-icons/fa';
 
 
 
@@ -65,19 +66,24 @@ function Sidebar({ className }: IProps) {
                     </div>
 
                     <BiLogOut
-                        className='fs-5 me-1'
-                        style={{ cursor: 'pointer' }}
+                        className='fs-5 icon'
                         onClick={() => auth.logout()}
                     />
                 </div>
                 <hr className="text m-0" />
 
                 <div
-                    className="border-0 text px-3 mt-2 bg-transparent rounded-0 d-flex flex-column align-items-center"
+                    className="border-0 text px-3 mt-2 bg-transparent rounded-0 d-flex justify-content-between align-items-center"
                     style={{ cursor: 'default' }}
                 >
                     <span className="align-self-start mb-1">Favorites</span>
+                    <FaFilter className="icon small-text" />
 
+                </div>
+                <div
+                    className="border-0 p-0 text-custom-white bg-transparent rounded-0"
+                    id="favorite-board-list"
+                >
                     <FavoritesBoardsList />
                 </div>
                 <hr className="text m-0" />
@@ -87,12 +93,15 @@ function Sidebar({ className }: IProps) {
                     style={{ cursor: 'default' }}
                 >
                     <span className="mb-1">Boards</span>
-                    <AiFillFolderAdd
-                        className="fs-5"
-                        id="new-board-icon"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => createBoard()}
-                    />
+                    <div>
+
+                        <AiFillFolderAdd
+                            className="fs-5 me-1 icon"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => createBoard()}
+                        />
+                        <FaFilter className="icon small-text" />
+                    </div>
                 </div>
 
                 <div
@@ -115,7 +124,7 @@ function Sidebar({ className }: IProps) {
                     }
                 </i>
                 <i className="text settings-icon">
-                    <AiFillSetting onClick={() => router.push('/settings')}/>
+                    <AiFillSetting onClick={() => router.push('/settings')} />
                 </i>
             </nav>
         </div>
@@ -147,28 +156,8 @@ const StyledSidebar = styled(Sidebar)`
     #title {
         font-weight: 700;
         white-space: nowrap;
-    }
-
-    #new-board-icon {
-        transition: all 0.3s ease-in-out;
-        &:hover {
-            color:#4d4d52;
-        }
-    }
-
+    }    
     
-    .theme-icon {
-        position: absolute;
-        top: calc(100vh - 30px);
-        left: 5px;
-        
-        svg {
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 9999;
-        }
-    }
-
     #open-nav {
         top: 10px;
         left: calc(100% - 16px);
@@ -176,7 +165,7 @@ const StyledSidebar = styled(Sidebar)`
         padding: 0.2rem 0.5rem 0.2rem 0.5rem;
     }
 
-
+    
     #bar-open-nav, #open-nav {
         position: absolute;
         background-color: ${({ theme }) => theme.colors.sidebar};
@@ -184,7 +173,7 @@ const StyledSidebar = styled(Sidebar)`
         cursor: pointer;
         z-index: 3;
     }
-
+    
     #bar-open-nav {
         left: 0;
         height: 100%;
@@ -204,13 +193,13 @@ const StyledSidebar = styled(Sidebar)`
         overflow: hidden;
         font-weight: 500;
     }
-
-    #board-list {
-        max-height: 70%;
+    
+    #board-list, #favorite-board-list {
+        max-height: calc(200px);
         overflow-y: auto;
         overflow-x: hidden;
     }
-
+    
     .settings-icon {
         position: absolute;
         top: calc(100vh - 30px);
@@ -222,6 +211,27 @@ const StyledSidebar = styled(Sidebar)`
             z-index: 9999;
         }
     }
+    
+    .theme-icon {
+        position: absolute;
+        top: calc(100vh - 30px);
+        left: 5px;
+        
+        svg {
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 9999;
+        }
+    }
+    
+    .icon {
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        &:hover {
+            filter: brightness(50%);
+        }
+    }
+    
 `;
 
 export default StyledSidebar;

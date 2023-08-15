@@ -10,10 +10,6 @@ export const GlobalStyles = createGlobalStyle`
         overflow-x: hidden;
     }
 
-    a:hover {
-        color: $custom-black-light;
-    }
-
     .small-text {
         font-size: 0.8rem;
     }

@@ -142,6 +142,7 @@ const StyledRegister = styled(Register)`
 
     .card {
         width: 25%;
+        min-width: 300px;
     }
 
     .theme-icon {

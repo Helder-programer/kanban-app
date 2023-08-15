@@ -29,7 +29,7 @@ function Home() {
     return (
         <AppLayout>
             <main className="d-flex w-100 h-100 justify-content-center align-items-center">
-                <Button variant="none" className="btn btn-outline-custom-green fw-bold" onClick={() => createBoard()}>
+                <Button variant="none" className="btn btn-outline-success fw-bold" onClick={() => createBoard()}>
                     CLICK HERE TO CREATE YOUR FIRST BOARD
                 </Button>
             </main>

@@ -24,7 +24,7 @@ interface IProps {
 
 
 let timer: any = undefined;
-const timeout = 1000;
+const timeout = 500;
 
 function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask }: IProps) {
     const [taskTitle, setTaskTitle] = useState<string | undefined>('');
@@ -149,18 +149,15 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
                             <FaTrash className="fs-5 text-danger" />
                         </i>
                     </div>
-                    <div className="ps-1">
+                    <div className="ps-1 d-flex gap-2 align-items-center">
+                        <div id="color-picker" title="Color">
+                            <input
+                                type="color"
+                                value={taskColor ?? '#eeeeee'}
+                                onChange={updateColor}
+                            />
+                        </div>
                         <span className="text small-text">{currentTask ? moment(currentTask.created_at).format('DD/MM/YYYY') : ''}</span>
-                        <span className="text small-text d-flex align-items-center gap-2">
-                            Color:
-                            <div id="color-picker">
-                                <input
-                                    type="color"
-                                    value={taskColor ?? '#eeeeee'}
-                                    onChange={updateColor}
-                                />
-                            </div>
-                        </span>
                     </div>
                 </div>
             </Modal.Header>

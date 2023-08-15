@@ -106,6 +106,7 @@ const StyledLogin = styled(Login)`
 
     .card {
         width: 25%;
+        min-width: 300px;
     }
 
 
