@@ -7,6 +7,8 @@ import { parseCookies, setCookie } from 'nookies';
 interface IThemeContext {
     theme: any;
     setTheme: Dispatch<SetStateAction<any>>;
+    sidebarIsOpen: boolean;
+    setSidebarIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 
@@ -17,6 +19,7 @@ const ThemeContext = createContext({} as IThemeContext);
 
 export function ThemeContextProvider({ children }: { children: ReactNode }) {
     const [theme, setTheme] = useState<any>(light);
+    const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
 
 
     useEffect(() => {
@@ -39,7 +42,9 @@ export function ThemeContextProvider({ children }: { children: ReactNode }) {
         <ThemeContext.Provider
             value={{
                 theme: theme,
-                setTheme: handleSetTheme
+                setTheme: handleSetTheme,
+                setSidebarIsOpen,
+                sidebarIsOpen,
             }}
         >
             <SCThemeProvider theme={theme}>

@@ -54,8 +54,8 @@ function Login({ className }: { className: string }) {
             </i>
             <Card className="bg-transparent border-0">
                 <Card.Body>
-                    <h2 className="text-center fw-bold text tipo">Hn Kanban</h2>
-                    <h5 className="text-center text tipo">Make Your Login</h5>
+                    <h1 className="text-center fw-bold text tipography">Hn Kanban</h1>
+                    <h5 className="text-center text tipography">Make Your Login</h5>
                     <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
 
                         <CustomInput
@@ -103,6 +103,11 @@ const StyledLogin = styled(Login)`
     min-height: 100vh;
     min-width: 100vw;
     background-color: ${({theme}) => theme.colors.primary};
+
+
+    .tipography {
+        letter-spacing: -0.75px;
+    }
 
     .card {
         width: 25%;

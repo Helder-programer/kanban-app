@@ -33,8 +33,10 @@ function Register({ className }: { className: string }) {
             const passwordConfirmation = String(data.get('passwordConfirmation')).trim();
 
 
-            if (password !== passwordConfirmation)
+            if (password !== passwordConfirmation) {
+                setIsLoading(false);
                 return setError('Password not matched');
+            }
 
 
             await authService.register({ name, email, password });
@@ -66,8 +68,8 @@ function Register({ className }: { className: string }) {
             </i>
             <Card className="bg-transparent border-0">
                 <Card.Body>
-                    <h2 className="text-center text fw-bold tipo">Hn Kanban</h2>
-                    <h5 className="text-center text tipo">Create Your Account</h5>
+                    <h1 className="text-center text fw-bold tipography">Hn Kanban</h1>
+                    <h5 className="text-center text tipography">Create Your Account</h5>
                     <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
                         <CustomInput
                             label="Name*"
@@ -139,6 +141,11 @@ const StyledRegister = styled(Register)`
     min-height: 100vh;
     min-width: 100vw;
     background-color: ${({ theme }) => theme.colors.primary};
+
+
+    .tipography {
+        letter-spacing: -0.75px;
+    }
 
     .card {
         width: 25%;

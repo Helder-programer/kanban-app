@@ -18,10 +18,6 @@ export const GlobalStyles = createGlobalStyle`
         color: ${({ theme }) => theme.colors.text};
     }
 
-    .tipo {
-        letter-spacing: -0.75px;
-    }
-
 
     //ScrollBar
     ::-webkit-scrollbar {

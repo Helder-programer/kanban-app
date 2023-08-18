@@ -22,7 +22,7 @@ type CurrentBoardInformations = {
 
 
 function Board() {
-    const [currentBoardInformations, setCurrentBoardInformations] = useState<CurrentBoardInformations>({ title: '', description: '', icon: '', favorite: false });
+    const [currentBoardInformations, setCurrentBoardInformations] = useState({} as CurrentBoardInformations);
     const [sections, setSections] = useState<ISection[]>([]);
     const boardsContext = useBoards();
     const router = useRouter();
@@ -183,7 +183,7 @@ function Board() {
     return (
         <AppLayout>
             <main className="px-2 py-3 d-flex flex-column h-100" style={{ width: '100%', overflow: 'hidden' }}>
-                <section className="d-flex w-100 justify-content-between mb-3 px-2" id='board-content'>
+                <section className="d-flex w-100 justify-content-between mb-3 px-2">
                     <i
                         className="text-warning"
                         style={{ cursor: 'pointer' }}
@@ -231,7 +231,6 @@ function Board() {
                         boardId={boardId}
                     />
                 </section>
-
             </main>
         </AppLayout>
     );

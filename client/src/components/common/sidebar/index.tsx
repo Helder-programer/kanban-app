@@ -24,8 +24,7 @@ interface IProps {
 function Sidebar({ className }: IProps) {
     const auth = useAuth();
     const boardsContext = useBoards();
-    const [isOpen, setIsOpen] = useState(false);
-    const { theme, setTheme } = useTheme();
+    const { theme, setTheme, sidebarIsOpen, setSidebarIsOpen } = useTheme();
     const router = useRouter();
     let username = auth.user?.name;
 
@@ -42,10 +41,10 @@ function Sidebar({ className }: IProps) {
     return (
         <div className={className}>
             {/* Checkbox Hacking */}
-            <input type="checkbox" className="d-none" id="checkbox-to-nav" />
-            <label id="bar-open-nav" htmlFor="checkbox-to-nav" onClick={() => setIsOpen(!isOpen)}></label>
-            <label id="open-nav" className="text" htmlFor="checkbox-to-nav" onClick={() => setIsOpen(!isOpen)}>
-                {isOpen ? <AiOutlineArrowLeft /> : <AiOutlineArrowRight />}
+            <input type="checkbox" checked={sidebarIsOpen} className="d-none" id="checkbox-to-nav" />
+            <label id="bar-open-nav" htmlFor="checkbox-to-nav" onClick={() => setSidebarIsOpen(!sidebarIsOpen)}></label>
+            <label id="open-nav" className="text" htmlFor="checkbox-to-nav" onClick={() => setSidebarIsOpen(!sidebarIsOpen)}>
+                {sidebarIsOpen ? <AiOutlineArrowLeft /> : <AiOutlineArrowRight />}
             </label>
 
             <nav>
@@ -53,7 +52,7 @@ function Sidebar({ className }: IProps) {
                     className="border-0 text px-3 pt-3 bg-transparent rounded-0 d-flex justify-content-center align-items-center"
                     style={{ cursor: 'default' }}
                 >
-                    <h4 id="title">Hn Kanban</h4>
+                    <h4 id="logo">Hn Kanban</h4>
                 </div>
 
                 <div
@@ -93,8 +92,7 @@ function Sidebar({ className }: IProps) {
                     style={{ cursor: 'default' }}
                 >
                     <span className="mb-1">Boards</span>
-                    <div>
-
+                    <div className="word-">
                         <AiFillFolderAdd
                             className="fs-5 me-1 icon"
                             style={{ cursor: 'pointer' }}
@@ -153,9 +151,10 @@ const StyledSidebar = styled(Sidebar)`
         }
     }
 
-    #title {
+    #logo {
         font-weight: 700;
         white-space: nowrap;
+        letter-spacing: -0.75px;
     }    
     
     #open-nav {
@@ -230,8 +229,7 @@ const StyledSidebar = styled(Sidebar)`
         &:hover {
             filter: brightness(50%);
         }
-    }
-    
+    }  
 `;
 
 export default StyledSidebar;
