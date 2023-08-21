@@ -13,6 +13,7 @@ import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
 import { light, dark } from '@/styles/theme.styled';
 import { useTheme } from '@/contexts/theme';
 import { FaFilter } from 'react-icons/fa';
+import BoardsFilterPopover from './boardsFiltersPopover/boardsFilterPopover';
 
 
 
@@ -76,7 +77,7 @@ function Sidebar({ className }: IProps) {
                     style={{ cursor: 'default' }}
                 >
                     <span className="align-self-start mb-1">Favorites</span>
-                    <FaFilter className="icon small-text" />
+                    {/* <FaFilter className="icon small-text" /> */}
 
                 </div>
                 <div
@@ -92,24 +93,21 @@ function Sidebar({ className }: IProps) {
                     style={{ cursor: 'default' }}
                 >
                     <span className="mb-1">Boards</span>
-                    <div className="word-">
+                    <div>
                         <AiFillFolderAdd
                             className="fs-5 me-1 icon"
                             style={{ cursor: 'pointer' }}
                             onClick={() => createBoard()}
                         />
-                        <FaFilter className="icon small-text" />
+                        <BoardsFilterPopover />
+
                     </div>
                 </div>
-
-                <div
-                    className="border-0 p-0 text-custom-white bg-transparent rounded-0"
-                    id="board-list"
-                >
-
+                
+                <div id="board-list">
                     <BoardsList />
-
                 </div>
+
                 <i className="theme-icon" title="theme switcher">
                     {
                         theme.name === 'dark-theme' ? <BsFillSunFill
@@ -121,7 +119,8 @@ function Sidebar({ className }: IProps) {
                         />
                     }
                 </i>
-                <i className="text settings-icon">
+
+                <i className="text settings-icon icon">
                     <AiFillSetting onClick={() => router.push('/settings')} />
                 </i>
             </nav>
@@ -222,14 +221,6 @@ const StyledSidebar = styled(Sidebar)`
             z-index: 9999;
         }
     }
-    
-    .icon {
-        transition: all 0.3s ease-in-out;
-        cursor: pointer;
-        &:hover {
-            filter: brightness(50%);
-        }
-    }  
 `;
 
 export default StyledSidebar;

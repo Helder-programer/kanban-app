@@ -18,6 +18,14 @@ export const GlobalStyles = createGlobalStyle`
         color: ${({ theme }) => theme.colors.text};
     }
 
+    .icon {
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        &:hover {
+            filter: brightness(50%);
+        }
+    }  
+
 
     //ScrollBar
     ::-webkit-scrollbar {
