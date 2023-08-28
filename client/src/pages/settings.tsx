@@ -23,8 +23,7 @@ function Settings({ className }: { className: string }) {
     const { theme } = useTheme();
     const { user, setUser } = useAuth();
     const [userInputs, setUserInputs] = useState({ name: user?.name, email: user?.email } as UserInputs);
-    const [error, setError] = useState('');
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState({ text: '', isError: false });
 
 
     const handleChangeUserInputs = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,8 +32,7 @@ function Settings({ className }: { className: string }) {
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        setError('');
-        setMessage('');
+        setMessage({ ...message, isError: false });
 
         try {
 
@@ -46,16 +44,26 @@ function Settings({ className }: { className: string }) {
                 newPassword: userInputs.newPassword
             });
 
-            setMessage("User successfully modified");
+            setMessage({ isError: false, text: "User successfully modified!" });
             setUser(user);
 
         } catch (err: any) {
             console.log(err);
             if (err.response)
-                setError(err.response.data.message);
+                setMessage({ text: err.response.data.message, isError: true });
             else
-                setError(err.message);
+                setMessage({ text: err.message, isError: true });
         }
+    }
+
+    const handleClearInputs = () => {
+        setUserInputs({
+            name: user?.name,
+            email: user?.email,
+            oldPassword: '',
+            newPassword: '',
+            confirmNewPassword: ''
+        });
     }
 
     return (
@@ -140,9 +148,8 @@ function Settings({ className }: { className: string }) {
                         />
                         <div className="mt-4 d-flex gap-3 align-items-center flex-wrap">
                             <Button type="submit" variant="none" className="btn-custom-black-light text-custom-white">Save</Button>
-                            <Button variant="none" type="reset" className="btn-danger text-custom-white">Cancel</Button>
-                            {error && <p className="text-danger m-0">{error}</p>}
-                            {message && <p className="text-success m-0">{message}</p>}
+                            <Button variant="none" type="button" className="btn-danger text-custom-white" onClick={handleClearInputs}>Cancel</Button>
+                            {message.text && <p className={`${message.isError ? 'text-danger' : 'text-success'} m-0`}>{message.text}</p>}
                         </div>
                     </form>
 
