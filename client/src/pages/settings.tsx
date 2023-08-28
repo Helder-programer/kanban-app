@@ -24,6 +24,7 @@ function Settings({ className }: { className: string }) {
     const { user, setUser } = useAuth();
     const [userInputs, setUserInputs] = useState({ name: user?.name, email: user?.email } as UserInputs);
     const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
 
 
     const handleChangeUserInputs = (event: ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +33,8 @@ function Settings({ className }: { className: string }) {
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-
+        setError('');
+        setMessage('');
 
         try {
 
@@ -43,7 +45,8 @@ function Settings({ className }: { className: string }) {
                 oldPassword: userInputs.oldPassword,
                 newPassword: userInputs.newPassword
             });
-            
+
+            setMessage("User successfully modified");
             setUser(user);
 
         } catch (err: any) {
@@ -60,6 +63,7 @@ function Settings({ className }: { className: string }) {
             <main className={`px-5 py-3 d-flex flex-column w-100 ${className}`}>
                 <h1 className="text mb-4 fw-sembold">Settings</h1>
                 <section id="user-informations">
+                    <h4 className="text">User Informations</h4>
                     <form onSubmit={handleSubmit}>
                         <CustomInput
                             label="Name*"
@@ -138,6 +142,7 @@ function Settings({ className }: { className: string }) {
                             <Button type="submit" variant="none" className="btn-custom-black-light text-custom-white">Save</Button>
                             <Button variant="none" type="reset" className="btn-danger text-custom-white">Cancel</Button>
                             {error && <p className="text-danger m-0">{error}</p>}
+                            {message && <p className="text-success m-0">{message}</p>}
                         </div>
                     </form>
 

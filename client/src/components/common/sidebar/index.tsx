@@ -120,7 +120,7 @@ function Sidebar({ className }: IProps) {
                     }
                 </i>
 
-                <i className="text settings-icon icon">
+                <i className="text settings-icon icon" title="Settings">
                     <AiFillSetting onClick={() => router.push('/settings')} />
                 </i>
             </nav>

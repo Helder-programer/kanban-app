@@ -19,7 +19,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     .icon {
-        transition: all 0.3s ease-in-out;
+        transition: filter 0.3s ease-in-out;
         cursor: pointer;
         &:hover {
             filter: brightness(50%);
