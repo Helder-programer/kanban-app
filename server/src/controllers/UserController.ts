@@ -33,12 +33,21 @@ export class UserController {
         );
 
 
-        return res.status(200).json({ user, token });
+        res.status(200).json({ user, token });
 
     }
 
     public async recoverUserInformations(req: Request, res: Response) {
         const user = req.user;
-        return res.status(200).json(user);
+        res.status(200).json(user);
+    }
+
+    public async update(req: Request, res: Response) {
+        const { name, email, oldPassword, newPassword } = req.body;
+        const userId = req.user!.user_id;
+
+        const user = await this.repository.update({ userId, name, email, oldPassword, newPassword });
+
+        res.status(200).json(user);
     }
 }
