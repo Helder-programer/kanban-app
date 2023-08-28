@@ -12,6 +12,13 @@ interface ILoginParams {
     password: string;
 }
 
+interface IUpdateParams {
+    name?: string;
+    email?: string;
+    oldPassword?: string;
+    newPassword?: string;
+}
+
 
 
 const authService = {
@@ -27,6 +34,11 @@ const authService = {
 
     register: async function (data: IRegisterParams) {
         await api.post('/users', data);
+    },
+
+    update: async function (data: IUpdateParams) {
+        const response = await api.put<IUser>('/users', data);
+        return response.data;
     }
 
 }

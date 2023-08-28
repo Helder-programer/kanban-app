@@ -2,12 +2,13 @@ import { parseCookies } from 'nookies';
 import { GetServerSideProps } from 'next';
 import { useTheme } from '@/contexts/theme';
 import { Button } from 'react-bootstrap';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, FormEvent } from 'react';
 import styled from 'styled-components';
 
 import { useAuth } from '@/contexts/auth';
 import AppLayout from '@/components/layouts/appLayout';
 import CustomInput from '@/components/common/inputStyled';
+import { authService } from '@/services/auth';
 
 type UserInputs = {
     name: string | undefined;
@@ -20,16 +21,38 @@ type UserInputs = {
 
 function Settings({ className }: { className: string }) {
     const { theme } = useTheme();
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
     const [userInputs, setUserInputs] = useState({ name: user?.name, email: user?.email } as UserInputs);
+    const [error, setError] = useState('');
 
 
     const handleChangeUserInputs = (event: ChangeEvent<HTMLInputElement>) => {
         setUserInputs({ ...userInputs, [event.target.id]: event.target.value });
     }
 
-    const handleSubmit = async () => {
-        
+    const handleSubmit = async (event: FormEvent) => {
+        event.preventDefault();
+
+
+        try {
+
+            if (userInputs.newPassword !== userInputs.confirmNewPassword) throw new Error('New password not matched with new password confirmation');
+            const user = await authService.update({
+                name: userInputs.name,
+                email: userInputs.email,
+                oldPassword: userInputs.oldPassword,
+                newPassword: userInputs.newPassword
+            });
+            
+            setUser(user);
+
+        } catch (err: any) {
+            console.log(err);
+            if (err.response)
+                setError(err.response.data.message);
+            else
+                setError(err.message);
+        }
     }
 
     return (
@@ -37,7 +60,7 @@ function Settings({ className }: { className: string }) {
             <main className={`px-5 py-3 d-flex flex-column w-100 ${className}`}>
                 <h1 className="text mb-4 fw-sembold">Settings</h1>
                 <section id="user-informations">
-                    <form method="get">
+                    <form onSubmit={handleSubmit}>
                         <CustomInput
                             label="Name*"
                             type="text"
@@ -88,7 +111,6 @@ function Settings({ className }: { className: string }) {
                             type="password"
                             id="newPassword"
                             name="newPassword"
-                            required
                             className="mt-4"
                             autoComplete="off"
                             value={userInputs.newPassword}
@@ -103,18 +125,19 @@ function Settings({ className }: { className: string }) {
                             type="password"
                             id="confirmNewPassword"
                             name="confirmNewPassword"
-                            required
                             className="mt-4"
                             autoComplete="off"
                             value={userInputs.confirmNewPassword}
+                            onChange={handleChangeUserInputs}
                             $withValueColor={theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}
                             $withoutValueColor="#6e6e6e"
                             $animationDuration="1s"
                             $animationDelay="0.1s"
                         />
-                        <div className="mt-4 d-flex gap-3">
+                        <div className="mt-4 d-flex gap-3 align-items-center flex-wrap">
                             <Button type="submit" variant="none" className="btn-custom-black-light text-custom-white">Save</Button>
                             <Button variant="none" type="reset" className="btn-danger text-custom-white">Cancel</Button>
+                            {error && <p className="text-danger m-0">{error}</p>}
                         </div>
                     </form>
 

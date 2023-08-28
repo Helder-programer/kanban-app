@@ -32,6 +32,9 @@ export class UserRepository implements IUserRepository {
     public async update({ userId, email, name, newPassword, oldPassword }: IUpdateUserDTO) {
         const userToUpdate = await this.findById(userId);
 
+        if (!await userToUpdate.isCorrectPassword(oldPassword))
+            throw new BadRequestError('Incorrect old password!');
+
         let objectToUpdate: any = {};
         if (name != userToUpdate.name && name)
             objectToUpdate.name = name;
@@ -40,9 +43,7 @@ export class UserRepository implements IUserRepository {
             objectToUpdate.email = email;
 
         if (newPassword) {
-            if (await userToUpdate.isCorrectPassword(oldPassword)) {
-                objectToUpdate.password = newPassword;
-            } else throw new BadRequestError('Incorrect old password!');
+            objectToUpdate.password = newPassword;
         }
 
         userToUpdate.set(objectToUpdate);
