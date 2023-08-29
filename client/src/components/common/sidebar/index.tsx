@@ -39,7 +39,7 @@ function Sidebar({ className }: IProps) {
     return (
         <div className={className}>
             {/* Checkbox Hacking */}
-            <input type="checkbox" checked={sidebarIsOpen} className="d-none" id="checkbox-to-nav" />
+            <input type="checkbox" checked={sidebarIsOpen} onChange={() => { } } className="d-none" id="checkbox-to-nav" />
             <label id="bar-open-nav" htmlFor="checkbox-to-nav" onClick={() => setSidebarIsOpen(!sidebarIsOpen)}></label>
             <label id="open-nav" className="text" htmlFor="checkbox-to-nav" onClick={() => setSidebarIsOpen(!sidebarIsOpen)}>
                 {sidebarIsOpen ? <AiOutlineArrowLeft /> : <AiOutlineArrowRight />}
