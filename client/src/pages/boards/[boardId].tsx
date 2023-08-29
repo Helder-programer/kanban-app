@@ -7,6 +7,7 @@ import { parseCookies } from 'nookies';
 import styled from 'styled-components';
 
 import { boardService } from "@/services/board";
+import { IBoard } from '@/types/IBoard';
 import { useBoards } from '@/contexts/boards';
 import { ISection } from '@/types/ISection';
 import EmojiPicker from '@/components/common/emojiPicker';
@@ -21,12 +22,12 @@ type CurrentBoardInformations = {
 }
 
 
-function Board() {
+function Board({ board }: { board: IBoard }) {
     const [currentBoardInformations, setCurrentBoardInformations] = useState({} as CurrentBoardInformations);
     const [sections, setSections] = useState<ISection[]>([]);
     const boardsContext = useBoards();
     const router = useRouter();
-    const boardId = String(router.query['boardId']);
+    const boardId = board.board_id;
 
     const deleteBoard = async () => {
         await boardService.deleteBoard({ boardId });
@@ -158,24 +159,16 @@ function Board() {
     }
 
     useEffect(() => {
-        const getOne = async () => {
-            try {
-                const board = await boardService.getOneBoard({ boardId });
-                setCurrentBoardInformations({
-                    title: board.title,
-                    description: board.description,
-                    icon: board.icon,
-                    favorite: board.favorite,
-                });
-                setSections(board.sections);
-            } catch (err: any) {
-                alert('Board not found!');
-            }
-        }
 
-        if (!router.isReady) return;
+        setCurrentBoardInformations({
+            title: board.title,
+            description: board.description,
+            icon: board.icon,
+            favorite: board.favorite,
+        });
+        setSections(board.sections);
 
-        getOne();
+
     }, [boardId]);
 
 
@@ -248,8 +241,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             }
         }
 
+
+
+    const boardId = String(ctx.query.boardId);
+    const board = await boardService.getOneBoard({ boardId, ctx });
+
+
     return {
-        props: {}
+        props: { board }
     }
 }
 

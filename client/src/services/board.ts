@@ -1,5 +1,6 @@
 import { IBoard } from "@/types/IBoard";
 import { api } from "./api";
+import { getApiClient } from "./apiUtils";
 
 interface IUpdateBoardsPositionsParams {
     boards: IBoard[];
@@ -10,6 +11,7 @@ interface IUpdateFavoritesBoardsPositionsParams {
 
 interface IGetOneBoardParams {
     boardId: string;
+    ctx?: any;
 }
 
 interface IDeleteBoardParams {
@@ -41,7 +43,9 @@ export const boardService = {
         return response.data;
     },
 
-    getOneBoard: async function ({ boardId }: IGetOneBoardParams) {
+    //Server Side
+    getOneBoard: async function ({ boardId, ctx }: IGetOneBoardParams) {
+        const api = getApiClient(ctx);
         const response = await api.get<IBoard>(`/boards/${boardId}`);
         return response.data;
     },
