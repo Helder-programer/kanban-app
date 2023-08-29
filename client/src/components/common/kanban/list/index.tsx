@@ -120,6 +120,7 @@ const StyledList = styled(List)`
 
     .task {
         background-color: ${({ theme }) => theme.colors.task};
+        word-break: break-all;
     }
 
     .task-dragging {

@@ -61,7 +61,7 @@ export class BoardRepository implements IBoardRepostiory {
                     required: false,
                 }
             ],
-            order: [[sequelize.col('sections.created_at'), 'ASC'], [sequelize.col('sections.tasks.position'), 'ASC']]
+            order: [[sequelize.col('sections.position'), 'ASC']]
         });
 
         if (!searchedBoard) throw new NotFoundError('Board not found!');

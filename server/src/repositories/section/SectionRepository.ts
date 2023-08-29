@@ -13,11 +13,17 @@ export class SectionRepository implements ISectionRepository {
     public async create(data: ICreateSectionDTO) {
         const sectionId = uuidv4();
 
-        const boardToValidate = Board.findOne({
+        const boardToValidate = await Board.findOne({
             where: {
                 user_id: data.userId,
                 board_id: data.boardId
-            }
+            },
+            include: [{
+                model: Section,
+                as: 'sections',
+                required: false
+            }]
+
         });
 
         if (!boardToValidate) throw new NotFoundError('Board not found!');
@@ -25,7 +31,8 @@ export class SectionRepository implements ISectionRepository {
         await Section.create({
             section_id: sectionId,
             board_id: data.boardId,
-            title: data.title
+            title: data.title,
+            position: boardToValidate.sections.length
         });
 
         const newSection = await Section.findByPk(sectionId, {
@@ -34,7 +41,7 @@ export class SectionRepository implements ISectionRepository {
                 required: false,
             }
         });
-         
+
         return newSection!;
     }
 

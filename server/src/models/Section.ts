@@ -20,6 +20,9 @@ export default class Section extends Model<Partial<ISection>> implements ISectio
     @Column(DataType.STRING)
     declare title: string;
 
+    @Column(DataType.INTEGER)
+    declare position: number;
+
     @Column(DataType.DATE)
     declare created_at: Date;
 

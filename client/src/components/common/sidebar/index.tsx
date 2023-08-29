@@ -1,19 +1,16 @@
 import styled from 'styled-components';
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 import { AiFillFolderAdd, AiFillSetting, AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
-import { useState } from 'react';
+import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 
 import { useAuth } from "@/contexts/auth";
 import { boardService } from '@/services/board';
 import { useBoards } from '@/contexts/boards';
-import BoardsList from './boardsList';
-import FavoritesBoardsList from './favoritesBoardsList';
-import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
 import { light, dark } from '@/styles/theme.styled';
 import { useTheme } from '@/contexts/theme';
-import { FaFilter } from 'react-icons/fa';
-import BoardsFilterPopover from './boardsFiltersPopover/boardsFilterPopover';
+import FavoritesBoardsList from './favoritesBoardsList';
+import BoardsList from './boardsList';
 
 
 
@@ -49,61 +46,38 @@ function Sidebar({ className }: IProps) {
             </label>
 
             <nav>
-                <div
-                    className="border-0 text px-3 pt-3 bg-transparent rounded-0 d-flex justify-content-center align-items-center"
-                    style={{ cursor: 'default' }}
-                >
-                    <h4 id="logo">Hn Kanban</h4>
-                </div>
 
-                <div
-                    className="border-0 text px-3 my-2 bg-transparent rounded-0 d-flex justify-content-between align-items-center"
-                    style={{ cursor: 'default' }}
-                >
+                <h4 className="text px-3 pt-3 d-flex justify-content-center align-items-center" id="logo">Hn Kanban</h4>
+
+                <div className="text px-3 my-2 d-flex justify-content-between align-items-center">
                     <div className="d-flex align-items-center">
-                        <BiSolidUser className="me-1" />
+                        <i className="me-1" ><BiSolidUser /></i>
                         <span id="username">{username}</span>
                     </div>
 
-                    <BiLogOut
-                        className='fs-5 icon'
-                        onClick={() => auth.logout()}
-                    />
+                    <i className='fs-5 icon' onClick={() => auth.logout()}>
+                        <BiLogOut />
+                    </i>
                 </div>
                 <hr className="text m-0" />
 
-                <div
-                    className="border-0 text px-3 mt-2 bg-transparent rounded-0 d-flex justify-content-between align-items-center"
-                    style={{ cursor: 'default' }}
-                >
+                <div className="text px-3 mt-2 d-flex justify-content-between align-items-center">
                     <span className="align-self-start mb-1">Favorites</span>
-                    {/* <FaFilter className="icon small-text" /> */}
-
                 </div>
-                <div
-                    className="border-0 p-0 text-custom-white bg-transparent rounded-0"
-                    id="favorite-board-list"
-                >
+
+                <div className="text-custom-white" id="favorite-board-list">
                     <FavoritesBoardsList />
                 </div>
                 <hr className="text m-0" />
 
-                <div
-                    className="border-0 px-3 mt-2 text bg-transparent rounded-0 d-flex justify-content-between align-items-center"
-                    style={{ cursor: 'default' }}
-                >
+                <div className="px-3 mt-2 text d-flex justify-content-between align-items-center">
                     <span className="mb-1">Boards</span>
-                    <div>
-                        <AiFillFolderAdd
-                            className="fs-5 me-1 icon"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => createBoard()}
-                        />
-                        <BoardsFilterPopover />
 
-                    </div>
+                    <i title="Create new board" className="fs-5 me-1 icon" style={{ cursor: 'pointer' }} onClick={() => createBoard()}>
+                        <AiFillFolderAdd />
+                    </i>
                 </div>
-                
+
                 <div id="board-list">
                     <BoardsList />
                 </div>

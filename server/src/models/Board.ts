@@ -78,14 +78,12 @@ export default class Board extends Model<Partial<IBoard>> implements IBoard {
 
         for (const counter in sectionsTitles) {
             let sectionId = uuidv4();
-            const section = await Section.create({
+            await Section.create({
                 section_id: sectionId,
                 board_id: instance.board_id,
                 title: sectionsTitles[counter],
-                created_at: new Date(Date.now() + (Number(counter) * 1000))
+                position: Number(counter)
             });
-
-            console.log(section.title);
         }
     }
 }
