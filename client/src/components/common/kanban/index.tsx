@@ -162,7 +162,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
                 <Button
                     variant="none"
 
-                    className={`${theme.name === 'dark-theme' ? 'btn-outline-custom-black-light' : 'btn-outline-custom-white-one'} text-primary`}
+                    className={`${theme.name === 'dark-theme' ? 'btn-outline-dark-secondary' : 'btn-outline-light-secondary'} text-primary`}
                     onClick={createSection}
                 >
                     Add Section

@@ -2,9 +2,10 @@ import { Card, Container, Form, Button, Spinner } from "react-bootstrap";
 import { FormEvent, useState } from "react";
 import { parseCookies } from "nookies";
 import { GetServerSideProps } from "next";
+import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
 import Link from "next/link";
 import styled from 'styled-components';
-import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
+import Head from "next/head";
 
 import CustomInput from "@/components/common/inputStyled";
 import { useAuth } from "@/contexts/auth";
@@ -41,13 +42,16 @@ function Login({ className }: { className: string }) {
 
     return (
         <Container fluid className={`d-flex justify-content-center position-relative align-items-center vh-100 vw-100 ${className}`}>
+            <Head>
+                <title>Login</title>
+            </Head>
             <i className="theme-icon" title="theme swicther">
                 {
                     theme.name === 'dark-theme' ? <BsFillSunFill
                         className="text-warning"
                         onClick={() => setTheme(light)}
                     /> : <BsFillMoonFill 
-                        className="text-custom-black-light" 
+                        className="text-dark-secondary" 
                         onClick={() => setTheme(dark)}
                     />
                 }
@@ -87,7 +91,7 @@ function Login({ className }: { className: string }) {
                         <div className="buttons w-100 d-flex flex-column align-items-center">
                             {error && <p style={{ fontSize: '0.9rem' }} className="text-danger align-self-start mt-3 mb-0">{error}</p>}
 
-                            <Button className='w-100 mt-3 btn-custom-black-light' variant="none"  type="submit">
+                            <Button className='w-100 mt-3 btn-dark-secondary' variant="none"  type="submit">
                                 {isLoading ? <Spinner variant="secondary" animation="border" /> : 'Login'}
                             </Button>
                             <Link href="/register" className="mt-3 text-center text-decoration-none">Don't have account? Create your account</Link>

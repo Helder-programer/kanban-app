@@ -11,6 +11,7 @@ import { light, dark } from '@/styles/theme.styled';
 import { useTheme } from '@/contexts/theme';
 import FavoritesBoardsList from './favoritesBoardsList';
 import BoardsList from './boardsList';
+import Link from 'next/link';
 
 
 
@@ -39,7 +40,7 @@ function Sidebar({ className }: IProps) {
     return (
         <div className={className}>
             {/* Checkbox Hacking */}
-            <input type="checkbox" checked={sidebarIsOpen} onChange={() => { } } className="d-none" id="checkbox-to-nav" />
+            <input type="checkbox" checked={sidebarIsOpen} onChange={() => { }} className="d-none" id="checkbox-to-nav" />
             <label id="bar-open-nav" htmlFor="checkbox-to-nav" onClick={() => setSidebarIsOpen(!sidebarIsOpen)}></label>
             <label id="open-nav" className="text" htmlFor="checkbox-to-nav" onClick={() => setSidebarIsOpen(!sidebarIsOpen)}>
                 {sidebarIsOpen ? <AiOutlineArrowLeft /> : <AiOutlineArrowRight />}
@@ -50,22 +51,24 @@ function Sidebar({ className }: IProps) {
                 <h4 className="text px-3 pt-3 d-flex justify-content-center align-items-center" id="logo">Hn Kanban</h4>
 
                 <div className="text px-3 my-2 d-flex justify-content-between align-items-center">
+
                     <div className="d-flex align-items-center">
-                        <i className="me-1" ><BiSolidUser /></i>
+                        <i className="me-1"><BiSolidUser /></i>
                         <span id="username">{username}</span>
                     </div>
 
-                    <i className='fs-5 icon' onClick={() => auth.logout()}>
+                    <i className='fs-5 icon' title="Logout" onClick={() => auth.logout()}>
                         <BiLogOut />
                     </i>
                 </div>
+
                 <hr className="text m-0" />
 
                 <div className="text px-3 mt-2 d-flex justify-content-between align-items-center">
                     <span className="align-self-start mb-1">Favorites</span>
                 </div>
 
-                <div className="text-custom-white" id="favorite-board-list">
+                <div className="text-light-primary" id="favorite-board-list">
                     <FavoritesBoardsList />
                 </div>
                 <hr className="text m-0" />
@@ -84,19 +87,17 @@ function Sidebar({ className }: IProps) {
 
                 <i className="theme-icon" title="theme switcher">
                     {
-                        theme.name === 'dark-theme' ? <BsFillSunFill
-                            className="text-warning"
-                            onClick={() => setTheme(light)}
-                        /> : <BsFillMoonFill
-                            className="text-custom-black"
-                            onClick={() => setTheme(dark)}
-                        />
+                        theme.name === 'dark-theme'
+                            ?
+                            <BsFillSunFill className="text-warning" onClick={() => setTheme(light)} />
+                            :
+                            <BsFillMoonFill className="text-dark-primary" onClick={() => setTheme(dark)} />
                     }
                 </i>
 
-                <i className="text settings-icon icon" title="Settings">
-                    <AiFillSetting onClick={() => router.push('/settings')} />
-                </i>
+                <Link href="/settings" className="text settings-icon icon" title="Settings">
+                    <i><AiFillSetting /></i>
+                </Link>
             </nav>
         </div>
     );

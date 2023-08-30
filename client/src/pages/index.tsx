@@ -1,8 +1,9 @@
 import { Button, Container } from "react-bootstrap";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { parseCookies } from "nookies";
+import { Spinner } from 'react-bootstrap';
+import { useState } from 'react';
 
 import AppLayout from "@/components/layouts/appLayout";
 import { boardService } from "@/services/board";
@@ -13,10 +14,12 @@ import { IBoard } from "@/types/IBoard";
 
 function Home() {
     const boardsContext = useBoards();
+    const [isLoading, setIsLoadind] = useState(false);
     const router = useRouter();
 
     const createBoard = async () => {
         try {
+            setIsLoadind(true);
             const newBoard = await boardService.createBoard();
             boardsContext.setBoards(state => [...state, newBoard]);
             router.push(`/boards/${newBoard.board_id}`);
@@ -29,9 +32,12 @@ function Home() {
     return (
         <AppLayout>
             <main className="d-flex w-100 h-100 justify-content-center align-items-center">
-                <Button variant="none" className="btn btn-outline-success fw-bold" onClick={() => createBoard()}>
-                    CLICK HERE TO CREATE YOUR FIRST BOARD
-                </Button>
+                {
+                    isLoading ? <Spinner animation="border" variant="none" className="text" /> :
+                        <Button variant="none" className="btn btn-outline-success fw-bold" onClick={() => createBoard()}>
+                            CLICK HERE TO CREATE YOUR FIRST BOARD
+                        </Button>
+                }
             </main>
         </AppLayout>
     );

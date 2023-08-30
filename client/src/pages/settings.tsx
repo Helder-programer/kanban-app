@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import { useTheme } from '@/contexts/theme';
 import { Button } from 'react-bootstrap';
 import { ChangeEvent, useState, FormEvent } from 'react';
+import Head from 'next/head';
 import styled from 'styled-components';
 
 import { useAuth } from '@/contexts/auth';
@@ -68,6 +69,9 @@ function Settings({ className }: { className: string }) {
 
     return (
         <AppLayout>
+            <Head>
+                <title>Settings</title>
+            </Head>
             <main className={`px-5 py-3 d-flex flex-column w-100 ${className}`}>
                 <h1 className="text mb-4 fw-sembold">Settings</h1>
                 <section id="user-informations">
@@ -147,8 +151,8 @@ function Settings({ className }: { className: string }) {
                             $animationDelay="0.1s"
                         />
                         <div className="mt-4 d-flex gap-3 align-items-center flex-wrap">
-                            <Button type="submit" variant="none" className="btn-custom-black-light text-custom-white">Save</Button>
-                            <Button variant="none" type="button" className="btn-danger text-custom-white" onClick={handleClearInputs}>Cancel</Button>
+                            <Button type="submit" variant="none" className="btn-dark-secondary text-light-primary">Save</Button>
+                            <Button variant="none" type="button" className="btn-danger text-light-primary" onClick={handleClearInputs}>Cancel</Button>
                             {message.text && <p className={`${message.isError ? 'text-danger' : 'text-success'} m-0`}>{message.text}</p>}
                         </div>
                     </form>

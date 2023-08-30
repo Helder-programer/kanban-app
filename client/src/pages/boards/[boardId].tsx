@@ -4,10 +4,10 @@ import { FaTrash } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
-import styled from 'styled-components';
+import { Spinner } from 'react-bootstrap';
+import Head from 'next/head';
 
 import { boardService } from "@/services/board";
-import { IBoard } from '@/types/IBoard';
 import { useBoards } from '@/contexts/boards';
 import { ISection } from '@/types/ISection';
 import EmojiPicker from '@/components/common/emojiPicker';
@@ -22,14 +22,17 @@ type CurrentBoardInformations = {
 }
 
 
-function Board({ board }: { board: IBoard }) {
+function Board() {
     const [currentBoardInformations, setCurrentBoardInformations] = useState({} as CurrentBoardInformations);
     const [sections, setSections] = useState<ISection[]>([]);
     const boardsContext = useBoards();
     const router = useRouter();
-    const boardId = board.board_id;
+    const boardId = String(router.query['boardId']);
+    const [isLoading, setIsLoading] = useState(false);
 
     const deleteBoard = async () => {
+        setIsLoading(true);
+
         await boardService.deleteBoard({ boardId });
 
         const newBoards = [...boardsContext.boards];
@@ -160,21 +163,47 @@ function Board({ board }: { board: IBoard }) {
 
     useEffect(() => {
 
-        setCurrentBoardInformations({
-            title: board.title,
-            description: board.description,
-            icon: board.icon,
-            favorite: board.favorite,
-        });
-        setSections(board.sections);
+        const getOne = async () => {
+            try {
+                setIsLoading(true);
 
+                const board = await boardService.getOneBoard({ boardId });
+                setCurrentBoardInformations({
+                    title: board.title,
+                    description: board.description,
+                    icon: board.icon,
+                    favorite: board.favorite,
+                });
+                setSections(board.sections);
 
+                setIsLoading(false);
+            } catch (err: any) {
+                console.log(err);
+            }
+        }
+
+        if (!router.isReady) return;
+
+        getOne();
     }, [boardId]);
 
+
+    if (isLoading) {
+        return (
+            <AppLayout>
+                <main className="px-2 py-3 d-flex flex-column h-100 d-flex align-items-center justify-content-center" style={{ width: '100%', overflow: 'hidden' }}>
+                    <Spinner variant="none" animation="border" className="text" />
+                </main>
+            </AppLayout>
+        );
+    }
 
 
     return (
         <AppLayout>
+            <Head>
+                <title>Board "{currentBoardInformations.title || 'Untitled'}"</title>
+            </Head>
             <main className="px-2 py-3 d-flex flex-column h-100" style={{ width: '100%', overflow: 'hidden' }}>
                 <section className="d-flex w-100 justify-content-between mb-3 px-2">
                     <i
@@ -194,7 +223,7 @@ function Board({ board }: { board: IBoard }) {
                     </i>
                 </section>
 
-                <section className="px-5">
+                <section className="px-4">
                     <section>
                         <div className="d-flex align-items-center gap-2">
 
@@ -218,11 +247,7 @@ function Board({ board }: { board: IBoard }) {
                     </section>
 
 
-                    <Kanban
-                        sections={sections}
-                        setSections={setSections}
-                        boardId={boardId}
-                    />
+                    <Kanban sections={sections} setSections={setSections} boardId={boardId} />
                 </section>
             </main>
         </AppLayout>
@@ -241,14 +266,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             }
         }
 
-
-
-    const boardId = String(ctx.query.boardId);
-    const board = await boardService.getOneBoard({ boardId, ctx });
-
-
     return {
-        props: { board }
+        props: {}
     }
 }
 

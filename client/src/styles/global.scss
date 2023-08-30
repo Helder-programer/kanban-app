@@ -8,27 +8,23 @@
     font-family: 'Poppins';
 }
 
-$custom-black: #141214;
-$custom-white: #eee;
-$custom-black-light: #333;
-$custom-black-one: #0f0f0f;
-$custom-blue: #0d6efd;
-$custom-white-one: #EBECF0;
+$dark-primary: #141214;
+$dark-secondary: #333;
+$light-primary: #eee;
+$light-secondary: #EBECF0;
 
 $custom-green: #157347;
 $custom-red: #a30101;
 $custom-yellow: #ffc107;
 
 $custom-colors: (
-    "custom-black": $custom-black,
-    "custom-black-light": $custom-black-light,
-    "custom-white": $custom-white,
+    "dark-primary": $dark-primary,
+    "dark-secondary": $dark-secondary,
+    "light-primary": $light-primary,
+    "light-secondary": $light-secondary,
     "success": $custom-green,
     "danger": $custom-red,
     "warning": $custom-yellow,
-    "custom-blue": $custom-blue,
-    "custom-black-one": $custom-black-one,
-    "custom-white-one": $custom-white-one
 );
 
 

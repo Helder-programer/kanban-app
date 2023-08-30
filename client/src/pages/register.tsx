@@ -1,11 +1,12 @@
 import { Card, Container, Form, Button, Spinner } from "react-bootstrap";
 import { FormEvent, useState } from "react";
 import { GetServerSideProps } from "next";
+import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
+import { parseCookies } from "nookies";
 import Router from "next/router";
 import Link from "next/link";
 import styled from 'styled-components';
-import { parseCookies } from "nookies";
-import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
+import Head from "next/head";
 
 import CustomInput from "@/components/common/inputStyled";
 import { authService } from "@/services/auth";
@@ -55,13 +56,16 @@ function Register({ className }: { className: string }) {
 
     return (
         <Container fluid className={`d-flex justify-content-center align-items-center ${className}`}>
+            <Head>
+                <title>Register</title>
+            </Head>
             <i className="theme-icon" title="theme switcher">
                 {
                     theme.name === 'dark-theme' ? <BsFillSunFill
                         className="text-warning"
                         onClick={() => setTheme(light)}
                     /> : <BsFillMoonFill
-                        className="text-custom-black-light"
+                        className="text-dark-secondary"
                         onClick={() => setTheme(dark)}
                     />
                 }
@@ -125,7 +129,7 @@ function Register({ className }: { className: string }) {
                         />
                         <div className="buttons w-100 d-flex flex-column align-items-center">
                             {error && <p style={{ fontSize: '0.9rem' }} className="text-danger align-self-start mt-3 mb-0">{error}</p>}
-                            <Button className='w-100 mt-3 btn-custom-black-light' variant="none" type="submit">
+                            <Button className='w-100 mt-3 btn-dark-secondary' variant="none" type="submit">
                                 {isLoading ? <Spinner variant="secondary" animation="border" /> : 'Create your account'}
                             </Button>
                             <Link href="/login" className="mt-3 text-center text-decoration-none">You have account? Make your login</Link>

@@ -11,7 +11,6 @@ interface IUpdateFavoritesBoardsPositionsParams {
 
 interface IGetOneBoardParams {
     boardId: string;
-    ctx?: any;
 }
 
 interface IDeleteBoardParams {
@@ -44,8 +43,7 @@ export const boardService = {
     },
 
     //Server Side
-    getOneBoard: async function ({ boardId, ctx }: IGetOneBoardParams) {
-        const api = getApiClient(ctx);
+    getOneBoard: async function ({ boardId }: IGetOneBoardParams) {
         const response = await api.get<IBoard>(`/boards/${boardId}`);
         return response.data;
     },
