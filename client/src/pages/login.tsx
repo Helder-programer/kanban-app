@@ -137,19 +137,3 @@ const StyledLogin = styled(Login)`
 
 
 export default StyledLogin;
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const { 'kanban-token': token } = parseCookies(ctx);
-
-    if (token)
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false
-            }
-        }
-
-    return {
-        props: {}
-    }
-}

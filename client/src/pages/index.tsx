@@ -45,16 +45,6 @@ function Home() {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
-    const { 'kanban-token': token } = parseCookies(ctx);
-
-    if (!token)
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false
-            }
-        }
-
     const response = await getApiClient(ctx).get<IBoard[]>('/boards');
     const boards = response.data;
 
