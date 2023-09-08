@@ -30,6 +30,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (token) {
             authService.recoverUserInformations().then(user => {
                 setUser(user);
+            }).catch(err => {
+                console.log('Invalid Token (In Auth Context)');
             });
         }
     }, []);
