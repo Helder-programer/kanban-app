@@ -140,6 +140,7 @@ function TaskModal({ currentTask, setCurrentTask, boardId, className, deleteTask
                             style={{ outline: 'none' }}
                             value={taskTitle}
                             onChange={updateTitle}
+                            maxLength={100}
                         />
                         <i style={{ cursor: 'pointer' }} title="Delete this task" onClick={() => deleteTask()}>
                             <FaTrash className="fs-5 text-danger" />

@@ -234,6 +234,7 @@ function Board() {
                                 style={{ outline: 'none' }}
                                 placeholder="Untitled"
                                 type="text"
+                                maxLength={150}
                                 onChange={updateTitle}
                             />
                         </div>
@@ -243,6 +244,7 @@ function Board() {
                             style={{ outline: 'none', resize: 'none' }}
                             placeholder="Add description here..."
                             onChange={updateDescription}
+                            maxLength={250}
                         />
                     </section>
 

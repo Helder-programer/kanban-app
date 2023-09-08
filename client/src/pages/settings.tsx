@@ -82,6 +82,7 @@ function Settings({ className }: { className: string }) {
                             type="text"
                             id="name"
                             name="name"
+                            maxLength={45}
                             required
                             className="mt-3"
                             autoComplete="off"
@@ -97,6 +98,7 @@ function Settings({ className }: { className: string }) {
                             type="text"
                             id="email"
                             name="email"
+                            maxLength={200}
                             required
                             className="mt-3"
                             autoComplete="off"

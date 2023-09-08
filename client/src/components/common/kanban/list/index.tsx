@@ -45,6 +45,7 @@ function List({
                                             className="outline-0 bg-transparent w-100 fw-bold border-0 text"
                                             value={section.title}
                                             placeholder="Untitled"
+                                            maxLength={30}
                                             onChange={event => updateSection(event, section.section_id)}
                                         />
                                         <i

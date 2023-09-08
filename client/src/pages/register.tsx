@@ -80,6 +80,7 @@ function Register({ className }: { className: string }) {
                             type="text"
                             id="name"
                             name="name"
+                            maxLength={45}
                             $withValueColor={theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}
                             $withoutValueColor='#6e6e6e'
                             className="mt-4"
@@ -93,6 +94,7 @@ function Register({ className }: { className: string }) {
                             type="email"
                             id="email"
                             name="email"
+                            maxLength={200}
                             $withValueColor={theme.name === 'dark-theme' ? '#eeeeee' : '#000000'}
                             $withoutValueColor="#6e6e6e"
                             className="mt-4"

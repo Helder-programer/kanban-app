@@ -11,7 +11,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
     $animationDuration?: string;
 }
 
-function CustomInput({ value, onChange, type, label, id, autoComplete, className, required, name }: IProps) {
+function CustomInput({ value, onChange, type, label, id, autoComplete, className, required, name, maxLength }: IProps) {
     return (
         <div className={className} id="input-styled-div">
             <input
@@ -19,6 +19,7 @@ function CustomInput({ value, onChange, type, label, id, autoComplete, className
                 name={name}
                 type={type}
                 autoComplete={autoComplete}
+                maxLength={maxLength}
                 placeholder="."
                 className="input-form"
                 required={required}
