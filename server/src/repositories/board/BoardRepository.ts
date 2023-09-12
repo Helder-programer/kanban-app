@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import sequelize, { Op } from 'sequelize';
 
 import Board from "../../models/Board";
 import Section from "../../models/Section";
@@ -13,7 +14,6 @@ import { IDeleteBoardDTO } from "./dtos/IDeleteBoardDTO";
 import { IUpdateBoardDTO } from "./dtos/IUpdateBoardDTO";
 import { IFindFavoritesDTO } from "./dtos/IFindFavoritesDTO";
 import { IUpdateFavoritesPositionDTO } from "./dtos/IUpdateFavoritesPositionDTO";
-import sequelize, { Op } from 'sequelize';
 
 export class BoardRepository implements IBoardRepostiory {
 
@@ -108,7 +108,7 @@ export class BoardRepository implements IBoardRepostiory {
             }
         }
 
-        let objectToUpdate: any = {}
+        let objectToUpdate: any = {};
         if (data.title) objectToUpdate.title = data.title;
         if (data.description) objectToUpdate.description = data.description;
         if (data.icon) objectToUpdate.icon = data.icon;

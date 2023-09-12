@@ -1,6 +1,4 @@
-import { parseCookies } from 'nookies';
-import { GetServerSideProps } from 'next';
-import { useTheme } from '@/contexts/theme';
+    import { useTheme } from '@/contexts/theme';
 import { Button } from 'react-bootstrap';
 import { ChangeEvent, useState, FormEvent } from 'react';
 import Head from 'next/head';

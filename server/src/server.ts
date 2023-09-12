@@ -3,7 +3,6 @@ import 'express-async-errors';
 import dotenv from 'dotenv';
 import cors from 'cors';
 dotenv.config();
-import './database';
 
 import { errorMiddleware } from './middlewares/error';
 import { IUser } from './models/types/IUser';
@@ -15,13 +14,16 @@ import './database';
 
 const app = express();
 
+//General Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+//Routes
 app.use('/users', usersRouter);
 app.use('/boards', boardsRouter);
 app.use('/boards/:boardId/sections', sectionsRouter, tasksRouter);
 
+//Error Middleware
 app.use(errorMiddleware);
 
 declare global {
@@ -32,7 +34,8 @@ declare global {
     }
 }
 
+const serverPort = process.env.SERVER_PORT;
 
-app.listen(8000, () => {
-    console.log('Servidor Rodando');
+app.listen(serverPort, () => {
+    console.log(`Servidor rodando na porta ${serverPort}`);
 });

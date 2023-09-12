@@ -1,7 +1,6 @@
-import { Request, Response, NextFunction, json } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-import { UnauthorizedError } from '../helpers/apiErrors';
 import { UserRepository } from '../repositories/user/UserRepository';
 
 
@@ -12,15 +11,15 @@ export const authMiddleware = (
 ) => {
     const userRepository = new UserRepository();
     const token = req.headers['authorization'];
-    if (!token) throw new UnauthorizedError('Unauthorized: No token provided!');
+    if (!token) return res.status(401).json({message: 'Unauthorized: No token provided!'});
 
+    jwt.verify(token, process.env.TOKEN_SECRET_KEY!, (err, decoded: any) => {
+        if (err) return res.status(401).json({ message: 'Unauthorized: Invalid token!' });
 
-        jwt.verify(token, process.env.TOKEN_SECRET_KEY!, (err, decoded: any) => {
-            if (err) throw new UnauthorizedError('Unauthorized: Invalid token!');
-            userRepository.findById(decoded.id).then(user => {
-                req.user = user;
-                next();
-            });
+        userRepository.findById(decoded.id).then(user => {
+            req.user = user;
+            next();
         });
+    });
 
 }
