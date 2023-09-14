@@ -55,7 +55,7 @@ function Register({ className }: { className: string }) {
 
 
     return (
-        <Container fluid className={`d-flex justify-content-center align-items-center ${className}`}>
+        <Container as={'main'} fluid className={`d-flex justify-content-center align-items-center ${className}`}>
             <Head>
                 <title>Register</title>
             </Head>

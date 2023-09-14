@@ -12,9 +12,9 @@ export const getApiClient = (ctx: any) => {
             config.headers['authorization'] = token;
             return config;
         },
-        (error => {
+        error => {
             return Promise.reject(error);
-        })
+        }
     );
 
 

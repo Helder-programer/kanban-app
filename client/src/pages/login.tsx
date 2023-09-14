@@ -41,7 +41,7 @@ function Login({ className }: { className: string }) {
     }
 
     return (
-        <Container fluid className={`d-flex justify-content-center position-relative align-items-center vh-100 vw-100 ${className}`}>
+        <Container as={'main'} fluid className={`d-flex justify-content-center position-relative align-items-center vh-100 vw-100 ${className}`}>
             <Head>
                 <title>Login</title>
             </Head>

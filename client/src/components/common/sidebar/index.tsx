@@ -24,7 +24,7 @@ function Sidebar({ className }: IProps) {
     const auth = useAuth();
     const boardsContext = useBoards();
     const { theme, setTheme, sidebarIsOpen, setSidebarIsOpen } = useTheme();
-    const router = useRouter();
+
     let username = auth.user?.name;
 
     if (username)
@@ -76,7 +76,7 @@ function Sidebar({ className }: IProps) {
                 <div className="px-3 mt-2 text d-flex justify-content-between align-items-center">
                     <span className="mb-1">Boards</span>
 
-                    <i title="Create new board" className="fs-5 me-1 icon" style={{ cursor: 'pointer' }} onClick={() => createBoard()}>
+                    <i title="Create new board" className="fs-5 icon" style={{ cursor: 'pointer' }} onClick={() => createBoard()}>
                         <AiFillFolderAdd />
                     </i>
                 </div>

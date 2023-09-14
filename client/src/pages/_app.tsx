@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <BoardsContextProvider>
                     <StyleSheetManager shouldForwardProp={(prop: string) => !prop.startsWith('$')}>
 
-                    <Component {...pageProps} />
+                        <Component {...pageProps} />
 
                     </StyleSheetManager>
                 </BoardsContextProvider>
