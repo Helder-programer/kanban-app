@@ -1,12 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-//   reactStrictMode: true,
+    //   reactStrictMode: true,
     images: {
         domains: ['github.com']
     },
-  compiler: {
-    styledComponents: true
-  }
+    compiler: {
+        styledComponents: true
+    },
+    env: {
+        API_URL: 'http://localhost:8000'
+    }
 }
 
 module.exports = nextConfig

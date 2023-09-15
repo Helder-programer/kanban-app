@@ -5,18 +5,18 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 
 
-export default async function verifyToken(req: NextApiRequest, res: NextApiResponse) {    
+export default async function verifyToken(req: NextApiRequest, res: NextApiResponse) {
     const token = req.headers['kanban-token'];
 
     try {
-        await axios.get('http://localhost:8000/users/recoverUserInformations', {
+        await axios.get(`${process.env.API_URL}/users/recoverUserInformations`, {
             headers: {
                 authorization: token
             }
         });
 
         res.status(200).json(true);
-    }catch(err: any) {
+    } catch (err: any) {
         res.status(401).json(false);
     }
 }

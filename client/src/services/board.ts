@@ -1,6 +1,5 @@
 import { IBoard } from "@/types/IBoard";
 import { api } from "./api";
-import { getApiClient } from "./apiUtils";
 
 interface IUpdateBoardsPositionsParams {
     boards: IBoard[];

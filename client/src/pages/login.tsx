@@ -1,7 +1,5 @@
 import { Card, Container, Form, Button, Spinner } from "react-bootstrap";
 import { FormEvent, useState } from "react";
-import { parseCookies } from "nookies";
-import { GetServerSideProps } from "next";
 import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
 import Link from "next/link";
 import styled from 'styled-components';
