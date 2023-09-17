@@ -7,7 +7,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     body {
-        overflow-x: hidden;
+        overflow: hidden;
     }
 
     .small-text {
@@ -25,6 +25,13 @@ export const GlobalStyles = createGlobalStyle`
             filter: brightness(50%);
         }
     }  
+
+
+    .logo {
+        font-weight: 700;
+        white-space: nowrap;
+        letter-spacing: -0.75px;
+    }
 
 
     //ScrollBar

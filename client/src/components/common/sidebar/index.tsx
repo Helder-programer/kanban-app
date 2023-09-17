@@ -46,10 +46,7 @@ function Sidebar({ className }: IProps) {
                 {sidebarIsOpen ? <AiOutlineArrowLeft /> : <AiOutlineArrowRight />}
             </label>
 
-            <nav>
-
-                <h4 className="text px-3 pt-3 d-flex justify-content-center align-items-center" id="logo">Hn Kanban</h4>
-
+            <aside>
                 <div className="text px-3 my-2 d-flex justify-content-between align-items-center">
 
                     <div className="d-flex align-items-center">
@@ -64,41 +61,57 @@ function Sidebar({ className }: IProps) {
 
                 <hr className="text m-0" />
 
-                <div className="text px-3 mt-2 d-flex justify-content-between align-items-center">
-                    <span className="align-self-start mb-1">Favorites</span>
-                </div>
 
-                <div className="text-light-primary" id="favorite-board-list">
-                    <FavoritesBoardsList />
+                <div className="favorites text">
+
+                    <span className="px-3 mt-2 w-100 d-block">Favorites</span>
+
+
+                    <div id="favorite-board-list">
+                        <FavoritesBoardsList />
+                    </div>
                 </div>
                 <hr className="text m-0" />
 
-                <div className="px-3 mt-2 text d-flex justify-content-between align-items-center">
-                    <span className="mb-1">Boards</span>
 
-                    <i title="Create new board" className="fs-5 icon" style={{ cursor: 'pointer' }} onClick={() => createBoard()}>
-                        <AiFillFolderAdd />
+                <div className="boards">
+
+                    <div className="px-3 mt-2 mb-1 text d-flex justify-content-between align-items-center">
+                        <span>Boards</span>
+
+                        <i
+                            title="Create new board"
+                            className="fs-5 icon"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => createBoard()}>
+                            <AiFillFolderAdd />
+                        </i>
+                    </div>
+
+                    <div id="board-list">
+
+                        <BoardsList />
+
+                    </div>
+                </div>
+
+
+                <div className="footer px-2">
+                    <i title="theme switcher">
+                        {
+                            theme.name === 'dark-theme'
+                                ?
+                                <BsFillSunFill className="text-warning" onClick={() => setTheme(light)} />
+                                :
+                                <BsFillMoonFill className="text-dark-primary" onClick={() => setTheme(dark)} />
+                        }
                     </i>
+
+                    <Link href="/settings" className="text icon" title="Settings">
+                        <i><AiFillSetting /></i>
+                    </Link>
                 </div>
-
-                <div id="board-list">
-                    <BoardsList />
-                </div>
-
-                <i className="theme-icon" title="theme switcher">
-                    {
-                        theme.name === 'dark-theme'
-                            ?
-                            <BsFillSunFill className="text-warning" onClick={() => setTheme(light)} />
-                            :
-                            <BsFillMoonFill className="text-dark-primary" onClick={() => setTheme(dark)} />
-                    }
-                </i>
-
-                <Link href="/settings" className="text settings-icon icon" title="Settings">
-                    <i><AiFillSetting /></i>
-                </Link>
-            </nav>
+            </aside>
         </div>
     );
 }
@@ -106,12 +119,12 @@ function Sidebar({ className }: IProps) {
 const StyledSidebar = styled(Sidebar)`
     position: relative;
 
-    nav {
+    aside {
         background-color: ${({ theme }) => theme.colors.sidebar};
         position: relative;
         width: 15px;
         overflow: hidden;
-        height: 100vh;
+        height: calc(100vh - 42px);
         transition: width 0.3s ease-in-out;
     }
 
@@ -120,16 +133,10 @@ const StyledSidebar = styled(Sidebar)`
             left: -150%;            
         }
 
-        &~nav {
+        &~aside {
             width: 250px;
         }
     }
-
-    #logo {
-        font-weight: 700;
-        white-space: nowrap;
-        letter-spacing: -0.75px;
-    }    
     
     #open-nav {
         top: 10px;
@@ -142,7 +149,6 @@ const StyledSidebar = styled(Sidebar)`
     #bar-open-nav, #open-nav {
         position: absolute;
         background-color: ${({ theme }) => theme.colors.sidebar};
-        transition: all 0.3s ease-in-out;
         cursor: pointer;
         z-index: 3;
     }
@@ -152,9 +158,17 @@ const StyledSidebar = styled(Sidebar)`
         height: 100%;
         width: 20px;
         &:hover {
+            transition: all 0.3s ease-in-out;
             background-color: #6b6b6b;
             &~#open-nav {
+                transition: all 0.3s ease-in-out;
                 background-color: #6b6b6b;
+            }
+        }
+        &:not(:hover) {
+            transition: all 0.3s ease-in-out;
+            &~#open-nav {
+                transition: all 0.3s ease-in-out;
             }
         }
     }
@@ -172,24 +186,14 @@ const StyledSidebar = styled(Sidebar)`
         overflow-y: auto;
         overflow-x: hidden;
     }
-    
-    .settings-icon {
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
         position: absolute;
-        top: calc(100vh - 30px);
-        right: 10px;
-        
-        svg {
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 9999;
-        }
-    }
-    
-    .theme-icon {
-        position: absolute;
-        top: calc(100vh - 30px);
-        left: 5px;
-        
+        top: calc(100% - 35px);
+
         svg {
             font-size: 1.2rem;
             cursor: pointer;

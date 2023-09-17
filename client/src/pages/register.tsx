@@ -72,7 +72,7 @@ function Register({ className }: { className: string }) {
             </i>
             <Card className="bg-transparent border-0">
                 <Card.Body>
-                    <h1 className="text-center text fw-bold tipography">Hn Kanban</h1>
+                    <h1 className="text-center text logo">Hn Kanban</h1>
                     <h5 className="text-center text tipography">Create Your Account</h5>
                     <Form style={{ width: '100%' }} onSubmit={handleSubmit}>
                         <CustomInput

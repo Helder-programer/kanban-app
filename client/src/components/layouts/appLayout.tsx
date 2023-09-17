@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import styled from 'styled-components';
+import Navbar from '../common/navbar';
 import Sidebar from '../common/sidebar';
 
 interface IProps {
@@ -11,20 +12,23 @@ interface IProps {
 
 function AppLayout({ className, children }: IProps) {
     return (
-        <div className={className}>
-            <Sidebar />
-            {children}
-        </div>
+        <>
+            <Navbar />
+            <div className={className}>
+                <Sidebar />
+                {children}
+            </div>
+        </>
     );
 }
 
 
 const StyledAppLayout = styled(AppLayout)`
-    height: 100vh;
+    height: calc(100vh - 42px);
     max-width: 100vw;
     display: flex;
     overflow: hidden;
-    background-color: ${({theme}) => theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export default StyledAppLayout;
