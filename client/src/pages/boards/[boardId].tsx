@@ -2,8 +2,6 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import { FaTrash } from 'react-icons/fa';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
 import { Spinner } from 'react-bootstrap';
 import Head from 'next/head';
 
@@ -31,6 +29,10 @@ function Board() {
     const [isLoading, setIsLoading] = useState(false);
 
     const deleteBoard = async () => {
+        const confirmation = confirm('Do you want delete this board?');
+
+        if (!confirmation) return;
+
         setIsLoading(true);
 
         await boardService.deleteBoard({ boardId });
@@ -45,8 +47,6 @@ function Board() {
 
         boardsContext.setBoards(newBoards);
         boardsContext.setFavoritesBoards(newFavoritesBoards);
-
-
 
         try {
             await boardService.updateBoardsPositions({ boards: newBoards });
@@ -104,9 +104,6 @@ function Board() {
             newFavoritesBoards[index] = { ...newFavoritesBoards[index], title: newTitle };
             boardsContext.setFavoritesBoards(newFavoritesBoards);
         }
-
-
-
 
 
         timer = setTimeout(async () => {
@@ -198,14 +195,13 @@ function Board() {
         );
     }
 
-
     return (
         <AppLayout>
             <Head>
                 <title>Board "{currentBoardInformations.title || 'Untitled'}"</title>
             </Head>
             <main className="px-2 py-3 d-flex flex-column h-100" style={{ width: '100%', overflow: 'hidden' }}>
-                <section className="d-flex w-100 justify-content-between mb-3 px-2">
+                <section className="d-flex w-100 justify-content-between mb-2 px-2">
                     <i
                         className="text-warning"
                         style={{ cursor: 'pointer' }}

@@ -1,8 +1,6 @@
 import { Card, Container, Form, Button, Spinner } from "react-bootstrap";
 import { FormEvent, useState } from "react";
-import { GetServerSideProps } from "next";
 import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
-import { parseCookies } from "nookies";
 import Router from "next/router";
 import Link from "next/link";
 import styled from 'styled-components';
@@ -55,16 +53,18 @@ function Register({ className }: { className: string }) {
 
 
     return (
-        <Container as={'main'} fluid className={`d-flex justify-content-center align-items-center ${className}`}>
+        <Container as='main' fluid className={className}>
             <Head>
                 <title>Register</title>
             </Head>
             <i className="theme-icon" title="theme switcher">
                 {
-                    theme.name === 'dark-theme' ? <BsFillSunFill
+                    theme.name === 'dark-theme' ? 
+                    <BsFillSunFill
                         className="text-warning"
                         onClick={() => setTheme(light)}
-                    /> : <BsFillMoonFill
+                    /> : 
+                    <BsFillMoonFill
                         className="text-dark-secondary"
                         onClick={() => setTheme(dark)}
                     />
@@ -134,7 +134,7 @@ function Register({ className }: { className: string }) {
                             <Button className='w-100 mt-3 btn-dark-secondary' variant="none" type="submit">
                                 {isLoading ? <Spinner variant="secondary" animation="border" /> : 'Create your account'}
                             </Button>
-                            <Link href="/login" className="mt-3 text-center text-decoration-none">You have account? Make your login</Link>
+                            <Link href="/login" className="mt-3 text-center text-decoration-none">Do you have account? Make your login</Link>
                         </div>
                     </Form>
                 </Card.Body>
@@ -147,6 +147,9 @@ const StyledRegister = styled(Register)`
     min-height: 100vh;
     min-width: 100vw;
     background-color: ${({ theme }) => theme.colors.primary};
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
 
     .tipography {

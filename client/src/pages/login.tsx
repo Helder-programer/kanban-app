@@ -39,17 +39,19 @@ function Login({ className }: { className: string }) {
     }
 
     return (
-        <Container as={'main'} fluid className={`d-flex justify-content-center position-relative align-items-center vh-100 vw-100 ${className}`}>
+        <Container as='main' fluid className={className}>
             <Head>
                 <title>Login</title>
             </Head>
             <i className="theme-icon" title="theme swicther">
                 {
-                    theme.name === 'dark-theme' ? <BsFillSunFill
+                    theme.name === 'dark-theme' ? 
+                    <BsFillSunFill
                         className="text-warning"
                         onClick={() => setTheme(light)}
-                    /> : <BsFillMoonFill 
-                        className="text-dark-secondary" 
+                    /> : 
+                    <BsFillMoonFill
+                        className="text-dark-secondary"
                         onClick={() => setTheme(dark)}
                     />
                 }
@@ -89,7 +91,7 @@ function Login({ className }: { className: string }) {
                         <div className="buttons w-100 d-flex flex-column align-items-center">
                             {error && <p style={{ fontSize: '0.9rem' }} className="text-danger align-self-start mt-3 mb-0">{error}</p>}
 
-                            <Button className='w-100 mt-3 btn-dark-secondary' variant="none"  type="submit">
+                            <Button className='w-100 mt-3 btn-dark-secondary' variant="none" type="submit">
                                 {isLoading ? <Spinner variant="secondary" animation="border" /> : 'Login'}
                             </Button>
                             <Link href="/register" className="mt-3 text-center text-decoration-none">Don't have account? Create your account</Link>
@@ -104,7 +106,10 @@ function Login({ className }: { className: string }) {
 const StyledLogin = styled(Login)`
     min-height: 100vh;
     min-width: 100vw;
-    background-color: ${({theme}) => theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.primary};
+    display: flex;
+    justify-content: center; 
+    align-items: center;
 
 
     .tipography {
