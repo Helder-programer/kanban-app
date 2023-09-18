@@ -240,7 +240,7 @@ function Board() {
                         </div>
                         <input
                             value={currentBoardInformations.description}
-                            className="w-100 mt-3 bg-transparent border-0 p-0 outline-none ps-5 text"
+                            className="w-100 mt-2 bg-transparent border-0 p-0 outline-none ps-5 text"
                             style={{ outline: 'none', resize: 'none' }}
                             placeholder="Add description here..."
                             onChange={updateDescription}

@@ -1,4 +1,4 @@
-    import { useTheme } from '@/contexts/theme';
+import { useTheme } from '@/contexts/theme';
 import { Button } from 'react-bootstrap';
 import { ChangeEvent, useState, FormEvent } from 'react';
 import Head from 'next/head';
@@ -70,7 +70,7 @@ function Settings({ className }: { className: string }) {
             <Head>
                 <title>Settings</title>
             </Head>
-            <main className={`px-5 py-3 d-flex flex-column w-100 ${className}`}>
+            <main className={` ${className}`}>
                 <h1 className="text mb-4 fw-sembold">Settings</h1>
                 <section id="user-informations">
                     <h4 className="text">User Informations</h4>
@@ -167,6 +167,9 @@ function Settings({ className }: { className: string }) {
 }
 
 const StyledSettings = styled(Settings)`
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    width: 100%;
+
     #user-informations {
         form {
             display: grid;

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { BiLogOut, BiSolidUser } from 'react-icons/bi';
 import { AiFillFolderAdd, AiFillSetting, AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
-import { useRouter } from 'next/router';
 
 import { useAuth } from "@/contexts/auth";
 import { boardService } from '@/services/board';
@@ -134,7 +133,7 @@ const StyledSidebar = styled(Sidebar)`
         }
 
         &~aside {
-            width: 250px;
+            width: 230px;
         }
     }
     
@@ -151,6 +150,7 @@ const StyledSidebar = styled(Sidebar)`
         background-color: ${({ theme }) => theme.colors.sidebar};
         cursor: pointer;
         z-index: 3;
+        transition: all 0.3s ease-in-out;
     }
     
     #bar-open-nav {
@@ -158,17 +158,9 @@ const StyledSidebar = styled(Sidebar)`
         height: 100%;
         width: 20px;
         &:hover {
-            transition: all 0.3s ease-in-out;
             background-color: #6b6b6b;
-            &~#open-nav {
-                transition: all 0.3s ease-in-out;
+            &~#open-nav {                
                 background-color: #6b6b6b;
-            }
-        }
-        &:not(:hover) {
-            transition: all 0.3s ease-in-out;
-            &~#open-nav {
-                transition: all 0.3s ease-in-out;
             }
         }
     }

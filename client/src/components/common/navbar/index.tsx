@@ -3,14 +3,15 @@ import styled from 'styled-components';
 function Navbar({ className }: { className?: string }) {
     return (
         <nav className={className}>
-            <div>
+            <span>
                 <h4 className="text logo m-0">Hn Kanban</h4>
-            </div>
+            </span>
         </nav>
     );
 }
 
 const StyledNavbar = styled(Navbar)`
+
     background-color: ${({ theme }) => theme.colors.navbar};
     padding: 0.50rem 0rem 0.50rem 0rem;
     position: relative;
@@ -18,7 +19,7 @@ const StyledNavbar = styled(Navbar)`
     box-shadow: 0px 0px 5px #322;
     
     
-    div {
+    span {
         width: 250px;
         display: flex;
         justify-content: center;

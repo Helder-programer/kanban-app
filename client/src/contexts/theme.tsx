@@ -1,6 +1,6 @@
 import { createContext, useContext, Dispatch, SetStateAction, ReactNode, useState, useEffect } from 'react';
 import { ThemeProvider as SCThemeProvider } from 'styled-components';
-import { dark, light } from '@/styles/theme.styled';
+import { light } from '@/styles/theme.styled';
 import { GlobalStyles } from '@/styles/global';
 import { parseCookies, setCookie } from 'nookies';
 
@@ -10,8 +10,6 @@ interface IThemeContext {
     sidebarIsOpen: boolean;
     setSidebarIsOpen: Dispatch<SetStateAction<boolean>>;
 }
-
-
 
 
 const ThemeContext = createContext({} as IThemeContext);

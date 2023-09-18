@@ -158,7 +158,7 @@ function Kanban({ sections, setSections, boardId }: IProps) {
 
     return (
         <>
-            <section className="d-flex w-100 mt-3 justify-content-between align-items-center">
+            <section className="d-flex w-100 mt-2 justify-content-between align-items-center">
                 <Button
                     variant="none"
 

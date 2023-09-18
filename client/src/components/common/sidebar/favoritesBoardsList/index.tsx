@@ -119,7 +119,7 @@ function FavoritesBooardsList({ className }: IProps) {
 const StyledFavoritesBooardsList = styled(FavoritesBooardsList)`
     .board {
         font-size: 14px;
-        width: 250px;
+        width: 230px;
         
         &:hover {
             background-color: #a09e9e !important;

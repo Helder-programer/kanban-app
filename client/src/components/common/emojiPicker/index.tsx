@@ -38,9 +38,14 @@ function EmojiPicker({ icon, onChange }: IProps) {
 
     useEffect(() => {
         setCurrentEmoji(icon);
-        closeWithShortcut();
-    }, [icon, show]);
+    }, [icon]);
 
+
+
+
+    useEffect(() => {
+        closeWithShortcut();
+    }, [show]);
 
     useEffect(() => {
         setShow(false);

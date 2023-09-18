@@ -110,7 +110,7 @@ const StyledList = styled(List)`
     display: flex;
     overflow: auto;
     align-items: flex-start;
-    height: calc(100vh - 235px);
+    height: calc(100vh - 250px);
     gap: 2rem;
 
     .section {
