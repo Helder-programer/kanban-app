@@ -158,32 +158,42 @@ function Board() {
         }
     }
 
-    useEffect(() => {
 
-        const getOne = async () => {
-            try {
-                setIsLoading(true);
+    const verifyBoardId = async (boardId: string) => {
+        const boards = await boardService.getBoards();
+        const isValidBoardId = !!boards.find(board => board.board_id === boardId);
+        return isValidBoardId;
+    }
 
-                const board = await boardService.getOneBoard({ boardId });
-                setCurrentBoardInformations({
-                    title: board.title,
-                    description: board.description,
-                    icon: board.icon,
-                    favorite: board.favorite,
-                });
-                setSections(board.sections);
 
-                setIsLoading(false);
-            } catch (err: any) {
-                console.log(err);
-            }
+    const getOneBoard = async () => {
+        try {
+            if (!await verifyBoardId(boardId)) return router.replace(`/boards/${boardsContext.boards[0].board_id}`);
+            
+            setIsLoading(true);
+
+            const board = await boardService.getOneBoard({ boardId });
+            setCurrentBoardInformations({
+                title: board.title,
+                description: board.description,
+                icon: board.icon,
+                favorite: board.favorite,
+            });
+            setSections(board.sections);
+
+            setIsLoading(false);
+        } catch (err: any) {
+            console.log(err);
         }
+    }
 
+
+    useEffect(() => {
         if (!router.isReady) return;
 
-        getOne();
-    }, [boardId]);
+        getOneBoard();
 
+    }, [boardId]);
 
     if (isLoading) {
         return (

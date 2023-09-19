@@ -100,7 +100,7 @@ function BoardsList({ className }: IProps) {
                                             className={`${index === activeBoardIndex ? 'active' : 'bg-transparent'} text border-0 px-3 rounded-0 d-flex justify-content-between align-items-center board`}
                                             key={index}
                                             ref={provided.innerRef}
-                                            style={{ cursor: snapshot.isDragging ? 'grab' : 'pointer !important' }}                                            
+                                            style={{ cursor: snapshot.isDragging ? 'grab' : 'pointer !important' }}
                                             {...provided.dragHandleProps}
                                             {...provided.draggableProps}
                                             onClick={() => router.push(`/boards/${board.board_id}`)}

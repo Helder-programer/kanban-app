@@ -53,29 +53,25 @@ function Sidebar({ className }: IProps) {
                         <span id="username">{username}</span>
                     </div>
 
-                    <i className='fs-5 icon' title="Logout" onClick={() => auth.logout()}>
-                        <BiLogOut />
-                    </i>
+                    <i className='fs-5 icon' title="Logout" onClick={() => auth.logout()}><BiLogOut /></i>
                 </div>
 
                 <hr className="text m-0" />
 
+                <div className="favorites">
 
-                <div className="favorites text">
-
-                    <span className="px-3 mt-2 w-100 d-block">Favorites</span>
-
-
-                    <div id="favorite-board-list">
-                        <FavoritesBoardsList />
+                    <div className="px-3 my-2 w-100 d-block favorites text">
+                        <span className="">Favorites</span>
                     </div>
-                </div>
-                <hr className="text m-0" />
 
+                    <div id="favorite-board-list"><FavoritesBoardsList /></div>
+                </div>
+
+                <hr className="text m-0" />
 
                 <div className="boards">
 
-                    <div className="px-3 mt-2 mb-1 text d-flex justify-content-between align-items-center">
+                    <div className="px-3 my-2 text d-flex justify-content-between align-items-center">
                         <span>Boards</span>
 
                         <i
@@ -87,11 +83,7 @@ function Sidebar({ className }: IProps) {
                         </i>
                     </div>
 
-                    <div id="board-list">
-
-                        <BoardsList />
-
-                    </div>
+                    <div id="board-list"><BoardsList /></div>
                 </div>
 
 

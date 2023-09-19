@@ -93,7 +93,7 @@ function Settings({ className }: { className: string }) {
                         />
                         <CustomInput
                             label="E-mail*"
-                            type="text"
+                            type="email"
                             id="email"
                             name="email"
                             maxLength={200}
